@@ -24,12 +24,7 @@ class ProductManager {
   }
 }
 
-const product = new ProductManager({
-  title: "Televisor",
-  photo: "/desktop/productImages/tv.jpg",
-  price: 3000,
-  stock: 10,
-});
+const product = new ProductManager();
 
 product.create({
   title: "Notebook ASUS",
@@ -47,10 +42,3 @@ product.create({
 
 console.log(product.read());
 console.log(product.readOne(2));
-
-// product.create({
-//   title: "Mouse Redragon",
-//   photo: "/desktop/productImages/mouse_redragon.jpg",
-//   price: 2000,
-//   stock: 14,
-// });

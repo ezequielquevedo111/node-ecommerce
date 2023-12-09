@@ -20,11 +20,7 @@ class UserManager {
   }
 }
 
-const user = new UserManager({
-  name: "Ezequiel",
-  photo: "/desktop/images/background.png",
-  email: "ezequielquevedo111@gmail.com",
-});
+const user = new UserManager();
 
 user.create({
   name: "Sergio",
@@ -40,14 +36,3 @@ user.create({
 
 console.log(user.read());
 console.log(user.readOne(2));
-
-// user.create({
-//   name: "Mario",
-//   photo: "/desktop/images/dog.png",
-//   email: "mario123@gmail.com",
-// });
-// user.create({
-//   name: "Paola",
-//   photo: "/desktop/images/cat.png",
-//   email: "paola12@gmail.com",
-// });
