@@ -1,0 +1,44 @@
+[
+  {
+    "id": 1,
+    "title": "Keyboard",
+    "photo": "./desktop/photos/keyboard.png",
+    "price": 14000,
+    "stock": 400
+  },
+  {
+    "id": 2,
+    "title": "TV",
+    "photo": "./desktop/photos/tv.png",
+    "price": 11000,
+    "stock": 30
+  },
+  {
+    "id": 3,
+    "title": "Keyboard",
+    "photo": "./desktop/photos/keyboard.png",
+    "price": 14000,
+    "stock": 400
+  },
+  {
+    "id": 4,
+    "title": "TV",
+    "photo": "./desktop/photos/tv.png",
+    "price": 11000,
+    "stock": 30
+  },
+  {
+    "id": 5,
+    "title": "Keyboard",
+    "photo": "./desktop/photos/keyboard.png",
+    "price": 14000,
+    "stock": 400
+  },
+  {
+    "id": 6,
+    "title": "TV",
+    "photo": "./desktop/photos/tv.png",
+    "price": 11000,
+    "stock": 30
+  }
+]
