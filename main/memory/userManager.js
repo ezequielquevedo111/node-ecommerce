@@ -1,5 +1,6 @@
 class UserManager {
   static #users = [];
+  //METODO CREADOR//
   create(data) {
     const user = {
       id:
@@ -12,9 +13,13 @@ class UserManager {
     };
     UserManager.#users.push(user);
   }
+  //METODO PARA LEER TODO//
+
   read() {
     return UserManager.#users;
   }
+  //METODO PARA LEER  POR ID//
+
   readOne(id) {
     return UserManager.#users.find((user) => user.id === id);
   }

@@ -1,6 +1,7 @@
 class ProductManager {
   static #products = [];
   constructor() {}
+  //METODO CREADOR//
   create(data) {
     const product = {
       id:
@@ -15,9 +16,12 @@ class ProductManager {
     };
     ProductManager.#products.push(product);
   }
+
+  //METODO PARA LEER TODO//
   read() {
     return ProductManager.#products;
   }
+  //METODO PARA LEER  POR ID//
 
   readOne(id) {
     return ProductManager.#products.find((product) => product.id === id);
