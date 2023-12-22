@@ -1,12 +1,11 @@
+import crypto from "crypto";
+
 class UserManager {
   static #users = [];
   //METODO CREADOR//
   create(data) {
     const user = {
-      id:
-        UserManager.#users.length === 0
-          ? 1
-          : UserManager.#users[UserManager.#users.length - 1].id + 1,
+      id: crypto.randomBytes(12).toString("hex"),
       name: data.name,
       photo: data.photo,
       email: data.email,
@@ -22,6 +21,24 @@ class UserManager {
 
   readOne(id) {
     return UserManager.#users.find((user) => user.id === id);
+  }
+
+  //METODO PARA ELIMINAR POR ID//
+  destroy(id) {
+    try {
+      const oneUser = UserManager.#users.find((user) => user.id === id);
+      if (!oneUser) {
+        throw new Error("There isn't a user with ID: " + id);
+      } else {
+        UserManager.#users = UserManager.#users.filter(
+          (user) => user.id !== oneUser.id
+        );
+        console.log("Deleted user with ID: " + oneUser.id);
+      }
+    } catch (error) {
+      console.log(error.message);
+      return error.message;
+    }
   }
 }
 
@@ -40,4 +57,4 @@ user.create({
 });
 
 console.log(user.read());
-console.log(user.readOne(2));
+user.destroy("be143835f2ecf4202c74f680");
