@@ -1,23 +1,24 @@
 //VALORES INICIALES//
-const fs = require("fs");
-const route = "./main/fs/data/users.Fs.json";
+import fs from "fs";
+import crypto from "crypto";
 const settings = "utf-8";
 
 //CLASE CON METODOS//
 class UserManager {
   static #users = [];
-  constructor() {
+  constructor(path) {
+    this.path = path;
     this.isExist();
   }
 
   //METODO PARA VALIDAR SI EXISTE EL ARCHIVO O NO//
   isExist() {
-    const exist = fs.existsSync(route, settings);
+    const exist = fs.existsSync(this.path, settings);
     if (exist) {
-      const readContent = fs.readFileSync(route, settings);
+      const readContent = fs.readFileSync(this.path, settings);
       UserManager.#users = JSON.parse(readContent);
     } else {
-      fs.writeFileSync(route, JSON.stringify([], null, 2));
+      fs.writeFileSync(this.path, JSON.stringify([], null, 2));
     }
   }
 
@@ -37,17 +38,14 @@ class UserManager {
         );
       } else {
         const user = {
-          id:
-            UserManager.#users.length === 0
-              ? 1
-              : UserManager.#users[UserManager.#users.length - 1].id + 1,
+          id: crypto.randomBytes(12).toString("hex"),
           name: data.name,
           photo: data.photo,
           email: data.email,
         };
         UserManager.#users.push(user);
         const dataUser = JSON.stringify(UserManager.#users, null, 2);
-        fs.writeFileSync(route, dataUser);
+        fs.writeFileSync(this.path, dataUser);
       }
     } catch (error) {
       return error.message;
@@ -57,8 +55,8 @@ class UserManager {
   //METODO PARA LEER TODOS LOS ARCHIVOS CON VALIDACIONES//
   read() {
     return fs.promises
-      .readFile(route, settings)
-      .then((res) => console.log(JSON.parse(res)))
+      .readFile(this.path, settings)
+      .then((res) => JSON.parse(res))
       .catch((error) => {
         return error.message;
       });
@@ -67,35 +65,57 @@ class UserManager {
   //METODO PARA LEER UN ARCHIVO POR ID CON VALIDACIONES//
   readOne(id) {
     return fs.promises
-      .readFile(route, settings)
+      .readFile(this.path, settings)
       .then((res) => {
         const data = JSON.parse(res);
-        const userById = data.find((user) => user.id === Number(id));
+        const userById = data.find((user) => user.id === id);
         if (!userById) {
           throw new Error("No matches were found with the entered ID");
         } else {
-          return console.log(userById);
+          return userById;
         }
       })
       .catch((error) => {
         return error.message;
       });
   }
+
+  //METODO PARA ELIMINAR POR ID//
+  async destroy(id) {
+    try {
+      const oneUser = UserManager.#users.find((user) => user.id === id);
+      if (oneUser) {
+        UserManager.#users = UserManager.#users.filter(
+          (user) => user.id !== id
+        );
+
+        await fs.promises.writeFile(
+          this.path,
+          JSON.stringify(UserManager.#users, null, 2)
+        );
+
+        console.log("Deleted user with ID: " + id);
+        return oneUser.id;
+      } else {
+        throw new Error("There isn't a user with ID: " + id);
+      }
+    } catch (error) {
+      console.log(error.message);
+      return error.message;
+    }
+  }
 }
 
-const user = new UserManager();
+const users = new UserManager("./server/data/fs/files/users.Fs.json");
 
-user.create({
-  name: "Sergio",
-  photo: "/desktop/images/bulldog.png",
-  email: "sergio23@gmail.com",
-});
+export default users;
 
-user.create({
-  name: "Mario",
-  photo: "/desktop/images/dog.png",
-  email: "mario123@gmail.com",
-});
+// users.create({
+//   name: "Sergio",
+//   photo: "/desktop/images/bulldog.png",
+//   email: "sergio23@gmail.com",
+// });
 
-user.read();
-user.readOne(2);
+// users.read();
+// users.readOne(2);
+// users.destroy("aaa");

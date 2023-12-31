@@ -11,3 +11,9 @@
 1. Primero importo los módulos anteriormente mencionados y declaro variables iniciales y de configuración.
 2. Modifico los metodos create, read y readOne agregandole la funcionalidad.
 3. Muestro en consola el resultado de ambos casos creando los archivos JSON correspondientes.
+
+# Tercer desafío realizo la creación del servidor con distintos endpoints utilizando Express.
+
+1. Primero realizo la creación del servidor con sus configuraciones.
+2. Configuro y creo los distintos endpoints utilizando los métodos de las clases product/fs y user/fs.
+3. Muestro en el navegador los distintos resultados.
