@@ -1,0 +1,26 @@
+[
+  {
+    "id": "9bced94e5f95b7984981d737",
+    "name": "lionel messi",
+    "photo": "/desktop/images/bulldog.png",
+    "email": "sergio23@gmail.com"
+  },
+  {
+    "id": "a7980dc795a629815043076c",
+    "name": "ezequiel messi",
+    "photo": "/desktop/images/bulldog.png",
+    "email": "sergio23@gmail.com"
+  },
+  {
+    "id": "2b2c7d44f8cd4ca06354084a",
+    "name": "ezequiel quevedo",
+    "photo": "user.png",
+    "email": "ezequevedo1@gmail.com"
+  },
+  {
+    "id": "a5a8176e63963d13d8859c02",
+    "name": "ezequiel messi",
+    "photo": "user.png",
+    "email": "ezemessi1@gmail.com"
+  }
+]

@@ -104,18 +104,51 @@ class UserManager {
       return error.message;
     }
   }
+
+  update(id, data) {
+    try {
+      const oneUser = UserManager.#users.find((user) => user.id === id);
+      if (
+        !oneUser ||
+        !(
+          data.hasOwnProperty("name") ||
+          data.hasOwnProperty("photo") ||
+          data.hasOwnProperty("email")
+        )
+      ) {
+        throw new Error(
+          `There isn't a user with ID: ${id} or there isn't exist a property named as name, photo or email`
+        );
+      } else {
+        for (const prop in data) {
+          switch (prop) {
+            case "name":
+              oneUser.name = data.name;
+              break;
+            case "photo":
+              oneUser.photo = data.photo;
+              break;
+            case "email":
+              oneUser.email = data.email;
+              break;
+          }
+        }
+        fs.writeFileSync(
+          this.path,
+          JSON.stringify(UserManager.#users, null, 2)
+        );
+      }
+      return oneUser;
+    } catch (error) {
+      console.log(error.message);
+      return error.message;
+    }
+  }
 }
 
-const users = new UserManager("./server/data/fs/files/users.Fs.json");
+const users = new UserManager("./server/src/data/fs/files/users.Fs.json");
 
 export default users;
 
-// users.create({
-//   name: "Sergio",
-//   photo: "/desktop/images/bulldog.png",
-//   email: "sergio23@gmail.com",
-// });
-
-// users.read();
-// users.readOne(2);
-// users.destroy("aaa");
+//Comentado el update porque cuando inicias nodemon se crea un loop porque ejecuta la siguiente linea//
+// users.update("9bced94e5f95b7984981d737", { name: "lionel messi" });

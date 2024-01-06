@@ -113,27 +113,62 @@ class ProductManager {
       return error.message;
     }
   }
+
+  //METODO PARA ACTUALIZAR ARCHIVO POR ID CON VALIDACIONES//
+  update(id, data) {
+    try {
+      const oneProduct = ProductManager.#products.find(
+        (product) => product.id === id
+      );
+      if (
+        !oneProduct ||
+        !(
+          data.hasOwnProperty("title") ||
+          data.hasOwnProperty("photo") ||
+          data.hasOwnProperty("price") ||
+          data.hasOwnProperty("stock")
+        ) ||
+        (data.hasOwnProperty("price") && typeof data.price !== "number") ||
+        (data.hasOwnProperty("stock") && typeof data.stock !== "number")
+      ) {
+        throw new Error(
+          `There isn't a product with ID: ${id}, or there isn't a property named as title, photo, price, or stock. Also, ensure that the values entered for price or stock are of numeric type`
+        );
+      } else {
+        for (const prop in data) {
+          switch (prop) {
+            case "title":
+              oneProduct.title = data.title;
+              break;
+            case "photo":
+              oneProduct.photo = data.photo;
+              break;
+            case "price":
+              oneProduct.price = data.price;
+              break;
+            case "stock":
+              oneProduct.stock = data.stock;
+              break;
+          }
+        }
+        fs.writeFileSync(
+          this.path,
+          JSON.stringify(ProductManager.#products, null, 2)
+        );
+        return oneProduct;
+      }
+    } catch (error) {
+      console.log(error.message);
+      return error.message;
+    }
+  }
 }
 
-const products = new ProductManager("./server/data/fs/files/products.Fs.json");
+const products = new ProductManager(
+  "./server/src/data/fs/files/products.Fs.json"
+);
+
+//Comentado el update porque cuando inicias nodemon se crea un loop porque ejecuta la siguiente linea//
+// products.update("696abf5b72e3f7427fbd8ec9", { stock: "abc" });
 
 export default products;
-
-// products.create({
-//   title: "Keyboard",
-//   photo: "./desktop/photos/keyboard.png",
-//   price: 14000,
-//   stock: 400,
-// });
-
-// products.create({
-//   title: "TV",
-//   photo: "./desktop/photos/tv.png",
-//   price: 11000,
-//   stock: 30,
-// });
-
-// products.read();
-// products.readOne(2);
-
-// products.destroy("dc8d91ee784379977f909b9f");
