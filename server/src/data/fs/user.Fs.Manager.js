@@ -25,28 +25,16 @@ class UserManager {
   //METODO CREADOR CON VALIDACIONES//
   create(data) {
     try {
-      if (
-        !data.name ||
-        typeof data.name !== "string" ||
-        !data.photo ||
-        typeof data.photo !== "string" ||
-        !data.email ||
-        typeof data.email !== "string"
-      ) {
-        throw new Error(
-          "The values of name, photo, email, price and stock are required and must be of type string."
-        );
-      } else {
-        const user = {
-          id: crypto.randomBytes(12).toString("hex"),
-          name: data.name,
-          photo: data.photo,
-          email: data.email,
-        };
-        UserManager.#users.push(user);
-        const dataUser = JSON.stringify(UserManager.#users, null, 2);
-        fs.writeFileSync(this.path, dataUser);
-      }
+      const user = {
+        id: crypto.randomBytes(12).toString("hex"),
+        name: data.name,
+        photo: data.photo,
+        email: data.email,
+      };
+      UserManager.#users.push(user);
+      const dataUser = JSON.stringify(UserManager.#users, null, 2);
+      fs.writeFileSync(this.path, dataUser);
+      return user;
     } catch (error) {
       return error.message;
     }

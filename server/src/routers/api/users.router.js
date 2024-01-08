@@ -1,44 +1,32 @@
 import { Router } from "express";
 import users from "../../data/fs/user.Fs.Manager.js";
+import propsUsers from "../../middlewares/propsUsers.js";
 const usersRouter = Router();
 
 // Endpoints - Users //
 
 //CREATE USER WITH POST//
-usersRouter.post("/", async (req, res) => {
+usersRouter.post("/", propsUsers, async (req, res, next) => {
   try {
     const dataUser = req.body;
     const response = await users.create(dataUser);
-    if (
-      response ===
-      "The values of name, photo, email, price and stock are required and must be of type string."
-    ) {
-      return res.json({
-        statusCode: 400,
-        message: response,
-      });
-    } else {
-      return res.json({
-        statusCode: 201,
-        response,
-      });
-    }
-  } catch (error) {
     return res.json({
-      statusCode: 500,
-      message: error.message,
+      statusCode: 201,
+      response,
     });
+  } catch (error) {
+    return next(error);
   }
 });
 
 //GET ALL USERS//
-usersRouter.get("/", async (req, res) => {
+usersRouter.get("/", async (req, res, next) => {
   try {
     const allUsers = await users.read();
     if (allUsers.length === 0) {
       return res.json({
         statusCode: 404,
-        message: "not found",
+        response: "not found",
       });
     } else {
       return res.json({
@@ -47,15 +35,12 @@ usersRouter.get("/", async (req, res) => {
       });
     }
   } catch (error) {
-    return res.json({
-      statusCode: 500,
-      message: "Internal Server Error",
-    });
+    return next(error);
   }
 });
 
 //GET USER BY ID//
-usersRouter.get("/:uid", async (req, res) => {
+usersRouter.get("/:uid", async (req, res, next) => {
   try {
     const { uid } = req.params;
     const oneUser = await users.readOne(uid);
@@ -65,7 +50,7 @@ usersRouter.get("/:uid", async (req, res) => {
     ) {
       return res.json({
         statusCode: 404,
-        message: oneUser,
+        response: oneUser,
       });
     } else {
       return res.json({
@@ -74,15 +59,12 @@ usersRouter.get("/:uid", async (req, res) => {
       });
     }
   } catch (error) {
-    return res.json({
-      statusCode: 505,
-      message: error.message,
-    });
+    return next(error);
   }
 });
 
 //UPDATE USER//
-usersRouter.put("/:uid", async (req, res) => {
+usersRouter.put("/:uid", async (req, res, next) => {
   try {
     const { uid } = req.params;
     const data = req.body;
@@ -93,7 +75,7 @@ usersRouter.put("/:uid", async (req, res) => {
     ) {
       return res.json({
         statusCode: 404,
-        message: oneUser,
+        response: oneUser,
       });
     } else {
       return res.json({
@@ -102,10 +84,7 @@ usersRouter.put("/:uid", async (req, res) => {
       });
     }
   } catch (error) {
-    return res.json({
-      statusCode: 505,
-      message: error.message,
-    });
+    return next(error);
   }
 });
 

@@ -24,43 +24,30 @@ class OrdersManager {
   //METODO CREADOR CON VALIDACIONES//
   create(data) {
     try {
-      if (
-        !(
-          typeof data.pid === "string" &&
-          typeof data.uid === "string" &&
-          data.quantity !== undefined &&
-          typeof data.quantity === "number"
-        )
-      ) {
-        throw new Error(
-          "Values pid, uid, and quantity are required, and the quantity value must be of type number."
-        );
-      } else {
-        const product = OrdersManager.getProductById(products, data.pid);
+      const product = OrdersManager.getProductById(products, data.pid);
 
-        //VERIFICO SI EL PRODUCTO EXISTE//
-        if (!product) {
-          throw new Error("Product not found for the given order.");
-        }
-
-        //VERIFICO SI HAY STOCK DISPONIBLE PARA CREAR LA ORDEN//
-        if (data.quantity > product.stock) {
-          throw new Error("Not enough stock available for this order.");
-        }
-
-        const order = {
-          oid: crypto.randomBytes(12).toString("hex"),
-          pid: data.pid,
-          uid: data.uid,
-          quantity: data.quantity,
-          state: "pending",
-        };
-
-        OrdersManager.#orders.push(order);
-        const dataOrder = JSON.stringify(OrdersManager.#orders, null, 2);
-        fs.writeFileSync(this.path, dataOrder);
-        return order;
+      //VERIFICO SI EL PRODUCTO EXISTE//
+      if (!product) {
+        throw new Error("Product not found for the given order.");
       }
+
+      //VERIFICO SI HAY STOCK DISPONIBLE PARA CREAR LA ORDEN//
+      if (data.quantity > product.stock) {
+        throw new Error("Not enough stock available for this order.");
+      }
+
+      const order = {
+        oid: crypto.randomBytes(12).toString("hex"),
+        pid: data.pid,
+        uid: data.uid,
+        quantity: data.quantity,
+        state: "pending",
+      };
+
+      OrdersManager.#orders.push(order);
+      const dataOrder = JSON.stringify(OrdersManager.#orders, null, 2);
+      fs.writeFileSync(this.path, dataOrder);
+      return order;
     } catch (error) {
       console.log(error.message);
       return error.message;

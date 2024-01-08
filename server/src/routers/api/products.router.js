@@ -1,44 +1,32 @@
 import { Router } from "express";
 import products from "../../data/fs/product.Fs.Manager.js";
-
+import propsProducts from "../../middlewares/propsProducts.js";
 const productsRouter = Router();
 
 // Endpoints - Products //
 
 //CREATE PRODUCT WITH POST//
-productsRouter.post("/", async (req, res) => {
+productsRouter.post("/", propsProducts, async (req, res, next) => {
   try {
     const dataProduct = req.body;
     const response = await products.create(dataProduct);
-    if (
-      response === "The values of title, photo, price and stock are required."
-    ) {
-      return res.json({
-        statusCode: 400,
-        message: response,
-      });
-    } else {
-      return res.json({
-        statusCode: 201,
-        response,
-      });
-    }
-  } catch (error) {
     return res.json({
-      statusCode: 500,
-      message: error.message,
+      statusCode: 201,
+      response,
     });
+  } catch (error) {
+    return next(error);
   }
 });
 
 //GET ALL PRODUCTS//
-productsRouter.get("/", async (req, res) => {
+productsRouter.get("/", async (req, res, next) => {
   try {
     const allProducts = await products.read();
     if (allProducts.length === 0) {
       return res.json({
         statusCode: 404,
-        message: "There are no products available",
+        response: "There are no products available",
       });
     } else {
       return res.json({
@@ -47,22 +35,19 @@ productsRouter.get("/", async (req, res) => {
       });
     }
   } catch (error) {
-    return res.json({
-      statusCode: 500,
-      message: error.message,
-    });
+    return next(error);
   }
 });
 
 //GET ONE PRODUCT BY ID//
-productsRouter.get("/:pid", async (req, res) => {
+productsRouter.get("/:pid", async (req, res, next) => {
   try {
     const { pid } = req.params;
     const oneProduct = await products.readOne(pid);
     if (oneProduct.length === 0) {
       return res.json({
         statusCode: 404,
-        message: oneProduct,
+        response: oneProduct,
       });
     } else {
       return res.json({
@@ -71,15 +56,12 @@ productsRouter.get("/:pid", async (req, res) => {
       });
     }
   } catch (error) {
-    return res.json({
-      statusCode: 505,
-      message: error.message,
-    });
+    return next(error);
   }
 });
 
 //UPDATE A PRODUCT BY ID//
-productsRouter.put("/:pid", async (req, res) => {
+productsRouter.put("/:pid", async (req, res, next) => {
   try {
     const { pid } = req.params;
     const data = req.body;
@@ -90,7 +72,7 @@ productsRouter.put("/:pid", async (req, res) => {
     ) {
       return res.json({
         statusCode: 404,
-        message: oneProduct,
+        response: oneProduct,
       });
     } else {
       return res.json({
@@ -99,22 +81,19 @@ productsRouter.put("/:pid", async (req, res) => {
       });
     }
   } catch (error) {
-    return res.json({
-      statusCode: 505,
-      message: error.message,
-    });
+    return next(error);
   }
 });
 
 //DELETE PRODUCT BY ID//
-productsRouter.delete("/:pid", async (req, res) => {
+productsRouter.delete("/:pid", async (req, res, next) => {
   try {
     const { pid } = req.params;
     const oneProduct = await products.destroy(pid);
     if (oneProduct === "There isn't a product with ID:") {
       return res.json({
         statusCode: 404,
-        message: oneProduct,
+        response: oneProduct,
       });
     } else {
       return res.json({
@@ -123,10 +102,7 @@ productsRouter.delete("/:pid", async (req, res) => {
       });
     }
   } catch (error) {
-    return res.json({
-      statusCode: 505,
-      message: error.message,
-    });
+    return next(error);
   }
 });
 

@@ -31,29 +31,17 @@ class ProductManager {
   //METODO CREADOR CON VALIDACIONES//
   create(data) {
     try {
-      if (
-        !data.title ||
-        typeof data.title !== "string" ||
-        !data.photo ||
-        typeof data.photo !== "string" ||
-        !data.price ||
-        !data.stock
-      ) {
-        throw new Error(
-          "The values of title, photo, price and stock are required."
-        );
-      } else {
-        const product = {
-          id: crypto.randomBytes(12).toString("hex"),
-          title: data.title,
-          photo: data.photo,
-          price: parseInt(data.price),
-          stock: parseInt(data.stock),
-        };
-        ProductManager.#products.push(product);
-        const dataProduct = JSON.stringify(ProductManager.#products, null, 2);
-        fs.writeFileSync(this.path, dataProduct);
-      }
+      const product = {
+        id: crypto.randomBytes(12).toString("hex"),
+        title: data.title,
+        photo: data.photo,
+        price: parseInt(data.price),
+        stock: parseInt(data.stock),
+      };
+      ProductManager.#products.push(product);
+      const dataProduct = JSON.stringify(ProductManager.#products, null, 2);
+      fs.writeFileSync(this.path, dataProduct);
+      return product;
     } catch (error) {
       return error.message;
     }

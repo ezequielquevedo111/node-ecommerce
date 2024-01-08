@@ -1,45 +1,33 @@
 import { Router } from "express";
 import orders from "../../data/fs/orders.Fs.Manager.js";
+import propsOrders from "../../middlewares/propsOrders.js";
 const ordersRouter = Router();
 
 // ENDPOINTS //
 
 //CREATE A ORDER WITH POST//
-ordersRouter.post("/", async (req, res) => {
+ordersRouter.post("/", propsOrders, async (req, res, next) => {
   try {
     const dataOrder = req.body;
     const response = await orders.create(dataOrder);
-    if (
-      response ===
-      "Values pid, uid, and quantity are required, and the quantity value must be of type number."
-    ) {
-      return res.json({
-        statusCode: 400,
-        message: response,
-      });
-    } else {
-      return res.json({
-        statusCode: 201,
-        response,
-      });
-    }
-  } catch (error) {
     return res.json({
-      statusCode: 500,
-      message: error.message,
+      statusCode: 201,
+      response,
     });
+  } catch (error) {
+    return next(error);
   }
 });
 
 //GET THE ALL ORDERS FROM ONE USER BY ID//
-ordersRouter.get("/:uid", async (req, res) => {
+ordersRouter.get("/:uid", async (req, res, next) => {
   try {
     const { uid } = req.params;
     const allOrders = await orders.readOne(uid);
     if (allOrders.length === 0) {
       return res.json({
         statusCode: 404,
-        message: "No existing orders.",
+        response: "No existing orders.",
       });
     } else {
       return res.json({
@@ -48,22 +36,19 @@ ordersRouter.get("/:uid", async (req, res) => {
       });
     }
   } catch (error) {
-    return res.json({
-      statusCode: 500,
-      message: error.message,
-    });
+    return next(error);
   }
 });
 
 //DELETE A ORDERS BY ID//
-ordersRouter.delete("/:oid", async (req, res) => {
+ordersRouter.delete("/:oid", async (req, res, next) => {
   try {
     const { oid } = req.params;
     const oneOrder = await orders.destroy(oid);
     if (oneOrder === "No existing order found with the entered order ID.") {
       return res.json({
         statusCode: 404,
-        message: oneOrder,
+        response: oneOrder,
       });
     } else {
       return res.json({
@@ -72,10 +57,7 @@ ordersRouter.delete("/:oid", async (req, res) => {
       });
     }
   } catch (error) {
-    return res.json({
-      statusCode: 500,
-      message: error.message,
-    });
+    return next(error);
   }
 });
 
