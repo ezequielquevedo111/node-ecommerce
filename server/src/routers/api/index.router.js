@@ -7,6 +7,6 @@ const apiRouter = Router();
 
 apiRouter.use("/products", productsRouter);
 apiRouter.use("/users", usersRouter);
-// apiRouter.use("/orders", ordersRouter);
+apiRouter.use("/orders", ordersRouter);
 
 export default apiRouter;

@@ -4,21 +4,21 @@
     "title": "Teclado Mécanico Redragon Yama",
     "photo": "./desktop/photos/keyboard.png",
     "price": 14000,
-    "stock": 300
+    "stock": 250
   },
   {
     "id": "696abf5b72e3f7427fbd8ec9",
     "title": "PC AMD",
     "photo": "./desktop/photos/tv.png",
     "price": 11000,
-    "stock": 30
+    "stock": 400
   },
   {
     "id": "d8aa9145b43167a75becb5ed",
     "title": "TV",
     "photo": "./desktop/photos/tv.png",
     "price": 11000,
-    "stock": 30
+    "stock": 500
   },
   {
     "id": "2911805e5d9986470fc35ee9",
