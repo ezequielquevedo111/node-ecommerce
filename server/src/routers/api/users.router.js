@@ -23,17 +23,10 @@ usersRouter.post("/", propsUsers, async (req, res, next) => {
 usersRouter.get("/", async (req, res, next) => {
   try {
     const allUsers = await users.read();
-    if (allUsers.length === 0) {
-      return res.json({
-        statusCode: 404,
-        response: "not found",
-      });
-    } else {
-      return res.json({
-        statusCode: 200,
-        response: allUsers,
-      });
-    }
+    return res.json({
+      statusCode: 200,
+      response: allUsers,
+    });
   } catch (error) {
     return next(error);
   }
@@ -44,20 +37,10 @@ usersRouter.get("/:uid", async (req, res, next) => {
   try {
     const { uid } = req.params;
     const oneUser = await users.readOne(uid);
-    if (
-      oneUser.length === 0 ||
-      oneUser === "No matches were found with the entered ID"
-    ) {
-      return res.json({
-        statusCode: 404,
-        response: oneUser,
-      });
-    } else {
-      return res.json({
-        statusCode: 200,
-        response: oneUser,
-      });
-    }
+    return res.json({
+      statusCode: 200,
+      response: oneUser,
+    });
   } catch (error) {
     return next(error);
   }
@@ -69,20 +52,10 @@ usersRouter.put("/:uid", async (req, res, next) => {
     const { uid } = req.params;
     const data = req.body;
     const oneUser = await users.update(uid, data);
-    if (
-      oneUser ===
-      `There isn't a user with ID: ${uid} or there isn't exist a property named as name, photo or email`
-    ) {
-      return res.json({
-        statusCode: 404,
-        response: oneUser,
-      });
-    } else {
-      return res.json({
-        statusCode: 200,
-        response: oneUser,
-      });
-    }
+    return res.json({
+      statusCode: 200,
+      response: oneUser,
+    });
   } catch (error) {
     return next(error);
   }

@@ -46,7 +46,9 @@ class UserManager {
       .readFile(this.path, settings)
       .then((res) => JSON.parse(res))
       .catch((error) => {
-        return error.message;
+        console.log(error.message);
+        error.statusCode = 404;
+        throw error;
       });
   }
 
@@ -64,7 +66,9 @@ class UserManager {
         }
       })
       .catch((error) => {
-        return error.message;
+        console.log(error.message);
+        error.statusCode = 404;
+        throw error;
       });
   }
 
@@ -89,7 +93,8 @@ class UserManager {
       }
     } catch (error) {
       console.log(error.message);
-      return error.message;
+      error.statusCode = 404;
+      throw error;
     }
   }
 
@@ -129,7 +134,8 @@ class UserManager {
       return oneUser;
     } catch (error) {
       console.log(error.message);
-      return error.message;
+      error.statusCode = 404;
+      throw error;
     }
   }
 }

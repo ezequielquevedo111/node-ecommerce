@@ -50,7 +50,8 @@ class OrdersManager {
       return order;
     } catch (error) {
       console.log(error.message);
-      return error.message;
+      error.statusCode = 404;
+      throw error;
     }
   }
 
@@ -67,7 +68,8 @@ class OrdersManager {
       return orders;
     } catch (error) {
       console.log(error.message);
-      return error.message;
+      error.statusCode = 404;
+      throw error;
     }
   }
 
@@ -88,7 +90,8 @@ class OrdersManager {
       }
     } catch (error) {
       console.log(error.message);
-      return error.message;
+      error.statusCode = 404;
+      throw error;
     }
   }
 
@@ -112,7 +115,8 @@ class OrdersManager {
       return oid;
     } catch (error) {
       console.log(error.message);
-      return error.message;
+      error.statusCode = 404;
+      throw error;
     }
   }
 
@@ -127,7 +131,9 @@ class OrdersManager {
         return oneProduct;
       }
     } catch (error) {
-      return error.message;
+      console.log(error.message);
+      error.statusCode = 404;
+      throw error;
     }
   }
 
@@ -192,7 +198,8 @@ class OrdersManager {
       return oneOrder;
     } catch (error) {
       console.log(error.message);
-      return error.message;
+      error.statusCode = 404;
+      throw error;
     }
   }
 }

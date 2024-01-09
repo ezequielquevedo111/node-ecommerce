@@ -24,17 +24,10 @@ ordersRouter.get("/:uid", async (req, res, next) => {
   try {
     const { uid } = req.params;
     const allOrders = await orders.readOne(uid);
-    if (allOrders.length === 0) {
-      return res.json({
-        statusCode: 404,
-        response: "No existing orders.",
-      });
-    } else {
-      return res.json({
-        statusCode: 200,
-        response: allOrders,
-      });
-    }
+    return res.json({
+      statusCode: 200,
+      response: allOrders,
+    });
   } catch (error) {
     return next(error);
   }
@@ -45,17 +38,10 @@ ordersRouter.delete("/:oid", async (req, res, next) => {
   try {
     const { oid } = req.params;
     const oneOrder = await orders.destroy(oid);
-    if (oneOrder === "No existing order found with the entered order ID.") {
-      return res.json({
-        statusCode: 404,
-        response: oneOrder,
-      });
-    } else {
-      return res.json({
-        statusCode: 200,
-        response: `Deleted order with ID: ${oneOrder}`,
-      });
-    }
+    return res.json({
+      statusCode: 200,
+      response: `Deleted order with ID: ${oneOrder}`,
+    });
   } catch (error) {
     return next(error);
   }
