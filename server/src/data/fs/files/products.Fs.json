@@ -1,0 +1,44 @@
+[
+  {
+    "id": "513e60a5b0a2ab432d662136",
+    "title": "Teclado Mécanico Redragon Yama",
+    "photo": "./desktop/photos/keyboard.png",
+    "price": 14000,
+    "stock": 250
+  },
+  {
+    "id": "696abf5b72e3f7427fbd8ec9",
+    "title": "PC AMD",
+    "photo": "./desktop/photos/tv.png",
+    "price": 11000,
+    "stock": 400
+  },
+  {
+    "id": "2911805e5d9986470fc35ee9",
+    "title": "PC ASUS",
+    "photo": "asus.png",
+    "price": 3000000,
+    "stock": 30
+  },
+  {
+    "id": "2e62dd8f45b7ad78317f65c1",
+    "title": "PC ASUS",
+    "photo": "asus.png",
+    "price": 3000000,
+    "stock": 30
+  },
+  {
+    "id": "409e71ea49672c089af9b82b",
+    "title": "PC AMD",
+    "photo": "pc_amd.png",
+    "price": 3000000,
+    "stock": 300
+  },
+  {
+    "id": "16e2f5679402096974a2db78",
+    "title": "Keyboard HyperX",
+    "photo": "hyper.png",
+    "price": 150000,
+    "stock": 10
+  }
+]

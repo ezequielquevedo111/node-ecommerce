@@ -25,28 +25,16 @@ class UserManager {
   //METODO CREADOR CON VALIDACIONES//
   create(data) {
     try {
-      if (
-        !data.name ||
-        typeof data.name !== "string" ||
-        !data.photo ||
-        typeof data.photo !== "string" ||
-        !data.email ||
-        typeof data.email !== "string"
-      ) {
-        throw new Error(
-          "The values of name, photo, email, price and stock are required and must be of type string."
-        );
-      } else {
-        const user = {
-          id: crypto.randomBytes(12).toString("hex"),
-          name: data.name,
-          photo: data.photo,
-          email: data.email,
-        };
-        UserManager.#users.push(user);
-        const dataUser = JSON.stringify(UserManager.#users, null, 2);
-        fs.writeFileSync(this.path, dataUser);
-      }
+      const user = {
+        id: crypto.randomBytes(12).toString("hex"),
+        name: data.name,
+        photo: data.photo,
+        email: data.email,
+      };
+      UserManager.#users.push(user);
+      const dataUser = JSON.stringify(UserManager.#users, null, 2);
+      fs.writeFileSync(this.path, dataUser);
+      return user;
     } catch (error) {
       return error.message;
     }
@@ -58,7 +46,9 @@ class UserManager {
       .readFile(this.path, settings)
       .then((res) => JSON.parse(res))
       .catch((error) => {
-        return error.message;
+        console.log(error.message);
+        error.statusCode = 404;
+        throw error;
       });
   }
 
@@ -76,7 +66,9 @@ class UserManager {
         }
       })
       .catch((error) => {
-        return error.message;
+        console.log(error.message);
+        error.statusCode = 404;
+        throw error;
       });
   }
 
@@ -101,21 +93,56 @@ class UserManager {
       }
     } catch (error) {
       console.log(error.message);
-      return error.message;
+      error.statusCode = 404;
+      throw error;
+    }
+  }
+
+  update(id, data) {
+    try {
+      const oneUser = UserManager.#users.find((user) => user.id === id);
+      if (
+        !oneUser ||
+        !(
+          data.hasOwnProperty("name") ||
+          data.hasOwnProperty("photo") ||
+          data.hasOwnProperty("email")
+        )
+      ) {
+        throw new Error(
+          `There isn't a user with ID: ${id} or there isn't exist a property named as name, photo or email`
+        );
+      } else {
+        for (const prop in data) {
+          switch (prop) {
+            case "name":
+              oneUser.name = data.name;
+              break;
+            case "photo":
+              oneUser.photo = data.photo;
+              break;
+            case "email":
+              oneUser.email = data.email;
+              break;
+          }
+        }
+        fs.writeFileSync(
+          this.path,
+          JSON.stringify(UserManager.#users, null, 2)
+        );
+      }
+      return oneUser;
+    } catch (error) {
+      console.log(error.message);
+      error.statusCode = 404;
+      throw error;
     }
   }
 }
 
-const users = new UserManager("./server/data/fs/files/users.Fs.json");
+const users = new UserManager("./server/src/data/fs/files/users.Fs.json");
 
 export default users;
 
-// users.create({
-//   name: "Sergio",
-//   photo: "/desktop/images/bulldog.png",
-//   email: "sergio23@gmail.com",
-// });
-
-// users.read();
-// users.readOne(2);
-// users.destroy("aaa");
+//Comentado el update porque cuando inicias nodemon se crea un loop porque ejecuta la siguiente linea//
+// users.update("9bced94e5f95b7984981d737", { name: "lionel messi" });
