@@ -204,7 +204,7 @@ class OrdersManager {
   }
 }
 
-const orders = new OrdersManager("./server/src/data/fs/files/orders.Fs.json");
+const orders = new OrdersManager("./src/data/fs/files/orders.Fs.json");
 
 // orders.create({
 //   pid: "513e60a5b0a2ab432d662136",
