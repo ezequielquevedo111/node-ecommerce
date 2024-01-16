@@ -68,12 +68,5 @@
     "photo": "asus.png",
     "price": 20000,
     "stock": 20
-  },
-  {
-    "id": "00bf309ca5df62fa03cdff33",
-    "title": "Notebook Dell",
-    "photo": "https://http2.mlstatic.com/D_NQ_NP_719786-MLA45597563638_042021-O.webp",
-    "price": 50000,
-    "stock": 50
   }
 ]
