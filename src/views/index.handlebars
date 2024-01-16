@@ -1,1 +1,30 @@
-<h1>handlebars</h1>
+<main class="">
+  <div class="w-100">
+    <h1 class="fw-bolder text-center text-break" style="color: #352D2D">EMPOWER
+      YOUR EXPERIENCE: UNLEASH THE POTENTIAL OF YOUR PERFECT PC!</h1>
+  </div>
+
+  <div
+    class="w-auto d-flex justify-content-center align-content-center gap-3 flex-wrap pt-5"
+  >
+    {{#each products}}
+      <div class="card border-1 row-gap-5" style="width: 18rem;">
+        <img src={{this.photo}} class="card-img-top" alt="..." />
+        <div class="card-body">
+          <h5
+            class="card-title fw-bold"
+            style="color: #352D2D"
+          >{{this.title}}</h5>
+          <p class="card-text fw-semibold" style="color: #352D2D">$
+            {{this.price}}</p>
+          <a
+            href="#"
+            class="btn text-light"
+            style="background-color: #352D2D"
+          >Add to cart</a>
+        </div>
+      </div>
+    {{/each}}
+  </div>
+
+</main>
