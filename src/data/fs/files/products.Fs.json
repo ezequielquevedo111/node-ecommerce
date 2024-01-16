@@ -61,12 +61,5 @@
     "photo": "https://www.bhphotovideo.com/cdn-cgi/image/format=auto,fit=scale-down,width=500,quality=95/https://www.bhphotovideo.com/images/images500x500/asus_49_rog_strix_xg49vq_1555344350_1470911.jpg",
     "price": 300000,
     "stock": 15
-  },
-  {
-    "id": "a7372406502f0b708971d3ba",
-    "title": "Asus",
-    "photo": "asus.png",
-    "price": 20000,
-    "stock": 20
   }
 ]
