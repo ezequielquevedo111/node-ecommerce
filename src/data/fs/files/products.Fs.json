@@ -61,5 +61,12 @@
     "photo": "https://www.bhphotovideo.com/cdn-cgi/image/format=auto,fit=scale-down,width=500,quality=95/https://www.bhphotovideo.com/images/images500x500/asus_49_rog_strix_xg49vq_1555344350_1470911.jpg",
     "price": 300000,
     "stock": 15
+  },
+  {
+    "id": "04ee4d5740ef75b864851b4b",
+    "title": "Notebook Dell",
+    "photo": "https://www.xtr.com.ar/img/p/11411/bdf342dda03e484cb2cc7731f607ee6d.jpeg?quality=95&width=800&height=800&mode=max&upscale=false",
+    "price": 30000,
+    "stock": 30
   }
 ]
