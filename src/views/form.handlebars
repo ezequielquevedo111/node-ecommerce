@@ -1,0 +1,59 @@
+<main>
+  <h1 class="fw-bolder text-center text-break" style="color: #352D2D">ENTER
+    INPUT THE REQUIRED INFORMATION TO BUILD YOUR PRODUCT.</h1>
+
+  <div
+    class="container d-flex justify-content-center align-content-center pt-5 pb-5"
+  >
+    <form class="w-auto">
+      <div class="mb-3">
+        <label for="Product title" class="form-label fw-semibold">Product title</label>
+        <input
+          type="text"
+          class="form-control"
+          id="title"
+          aria-describedby="title"
+        />
+        <div id="titleHelp" class="form-text">Example: Keyboard HyperX</div>
+      </div>
+      <div class="mb-3">
+        <label for="photo" class="form-label fw-semibold">Photo</label>
+        <input
+          type="text"
+          class="form-control"
+          id="photo"
+          aria-describedby="photo"
+        />
+        <div id="photoHelp" class="form-text">Example: keyboard.png</div>
+      </div>
+      <div class="mb-3">
+        <label for="price" class="form-label fw-semibold">Price</label>
+        <input
+          type="number"
+          class="form-control"
+          id="price"
+          aria-describedby="price"
+        />
+        <div id="priceHelp" class="form-text">Example: $500.</div>
+      </div>
+      <div class="mb-3">
+        <label for="stock" class="form-label fw-semibold">Stock</label>
+        <input
+          type="number"
+          class="form-control"
+          id="stock"
+          aria-describedby="stock"
+        />
+        <div id="stockHelp" class="form-text">Example: 20.</div>
+      </div>
+
+      <button
+        type="submit"
+        class="btn btn-primary"
+        id="newProduct"
+      >Create</button>
+    </form>
+  </div>
+</main>
+<script src="/socket.io/socket.io.js"></script>
+<script src="./form.js"></script>

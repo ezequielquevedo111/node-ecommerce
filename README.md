@@ -23,3 +23,9 @@
 1. Configuro carpetas Public, Routers, Middlewares, Api y Views, además agrego el archivo utils que utilizo para configurar dirname.
 2. Creo el manager de ordenes con sus respectivo ruteo junto a los demás Middlewares para manejar los errores, además de agregarle el next correspondiente en cada try catch de los endpoints.
 3. Testeo los endpoints solicitados en Postman.
+
+# Cuarto desafío se agrega Handlebars para crear plantillas y se agrega Socket.io para renderizar productos en tiempo real.
+
+1. Agregamos la correspondiente configuración instalando Handlebars y Socket.io además de inicializar ya sea en el archivo server como en las carpetas views.
+2. Modifico vistas para que se vincule Handlebars y Socket.io agregandole además la carpeta utils la cual será de reutilización para los middlewares.
+3. Testeo las vistas en localhost y realizo capturas.

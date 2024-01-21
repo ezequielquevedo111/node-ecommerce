@@ -159,9 +159,7 @@ class ProductManager {
   }
 }
 
-const products = new ProductManager(
-  "./server/src/data/fs/files/products.Fs.json"
-);
+const products = new ProductManager("./src/data/fs/files/products.Fs.json");
 
 //Comentado el update porque cuando inicias nodemon se crea un loop porque ejecuta la siguiente linea//
 // products.update("696abf5b72e3f7427fbd8ec9", { stock: "abc" });
