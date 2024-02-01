@@ -1,13 +1,15 @@
 import { Router } from "express";
-import products from "../../data/fs/product.Fs.Manager.js";
+// import products from "../../data/fs/product.Fs.Manager.js";
+import { products } from "../../data/mongo/manager.mongo.js";
 import propsProducts from "../../middlewares/propsProducts.js";
 import isAdmin from "../../middlewares/isAdmin.js";
+import isQueryFilter from "../../utils/isQueryFilter.js";
 const productsRouter = Router();
 
 // Endpoints - Products //
 
 //CREATE PRODUCT WITH POST//
-productsRouter.post("/", isAdmin, propsProducts, async (req, res, next) => {
+productsRouter.post("/", propsProducts, async (req, res, next) => {
   try {
     const dataProduct = req.body;
     const response = await products.create(dataProduct);
@@ -23,7 +25,11 @@ productsRouter.post("/", isAdmin, propsProducts, async (req, res, next) => {
 //GET ALL PRODUCTS//
 productsRouter.get("/", async (req, res, next) => {
   try {
-    const allProducts = await products.read();
+    //FILTRADO DINAMICO DEPENDIENDO LA PROPIEDAD//
+    let orderBy = req.query.orderBy;
+    console.log(orderBy);
+    const { filter, order } = isQueryFilter(req, orderBy);
+    let allProducts = await products.read({ filter, order });
     return res.json({
       statusCode: 200,
       response: allProducts,

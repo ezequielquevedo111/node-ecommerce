@@ -8,15 +8,15 @@ class OrdersManager {
   create(data) {
     try {
       if (
-        !data.pid ||
-        !data.uid ||
+        !data.productId ||
+        !data.userId ||
         (!data.quantity && typeof data.quantity !== "string")
       ) {
         throw new Error(
-          "Values pid, uid, and quantity are required, and the quantity value must be of type number."
+          "Values productId, userId, and quantity are required, and the quantity value must be of type number."
         );
       } else {
-        const product = OrdersManager.getProductById(products, data.pid);
+        const product = OrdersManager.getProductById(products, data.productId);
 
         //VERIFICO SI EL PRODUCTO EXISTE//
         if (!product) {
@@ -29,11 +29,11 @@ class OrdersManager {
         }
 
         const order = {
-          oid: crypto.randomBytes(12).toString("hex"),
-          pid: data.pid,
-          uid: data.uid,
+          orderId: crypto.randomBytes(12).toString("hex"),
+          productId: data.productId,
+          userId: data.userId,
           quantity: data.quantity,
-          state: "pending",
+          state: 1,
         };
 
         OrdersManager.#orders.push(order);
@@ -54,7 +54,7 @@ class OrdersManager {
   readOne(uid) {
     try {
       const userOrders = OrdersManager.#orders.filter(
-        (order) => order.uid === uid
+        (order) => order.userId === uid
       );
       if (userOrders.length === 0) {
         throw new Error("No existing orders found with the entered user ID.");
@@ -70,14 +70,16 @@ class OrdersManager {
   //METODO PARA ELIMINAR UNA ORDEN POR ID//
   destroy(oid) {
     try {
-      const oneOrder = OrdersManager.#orders.find((order) => order.oid === oid);
+      const oneOrder = OrdersManager.#orders.find(
+        (order) => order.orderId === oid
+      );
       if (!oneOrder) {
         throw new Error("No existing order found with the entered order ID.");
       } else {
         OrdersManager.#orders = OrdersManager.#orders.filter(
-          (order) => order.oid !== oneOrder.oid
+          (order) => order.orderId !== oneOrder.orderId
         );
-        console.log("Deleted order with ID: " + oneOrder.oid);
+        console.log("Deleted order with ID: " + oneOrder.orderId);
       }
     } catch (error) {
       console.log(error.message);
@@ -93,13 +95,15 @@ class OrdersManager {
   //ACTUALIZO QUANTITY O STATE DE ORDEN DEPENDIENDO DEL VALOR INGRESADO//
   update(oid, quantity, state) {
     try {
-      const oneOrder = OrdersManager.#orders.find((order) => order.oid === oid);
+      const oneOrder = OrdersManager.#orders.find(
+        (order) => order.orderId === oid
+      );
 
       if (!oneOrder) {
         throw new Error("No existing order found with the entered order ID.");
       }
 
-      const isOrderFinalized = oneOrder.state === "purchased";
+      const isOrderFinalized = oneOrder.state === 3;
 
       // ACTUALIZA LA QUANTITY POR VALOR Y SI EL STATE/ORDEN NO ESTÁ FINALIZADA//
       if (
@@ -112,13 +116,16 @@ class OrdersManager {
       }
 
       // ACTUALIZA EL STATE DEPENDIENDO DEL VALOR INGRESADO//
-      if (state !== undefined && typeof state === "string") {
+      if (state !== undefined && typeof state === "number") {
         oneOrder.state = state;
         console.log("Order state updated successfully");
 
         // AJUSTO EL STOCK DEL PRODUCTO //
-        if (state.toLowerCase() === "purchased") {
-          const product = OrdersManager.getProductById(products, oneOrder.pid);
+        if (state === 3) {
+          const product = OrdersManager.getProductById(
+            products,
+            oneOrder.productId
+          );
 
           if (product) {
             if (product.stock >= oneOrder.quantity) {
@@ -161,11 +168,20 @@ const products = [
 ];
 
 const order1 = order.create({
-  pid: "696abf5b72e3f7427fbd8ec9",
-  uid: "a7980dc795a629815043076c",
+  productId: "696abf5b72e3f7427fbd8ec9",
+  userId: "a7980dc795a629815043076c",
   quantity: 300,
 });
 
-order.update(order1.oid, undefined, "purchased");
-console.log(products[1]);
-order.update(order1.oid, 20, undefined);
+const order2 = order.create({
+  productId: "696abf5b72e3f7427fbd8ec9",
+  userId: "a7980dc795a629815043076c",
+  quantity: 10,
+});
+
+// order.update(order1.orderId, undefined, "purchased");
+// console.log(products[1]);
+order.update(order1.orderId, 20, 3);
+// console.log(order2.orderId);
+// order.destroy(order2.orderId);
+// order.read();

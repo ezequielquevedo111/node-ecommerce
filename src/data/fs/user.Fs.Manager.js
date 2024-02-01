@@ -52,6 +52,43 @@ class UserManager {
       });
   }
 
+  read(options = {}) {
+    return fs
+      .readFile(this.path, settings)
+      .then((data) => {
+        let users = JSON.parse(data);
+
+        if (options.filter && options.filter.email) {
+          users = users.filter((user) => user.email === options.filter.email);
+        }
+
+        if (options.sort) {
+          users.sort((a, b) => {
+            const nameA = a.name.toUpperCase();
+            const nameB = b.name.toUpperCase();
+
+            if (options.sort === "asc") {
+              return nameA.localeCompare(nameB);
+            } else if (options.sort === "desc") {
+              return nameB.localeCompare(nameA);
+            }
+          });
+        }
+
+        if (!data) {
+          const error = new Error("Cannot found any users.");
+          error.statusCode = 404;
+          throw error;
+        }
+
+        return users;
+      })
+      .catch((error) => {
+        error.statusCode = 404;
+        throw error;
+      });
+  }
+
   //METODO PARA LEER UN ARCHIVO POR ID CON VALIDACIONES//
   readOne(id) {
     return fs.promises
@@ -138,9 +175,19 @@ class UserManager {
       throw error;
     }
   }
+  readByEmail(email) {
+    return UserManager.#users.filter((user) => user.email === email);
+  }
 }
 
 const users = new UserManager("./src/data/fs/files/users.Fs.json");
+
+// console.log(users.readByEmail("ezequevedo1@gmail.com"));
+
+users.read({
+  filter: { email: "sergio23@gmail.com" },
+  sort: "desc",
+});
 
 export default users;
 

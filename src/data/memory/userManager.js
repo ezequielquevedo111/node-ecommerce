@@ -15,8 +15,24 @@ class UserManager {
   }
   //METODO PARA LEER TODO//
 
-  read() {
-    return UserManager.#users;
+  read(options = {}) {
+    let filteredUsers = [...UserManager.#users];
+
+    if (options.filter && options.filter.email) {
+      filteredUsers = filteredUsers.filter(
+        (user) => user.email === options.filter.email
+      );
+    }
+
+    if (options.sort && options.sort === "asc") {
+      filteredUsers.sort((a, b) => a.name.localeCompare(b.name));
+    } else if (options.sort && options.sort === "desc") {
+      filteredUsers.sort((a, b) => b.name.localeCompare(a.name));
+    } else {
+      return UserManager.#users;
+    }
+
+    return filteredUsers;
   }
   //METODO PARA LEER  POR ID//
 
@@ -78,6 +94,9 @@ class UserManager {
       return error.message;
     }
   }
+  readByEmail(email) {
+    return UserManager.#users.filter((user) => user.email === email);
+  }
 }
 
 const user = new UserManager();
@@ -94,6 +113,13 @@ const user2 = user.create({
   email: "mario@gmail.com",
 });
 
-console.log(user.read());
-user.update(user1.id, { email: "pepeargento@gmail.com" });
-console.log(user.read());
+// console.log(user.read());
+// user.update(user1.id, { email: "pepeargento@gmail.com" });
+// console.log(user.read());
+// console.log(user.readByEmail(user2.email));
+
+console.log(
+  user.read({
+    sort: "desc",
+  })
+);
