@@ -1,3 +1,5 @@
+import "dotenv/config.js";
+import dbConnection from "./src/utils/db.js";
 import express from "express";
 import { createServer } from "http";
 import { Server } from "socket.io";
@@ -15,7 +17,10 @@ const httpServer = createServer(server);
 const socketServer = new Server(httpServer);
 
 const PORT = 8080;
-const ready = () => console.log("server ready on PORT: " + PORT);
+const ready = () => {
+  console.log("server ready on PORT: " + PORT);
+  dbConnection();
+};
 
 // server.listen(PORT, ready);
 httpServer.listen(PORT, ready);

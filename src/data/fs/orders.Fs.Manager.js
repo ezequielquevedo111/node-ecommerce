@@ -24,7 +24,7 @@ class OrdersManager {
   //METODO CREADOR CON VALIDACIONES//
   create(data) {
     try {
-      const product = OrdersManager.getProductById(products, data.pid);
+      const product = OrdersManager.getProductById(products, data.productId);
 
       //VERIFICO SI EL PRODUCTO EXISTE//
       if (!product) {
@@ -37,9 +37,9 @@ class OrdersManager {
       }
 
       const order = {
-        oid: crypto.randomBytes(12).toString("hex"),
-        pid: data.pid,
-        uid: data.uid,
+        orderId: crypto.randomBytes(12).toString("hex"),
+        productId: data.productId,
+        userId: data.userId,
         quantity: data.quantity,
         state: "pending",
       };
@@ -81,7 +81,7 @@ class OrdersManager {
       });
       const orders = JSON.parse(data);
 
-      const userOrders = orders.filter((order) => order.uid === uid);
+      const userOrders = orders.filter((order) => order.userId === uid);
 
       if (userOrders.length === 0) {
         throw new Error("No existing orders found with the entered user ID.");
@@ -98,12 +98,14 @@ class OrdersManager {
   //METODO PARA ELIMINAR UNA ORDEN POR ID//
   async destroy(oid) {
     try {
-      const oneOrder = OrdersManager.#orders.find((order) => order.oid === oid);
+      const oneOrder = OrdersManager.#orders.find(
+        (order) => order.orderId === oid
+      );
       if (!oneOrder || OrdersManager.#orders.length === 0) {
         throw new Error("No existing order found with the entered order ID.");
       } else {
         OrdersManager.#orders = OrdersManager.#orders.filter(
-          (order) => order.oid !== oneOrder.oid
+          (order) => order.orderId !== oneOrder.orderId
         );
         await fs.promises.writeFile(
           this.path,
@@ -111,8 +113,8 @@ class OrdersManager {
           { encoding: settings }
         );
       }
-      console.log("Deleted order with ID: " + oid);
-      return oid;
+      console.log("Deleted order with ID: " + oneOrder.orderId);
+      return oneOrder.orderId;
     } catch (error) {
       console.log(error.message);
       error.statusCode = 404;
@@ -140,13 +142,15 @@ class OrdersManager {
   //ACTUALIZO QUANTITY O STATE DE ORDEN DEPENDIENDO DEL VALOR INGRESADO//
   async update(oid, quantity, state) {
     try {
-      const oneOrder = OrdersManager.#orders.find((order) => order.oid === oid);
+      const oneOrder = OrdersManager.#orders.find(
+        (order) => order.orderId === oid
+      );
 
       if (!oneOrder) {
         throw new Error("No existing order found with the entered order ID.");
       }
 
-      const isOrderFinalized = oneOrder.state === "purchased";
+      const isOrderFinalized = oneOrder.state === 3; //cambiar esta
 
       // ACTUALIZA LA QUANTITY POR VALOR Y SI EL STATE/ORDEN NO ESTÁ FINALIZADA//
       if (
@@ -159,18 +163,22 @@ class OrdersManager {
       }
 
       // ACTUALIZA EL STATE DEPENDIENDO DEL VALOR INGRESADO//
-      if (state !== undefined && typeof state === "string") {
+      if (state !== undefined && typeof state === "number") {
+        //Cambiar esta
         oneOrder.state = state;
         console.log("Order state updated successfully");
 
         // AJUSTO EL STOCK DEL PRODUCTO //
-        if (state.toLowerCase() === "purchased") {
-          const product = await OrdersManager.getProductById(oneOrder.pid);
+        if (state === 3) {
+          //Cambiar esta
+          const product = await OrdersManager.getProductById(
+            oneOrder.productId
+          );
 
           if (product) {
             if (product.stock >= oneOrder.quantity) {
               product.stock -= oneOrder.quantity;
-              await products.update(oneOrder.pid, product);
+              await products.update(oneOrder.productId, product);
               console.log("Product stock updated successfully");
             } else {
               throw new Error("Not enough stock available for this order.");
@@ -216,6 +224,6 @@ const orders = new OrdersManager("./src/data/fs/files/orders.Fs.json");
 // await orders.destroy("eee222c000ca31ac745894c8");
 
 //Comentado el update porque cuando inicias nodemon se crea un loop porque ejecuta la siguiente linea//
-// await orders.update("37d035f2d4ef4621e1fe7a2b", 50, "purchased");
+// await orders.update("c6b750d30e5717d41dc72150", 50, 3);
 
 export default orders;

@@ -29,3 +29,9 @@
 1. Agregamos la correspondiente configuración instalando Handlebars y Socket.io además de inicializar ya sea en el archivo server como en las carpetas views.
 2. Modifico vistas para que se vincule Handlebars y Socket.io agregandole además la carpeta utils la cual será de reutilización para los middlewares.
 3. Testeo las vistas en localhost y realizo capturas.
+
+# Quinto desafío se agrega MongoDB y se realiza manager con models y configuro métodos con el mismo.
+
+1. Configuramos MongoDB.
+2. Configuramos el manager, models y endpoints.
+3. Testeo en postman y realizo capturas.
