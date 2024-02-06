@@ -1,3 +1,4 @@
+//Validamos que se haya ingresado los valores requeridos para crear el doc//
 const propsProductsUtils = (data) => {
   const { title, photo, price, stock } = data;
   if (
@@ -13,10 +14,6 @@ const propsProductsUtils = (data) => {
     );
     error.statusCode = 400;
     throw error;
-    // return res.json({
-    //   statusCode: 400,
-    //   response: `${req.method} ${req.baseUrl}${req.route.path} : The values of title, photo, price, and stock are required, and price and stock must be of type number.`,
-    // });
   }
 };
 

@@ -2,7 +2,6 @@ import { Router } from "express";
 // import users from "../../data/fs/user.Fs.Manager.js";
 import { users } from "../../data/mongo/manager.mongo.js";
 import propsUsers from "../../middlewares/propsUsers.js";
-import isQueryFilter from "../../utils/isQueryFilter.js";
 const usersRouter = Router();
 
 // Endpoints - Users //
@@ -27,8 +26,8 @@ usersRouter.get("/", async (req, res, next) => {
     //FILTRADO DINAMICO DEPENDIENDO LA PROPIEDAD//
     let orderBy = req.query.orderBy;
     console.log(orderBy);
-    const { filter, order } = isQueryFilter(req, orderBy);
-    const allUsers = await users.read({ filter, order });
+    let filter = req.query.filter;
+    const allUsers = await users.read({ filter, orderBy });
     return res.json({
       statusCode: 200,
       response: allUsers,

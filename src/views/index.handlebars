@@ -1,30 +1,86 @@
-<main class="">
-  <div class="w-100">
-    <h1 class="fw-bolder text-center text-break" style="color: #352D2D">EMPOWER
-      YOUR EXPERIENCE: UNLEASH THE POTENTIAL OF YOUR PERFECT PC!</h1>
-  </div>
+<main class="container-fluid">
+  <!-- Hero Section -->
+  <section class="row h-25">
+    <div class="col-12 d-flex justify-content-center align-items-center">
+      <h1
+        class="fw-bold text-center text-break"
+        style="font-size: max(3vw, 24px); max-height: 150px; color: #ffc850"
+      >
+        GET THE MOST CHEAP COMPONENTS IN THE MARKET
+      </h1>
+    </div>
+  </section>
 
-  <div
-    class="w-auto d-flex justify-content-center align-content-center gap-3 flex-wrap pt-5"
-  >
-    {{#each products}}
-      <div class="card border-1 row-gap-5" style="width: 18rem;">
-        <img src={{this.photo}} class="card-img-top" alt="..." />
-        <div class="card-body">
-          <h5
-            class="card-title fw-bold"
-            style="color: #352D2D"
-          >{{this.title}}</h5>
-          <p class="card-text fw-semibold" style="color: #352D2D">$
-            {{this.price}}</p>
-          <a
-            href="#"
-            class="btn text-light"
-            style="background-color: #352D2D"
-          >Add to cart</a>
-        </div>
+  <!-- Cards Section -->
+  <section class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+        <h3
+          class="fw-medium text-center text-break pt-5"
+          style="color: #e7e4d7; font-size: max(2vw, 20px);"
+        >BROWSE THE ALL COMPONENTS:</h3>
       </div>
-    {{/each}}
-  </div>
+      </div>
+    </div>
+    <div
+      class="pt-5"
+      style="display: flex; flex-direction: row; flex-wrap: wrap; gap: 30px; justify-content: center;"
+    >
+      {{#each docs}}
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
+          <a href="#" class="text-decoration-none">
+            <div class="card row-gap-0 border-0" style="max-width: 250px">
+              <img
+                src={{photo}}
+                class="card-img-left rounded"
+                alt="..."
+                style="max-width: 100%; height: auto;"
+              />
+              <div
+                class="card-body d-sm-flex justify-content-center gap-3"
+                style="background-color: #121010"
+              >
+                <h5
+                  class="card-title fw-bolder fs-5"
+                  style="color: #e7e4d7"
+                >{{title}}</h5>
+                <p
+                  class="card-text fw-normal fs-6"
+                  style="color: #d1ccb6"
+                >${{price}}</p>
+              </div>
+            </div>
+          </a>
+        </div>
+      {{/each}}
+       <div class="d-flex w-100 justify-content-center" style="padding-top: 60px;">
+      <nav aria-label="Page navigation example" >
+        <ul class="pagination" >
+          {{#if pagesArray.hasPrevPage}}
+            <li class="page-item" style="border-color: #121010;" >
+              <a class="page-link" href="?page={{pagesArray.prevPage}}" aria-label="Previous" >
+                <span class="fw-bold pag" aria-hidden="true" style="background-color: #e7e4d7; border-color: #121010;">&laquo;</span>
+              </a>
+            </li>
+          {{/if}}
 
+          {{#each pagesArray}}
+            <li class="page-item {{#if isCurrent}}active{{/if}}">
+              <a class="page-link" href="?page={{pageNumber}}">{{pageNumber}}</a>
+            </li>
+          {{/each}}
+
+          {{#if pagesArray.hasNextPage}}
+            <li class="page-item">
+              <a class="page-link" href="?page={{pagesArray.nextPage}}" aria-label="Next">
+                <span class="fw-bold" aria-hidden="true" style="background-color: #e7e4d7; color: #121010;">&raquo;</span>
+              </a>
+            </li>
+          {{/if}}
+        </ul>
+      </nav>
+    </div>
+
+    </div>
+  </section>
 </main>

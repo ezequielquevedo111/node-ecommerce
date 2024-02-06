@@ -1,4 +1,4 @@
-# node-ecommerce
+# FAZT ECOMMERCE
 
 # Primer desafío el cuál consiste en desarrollar dos clases distintas con difentes métodos.
 
@@ -35,3 +35,5 @@
 1. Configuramos MongoDB.
 2. Configuramos el manager, models y endpoints.
 3. Testeo en postman y realizo capturas.
+
+# Segunda Pre Entrega.

@@ -1,3 +1,4 @@
+//Validas si el doc pasado por parametro no es undefined//
 const notFoundDoc = (doc) => {
   if (!doc) {
     console.log(doc);

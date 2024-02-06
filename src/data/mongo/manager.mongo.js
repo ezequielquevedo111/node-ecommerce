@@ -3,6 +3,8 @@ import notFoundDoc from "../../utils/notFoundDoc.util.js";
 import Order from "./models/order.model.js";
 import Product from "./models/product.model.js";
 import User from "./models/user.model.js";
+import Types from "mongoose";
+import Mongoose from "mongoose";
 
 class MongoManager {
   constructor(model) {
@@ -18,14 +20,16 @@ class MongoManager {
   }
   async read(obj) {
     try {
-      const { filter, order } = obj;
-      const allDocs = await this.model.find(filter).sort(order);
-      if (allDocs.length === 0) {
+      const { filter, orderAndPaginate } = obj;
+      const allDocs = await this.model.paginate(filter, orderAndPaginate);
+      const data = JSON.parse(JSON.stringify(allDocs));
+      // console.log(data);
+      if (allDocs.totalPages === 0 || allDocs.docs.length === 0) {
         const error = new Error("There are no documents available.");
         error.statusCode = 404;
         throw error;
       }
-      return allDocs;
+      return data;
     } catch (error) {
       throw error;
     }
@@ -49,6 +53,10 @@ class MongoManager {
       throw error;
     }
   }
+
+  //Al eliminar una order que ya está finalizada y se descontó el stock
+  //Antes de eliminarla hay que reecomponer el stock del producto
+  //que antes se le descontó//
   async destroy(id) {
     try {
       const doc = await this.model.findByIdAndDelete(id);
@@ -59,6 +67,7 @@ class MongoManager {
     }
   }
 
+  //INICIO - Metodos de Manager Orders//
   async readOrders(id) {
     try {
       const doc = await this.model.find({ userId: id });
@@ -77,23 +86,58 @@ class MongoManager {
   async updateOrder(data, propUpdate, req) {
     try {
       const opt = { new: true };
-      console.log(propUpdate);
-      const docUpdate = await this.model.findByIdAndUpdate(
-        data,
-        propUpdate,
-        opt
-      );
+      const docUpdate = await this.model
+        .findByIdAndUpdate(data, propUpdate, opt)
+        .populate("productId", "price stock title");
+      //Lo populo directamente en el metodo porque Moongose
+      //no permite aplicarle el metodo pre con findByIdAndUpdate//
+
       const stockUpdate = await isOrderCompleted(docUpdate, data);
-
-      // const orderState = await isOrderCompleted(docUpdate);
-
-      // console.log(orderState);
-      console.log(stockUpdate);
       return docUpdate;
     } catch (error) {
       throw error;
     }
   }
+
+  async report(uid) {
+    try {
+      const report = await this.model.aggregate([
+        {
+          $match: { userId: new Mongoose.Types.ObjectId(uid) },
+        },
+        {
+          $lookup: {
+            from: "products",
+            foreignField: "_id",
+            localField: "productId",
+            as: "productId",
+          },
+        },
+        {
+          $replaceRoot: {
+            newRoot: {
+              $mergeObjects: [{ $arrayElemAt: ["$productId", 0] }, "$$ROOT"],
+            },
+          },
+        },
+        { $set: { subtotal: { $multiply: ["$price", "$quantity"] } } },
+        { $group: { _id: "$userId", total: { $sum: "$subtotal" } } },
+        {
+          $project: {
+            _id: 0,
+            userId: "_id",
+            total: "$total",
+            date: new Date(),
+          },
+        },
+      ]);
+      return report;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  //FIN - Metodos de Manager Orders//
 
   async readByEmail(email, oid) {
     try {
@@ -108,9 +152,21 @@ class MongoManager {
       throw error;
     }
   }
-}
 
-//CREAR METODO UPDATE ESPECIFICO PARA PRODUCTS Y UNO PARA ORDERS//
+  async stats({ filter }) {
+    try {
+      let stats = await this.model.find(filter).explain("executionStats");
+
+      stats = {
+        quantity: stats.executionStats.nReturned,
+        time: stats.executionStats.executionTimeMillis,
+      };
+      return stats;
+    } catch (error) {
+      throw error;
+    }
+  }
+}
 
 const products = new MongoManager(Product);
 const users = new MongoManager(User);
