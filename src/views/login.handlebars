@@ -1,0 +1,41 @@
+<main class="min-vh-100">
+  <div
+    class="d-flex justify-content-center align-content-center h-75 pt-5 pb-5"
+  >
+    <section class="w-50 d-flex justify-content-center align-items-center">
+      <div class="">
+        <h2 class="fw-bolder fs-1 text-left">LOGIN WITH YOUR ACCOUNT.</h2>
+        <p class="fw-medium fs-3">Enter the corresponding values for each field.</p>
+      </div>
+    </section>
+    <form class="w-50 m-5 d-flex flex-column justify-content-center gap-3">
+      <div class="mb-3">
+        <label for="Email" class="form-label fw-semibold fs-4">Email</label>
+        <input
+          type="text"
+          class="form-control"
+          id="email"
+          aria-describedby="email"
+        />
+        <div id="emailHelp" class="form-text" style="color: #fcefaa;">Example:
+          ezequielquevedo111@gmail.com</div>
+      </div>
+      <div class="mb-3">
+        <label for="password" class="form-label fw-semibold fs-4">Photo</label>
+        <input
+          type="password"
+          class="form-control"
+          id="password"
+          aria-describedby="password"
+        />
+        {{! <div id="photoHelp" class="form-text" style="color: #fcefaa;">The password</div> }}
+      </div>
+      <button
+        type="submit"
+        class="btn w-100 fw-semibold"
+        id="newProduct"
+        style="background-color: #fcefaa; color: #121010"
+      >Enter</button>
+    </form>
+  </div>
+</main>

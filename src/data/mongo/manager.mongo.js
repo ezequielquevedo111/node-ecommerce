@@ -125,7 +125,7 @@ class MongoManager {
         {
           $project: {
             _id: 0,
-            userId: "_id",
+            userId: "$_id",
             total: "$total",
             date: new Date(),
           },
@@ -137,11 +137,9 @@ class MongoManager {
     }
   }
 
-  //FIN - Metodos de Manager Orders//
-
-  async readByEmail(email, oid) {
+  async readByEmail(email) {
     try {
-      const docEmail = await this.model.find({ oid, email: email });
+      const docEmail = await this.model.findOne({ email });
       if (!docEmail || docEmail.length === 0) {
         const error = new Error(`User with email ${email} not found`);
         error.statusCode = 404;
@@ -166,6 +164,8 @@ class MongoManager {
       throw error;
     }
   }
+
+  //FIN - Metodos de Manager Orders//
 }
 
 const products = new MongoManager(Product);

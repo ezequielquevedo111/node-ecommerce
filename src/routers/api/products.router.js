@@ -8,7 +8,7 @@ const productsRouter = Router();
 // Endpoints - Products //
 
 //CREATE PRODUCT WITH POST//
-productsRouter.post("/", propsProducts, async (req, res, next) => {
+productsRouter.post("/", propsProducts, isAdmin, async (req, res, next) => {
   try {
     const dataProduct = req.body;
     const response = await products.create(dataProduct);

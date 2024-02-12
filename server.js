@@ -8,7 +8,10 @@ import errorHandler from "./src/middlewares/errorHandler.js";
 import pathHandler from "./src/middlewares/pathHandler.js";
 import __dirname from "./utils.js";
 import morgan from "morgan";
-// import socketUtil from "./src/utils/socket.util.js";
+import cookieParser from "cookie-parser";
+import expressSession from "express-session";
+// import sessionFileStore  from "session-file-store";
+import MongoStore from "connect-mongo";
 
 // Creación server //
 const server = express();
@@ -29,6 +32,47 @@ server.set("view engine", "handlebars");
 server.set("views", __dirname + "/src/views");
 
 //Middlewares//
+server.use(cookieParser());
+//MEMORY STORAGE
+// server.use(
+//   expressSession({
+//     secret: "process.env.SECRET_SESSION",
+//     resave: true,
+//     saveUninitialized: true,
+//     cookie: { maxAge: 60000 },
+//   })
+// );
+
+//FILE STORAGE
+// const FileStore = sessionFileStore(expressSession);
+
+// server.use(
+//   expressSession({
+//     secret: "process.env.SECRET_SESSION",
+//     resave: true,
+//     saveUninitialized: true,
+//     store: new FileStore({
+//       path: "./src/data/fs/files/sessions/",
+//       ttl: 10,
+//       retries: 2,
+//     }),
+//   })
+// );
+
+//MONGO STORAGE
+
+server.use(
+  expressSession({
+    secret: "process.env.SECRET_SESSION",
+    resave: true,
+    saveUninitialized: true,
+    store: new MongoStore({
+      mongoUrl: process.env.DB_ENV_LINK,
+      ttl: 10,
+    }),
+  })
+);
+
 server.use(express.json());
 server.use(express.urlencoded({ extended: true }));
 server.use(express.static("public"));

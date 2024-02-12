@@ -118,3 +118,18 @@ a.cart:hover svg {
 .pagination .page-item.active .page-link:active {
   border-color: #121010;
 }
+
+.custom-button {
+  background-color: #121010;
+  color: #ffc850;
+  padding: 5px 20px;
+  border-color: #ffc850;
+  border-radius: 5px;
+
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.custom-button:hover {
+  background-color: #ffc850;
+  color: #121010; /* Cambia este color al que desees para el texto en hover */
+}

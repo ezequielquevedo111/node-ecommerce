@@ -1,47 +1,57 @@
 <main class="container-fluid">
   <!-- Hero Section -->
-  <section class="row h-25">
-    <div class="col-12 d-flex justify-content-center align-items-center">
+  <section class="row h-25 container-fluid" style="padding-left: 100px;">
+    <div class="d-flex flex-row flex-wrap justify-content-start align-content-center ">
       <h1
-        class="fw-bold text-center text-break"
-        style="font-size: max(3vw, 24px); max-height: 150px; color: #ffc850"
+        class="fw-bold text-left text-break"
+        style="font-size: max(3.5vw, 24px); max-height: 150px; color: #ffc850"
       >
-        GET THE MOST CHEAP COMPONENTS IN THE MARKET
+        Get the most cheap components in the market
       </h1>
+      <h4 class="text-left pt-3" style="color: #d1ccb6">Filter and search according to your preferences, from computer components to consoles.</h4>
     </div>
   </section>
 
   <!-- Cards Section -->
   <section class="container-fluid">
-    <div class="row">
-      <div class="col-12">
+    <div class="col">
+      {{!-- <div class="col-12" style="max-width: 600px">
         <h3
-          class="fw-medium text-center text-break pt-5"
-          style="color: #e7e4d7; font-size: max(2vw, 20px);"
-        >BROWSE THE ALL COMPONENTS:</h3>
+          class="fw-normal text-left text-break pt-5 fs-1"
+          style="color: #e7e4d7; padding-left: 100px;"
+        > Browse</h3>
+      </div> --}}
+      <div style="padding-left: 100px; padding-top: 10px;">
+        <select class="form-select form-select-sm rounded-0" style="max-width: 200px;" aria-label="Small select example">
+          <option selected>Filter by</option>
+          <option value="1">Price</option>
+          <option value="2">Title</option>
+          <option value="3">Three</option>
+        </select>
       </div>
+       
       </div>
     </div>
     <div
-      class="pt-5"
+      class="pt-5 container-fluid"
       style="display: flex; flex-direction: row; flex-wrap: wrap; gap: 30px; justify-content: center;"
     >
       {{#each docs}}
-        <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
+        <div class="col-6 col-sm-4 col-md-4 col-lg-3 col-xl-2 justify-content-center">
           <a href="#" class="text-decoration-none">
-            <div class="card row-gap-0 border-0" style="max-width: 250px">
+            <div class="card row-gap-0 border-0" style="max-width: 200px">
               <img
                 src={{photo}}
-                class="card-img-left rounded"
+                class="card-img-left img-fluid"
                 alt="..."
-                style="max-width: 100%; height: auto;"
+                {{!-- style="width: auto; height: 80%;" --}}
               />
               <div
                 class="card-body d-sm-flex justify-content-center gap-3"
                 style="background-color: #121010"
               >
                 <h5
-                  class="card-title fw-bolder fs-5"
+                  class="card-title fw-bolder fs-6"
                   style="color: #e7e4d7"
                 >{{title}}</h5>
                 <p
