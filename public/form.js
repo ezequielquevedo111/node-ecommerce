@@ -1,6 +1,3 @@
-const socket = io();
-console.log("conectado");
-
 document.querySelector("#newProduct").addEventListener("click", (event) => {
   event.preventDefault();
   const title = document.querySelector("#title").value;
@@ -14,6 +11,4 @@ document.querySelector("#newProduct").addEventListener("click", (event) => {
   stock && (data.stock = stock);
 
   console.log(data);
-
-  socket.emit("new product", data);
 });

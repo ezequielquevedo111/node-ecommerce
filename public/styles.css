@@ -3,4 +3,133 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  background-color: #121010;
+  color: #e7e4d7;
+}
+
+/* styles.css */
+
+.navbar-nav a.nav-link {
+  color: #e7e4d7;
+  position: relative;
+  overflow: hidden;
+}
+
+.navbar-nav a.nav-link::before,
+.navbar-nav a.nav-link::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: 6;
+  background-color: #ffc850;
+  transition: all 0.2s ease-in-out;
+}
+
+.navbar-nav a.nav-link:hover::before,
+.navbar-nav a.nav-link:hover::after {
+  width: 100%;
+}
+
+.navbar-nav a.nav-link::after {
+  right: 0;
+  left: 0;
+}
+
+/* styles.css */
+
+.card {
+  position: relative;
+  overflow: visible;
+}
+
+.card img {
+  transition: all 0.3s ease-in-out;
+}
+
+.card::before {
+  content: "ADD TO CART";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.5rem;
+  color: #e7e4d7; /* Color claro de la fuente */
+  background-color: #121010;
+  background-size: contain;
+  width: 100%;
+  opacity: 0; /* Inicialmente oculto */
+  transition: all 0.4s ease-in-out;
+  text-align: center;
+  font-weight: 800;
+}
+
+.card:hover::before {
+  opacity: 1; /* Mostrar al hacer hover */
+}
+
+.card:hover img {
+  width: 100%;
+  height: auto;
+  background-color: rgba(18, 16, 16, 0.8);
+}
+
+.card:hover .card-body h5,
+.card:hover .card-body p {
+  color: #e7e4d7; /* Color claro de la fuente */
+}
+
+/* Agrega esta regla al final de tu archivo styles.css */
+a.cart:hover svg {
+  fill: #ffc850;
+  transition: all 0.4s ease-in-out;
+}
+
+.navbar-brand.logo {
+  color: #e7e4d7;
+}
+
+.navbar-brand.logo:hover {
+  color: #ffc850;
+  transition: all 0.4s ease-in-out;
+}
+
+/* Estilo para todos los enlaces en estado normal y activo */
+.pagination .page-link,
+.pagination .page-item a {
+  background-color: #e7e4d7; /* Fondo claro para el estado normal y activo */
+  color: #121010; /* Texto oscuro para el estado normal y activo */
+}
+
+/* Estilo para el estado activo */
+.pagination .page-item.active .page-link,
+.pagination .page-item.active a {
+  background-color: #121010; /* Cambiar al nuevo color de fondo para el estado activo */
+  color: #e7e4d7; /* Cambiar al nuevo color de texto para el estado activo */
+}
+
+/* Anular el resaltado al hacer clic */
+.pagination .page-item.active .page-link:focus,
+.pagination .page-item.active a:focus {
+  box-shadow: none;
+  outline: none;
+}
+
+.pagination .page-item.active .page-link:active {
+  border-color: #121010;
+}
+
+.custom-button {
+  background-color: #121010;
+  color: #ffc850;
+  padding: 5px 20px;
+  border-color: #ffc850;
+  border-radius: 5px;
+
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.custom-button:hover {
+  background-color: #ffc850;
+  color: #121010; /* Cambia este color al que desees para el texto en hover */
 }

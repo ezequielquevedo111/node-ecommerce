@@ -1,8 +1,7 @@
 import { Router } from "express";
-// import orders from "../../data/fs/orders.Fs.Manager.js";
 import { orders } from "../../data/mongo/manager.mongo.js";
 import propsOrders from "../../middlewares/propsOrders.js";
-// import isOrderFound from "../../utils/isOrderFound.js";
+
 import isPropUpdate from "../../utils/isPropUpdate.js";
 import isStockAvailable from "../../utils/isStockAvailable.js";
 const ordersRouter = Router();
@@ -28,8 +27,17 @@ ordersRouter.post("/", propsOrders, async (req, res, next) => {
 ordersRouter.get("/:uid", async (req, res, next) => {
   try {
     const { uid } = req.params;
-    // const filter = {user_id: uid}
-    const allOrders = await orders.readOrders(uid);
+    let filter = { userId: uid };
+    let orderAndPaginate = {
+      limit: req.query.limit || 10,
+      page: req.query.page || 1,
+      sort: { state: 1 },
+    };
+    if (req.query.state === "desc") {
+      orderAndPaginate.sort.state = -1;
+    }
+    const allOrders = await orders.read({ filter, orderAndPaginate });
+
     return res.json({
       statusCode: 200,
       response: allOrders,
@@ -70,5 +78,20 @@ ordersRouter.put("/:oid", async (req, res, next) => {
     return next(error);
   }
 });
+
+
+ordersRouter.get("/report/:uid", async (req, res, next) => {
+  try {
+    const { uid } = req.params;
+    const report = await orders.report(uid);
+    return res.json({
+      statusCode: 200,
+      response: report,
+    });
+  } catch (error) {
+    return next(error);
+  }
+});
+
 
 export default ordersRouter;

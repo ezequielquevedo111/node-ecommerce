@@ -27,8 +27,9 @@ usersRouter.get("/", async (req, res, next) => {
     //FILTRADO DINAMICO DEPENDIENDO LA PROPIEDAD//
     let orderBy = req.query.orderBy;
     console.log(orderBy);
-    const { filter, order } = isQueryFilter(req, orderBy);
-    const allUsers = await users.read({ filter, order });
+    let filter = req.query.filter;
+    const allUsers = await users.read({ filter, orderBy });
+
     return res.json({
       statusCode: 200,
       response: allUsers,

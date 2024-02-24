@@ -1,4 +1,4 @@
-# node-ecommerce
+# FAZT ECOMMERCE
 
 # Primer desafío el cuál consiste en desarrollar dos clases distintas con difentes métodos.
 
@@ -35,3 +35,18 @@
 1. Configuramos MongoDB.
 2. Configuramos el manager, models y endpoints.
 3. Testeo en postman y realizo capturas.
+
+
+# Segunda Pre Entrega.
+
+1. Agrego paginate a cada manager con la correspondiente population dependiendo el caso.
+2. Modifico ciertos endpoints adaptandolos ya que en el caso del método de read se empieza a utilizar el método paginate anteriormente mencionado, y sobre todo se le aplica un parseo para luego leer la data en las vistas.
+3. Configuro el router de views para poder fetchear la data en la vista principal y poder hacer la busqueda a través de un input y tener la paginación.
+4. Testeo cada endpoint y saco capturas.
+
+# Sexto desafío se agrega cookies y sessions con express-session y connect-mongo.
+
+1. Instalo las dependencias correspondientes y configuro en el archivo server el middleware de session.
+2. Configuro los endpoints de sessions con sus respectivos middlewares y utils para realizar validaciones.
+3. Testeo en postman y realizo capturas.
+

@@ -1,30 +1,96 @@
-<main class="">
-  <div class="w-100">
-    <h1 class="fw-bolder text-center text-break" style="color: #352D2D">EMPOWER
-      YOUR EXPERIENCE: UNLEASH THE POTENTIAL OF YOUR PERFECT PC!</h1>
-  </div>
+<main class="container-fluid">
+  <!-- Hero Section -->
+  <section class="row h-25 container-fluid" style="padding-left: 100px;">
+    <div class="d-flex flex-row flex-wrap justify-content-start align-content-center ">
+      <h1
+        class="fw-bold text-left text-break"
+        style="font-size: max(3.5vw, 24px); max-height: 150px; color: #ffc850"
+      >
+        Get the most cheap components in the market
+      </h1>
+      <h4 class="text-left pt-3" style="color: #d1ccb6">Filter and search according to your preferences, from computer components to consoles.</h4>
+    </div>
+  </section>
 
-  <div
-    class="w-auto d-flex justify-content-center align-content-center gap-3 flex-wrap pt-5"
-  >
-    {{#each products}}
-      <div class="card border-1 row-gap-5" style="width: 18rem;">
-        <img src={{this.photo}} class="card-img-top" alt="..." />
-        <div class="card-body">
-          <h5
-            class="card-title fw-bold"
-            style="color: #352D2D"
-          >{{this.title}}</h5>
-          <p class="card-text fw-semibold" style="color: #352D2D">$
-            {{this.price}}</p>
-          <a
-            href="#"
-            class="btn text-light"
-            style="background-color: #352D2D"
-          >Add to cart</a>
-        </div>
+  <!-- Cards Section -->
+  <section class="container-fluid">
+    <div class="col">
+      {{!-- <div class="col-12" style="max-width: 600px">
+        <h3
+          class="fw-normal text-left text-break pt-5 fs-1"
+          style="color: #e7e4d7; padding-left: 100px;"
+        > Browse</h3>
+      </div> --}}
+      <div style="padding-left: 100px; padding-top: 10px;">
+        <select class="form-select form-select-sm rounded-0" style="max-width: 200px;" aria-label="Small select example">
+          <option selected>Filter by</option>
+          <option value="1">Price</option>
+          <option value="2">Title</option>
+          <option value="3">Three</option>
+        </select>
       </div>
-    {{/each}}
-  </div>
+       
+      </div>
+    </div>
+    <div
+      class="pt-5 container-fluid"
+      style="display: flex; flex-direction: row; flex-wrap: wrap; gap: 30px; justify-content: center;"
+    >
+      {{#each docs}}
+        <div class="col-6 col-sm-4 col-md-4 col-lg-3 col-xl-2 justify-content-center">
+          <a href="#" class="text-decoration-none">
+            <div class="card row-gap-0 border-0" style="max-width: 200px">
+              <img
+                src={{photo}}
+                class="card-img-left img-fluid"
+                alt="..."
+                {{!-- style="width: auto; height: 80%;" --}}
+              />
+              <div
+                class="card-body d-sm-flex justify-content-center gap-3"
+                style="background-color: #121010"
+              >
+                <h5
+                  class="card-title fw-bolder fs-6"
+                  style="color: #e7e4d7"
+                >{{title}}</h5>
+                <p
+                  class="card-text fw-normal fs-6"
+                  style="color: #d1ccb6"
+                >${{price}}</p>
+              </div>
+            </div>
+          </a>
+        </div>
+      {{/each}}
+       <div class="d-flex w-100 justify-content-center" style="padding-top: 60px;">
+      <nav aria-label="Page navigation example" >
+        <ul class="pagination" >
+          {{#if pagesArray.hasPrevPage}}
+            <li class="page-item" style="border-color: #121010;" >
+              <a class="page-link" href="?page={{pagesArray.prevPage}}" aria-label="Previous" >
+                <span class="fw-bold pag" aria-hidden="true" style="background-color: #e7e4d7; border-color: #121010;">&laquo;</span>
+              </a>
+            </li>
+          {{/if}}
 
+          {{#each pagesArray}}
+            <li class="page-item {{#if isCurrent}}active{{/if}}">
+              <a class="page-link" href="?page={{pageNumber}}">{{pageNumber}}</a>
+            </li>
+          {{/each}}
+
+          {{#if pagesArray.hasNextPage}}
+            <li class="page-item">
+              <a class="page-link" href="?page={{pagesArray.nextPage}}" aria-label="Next">
+                <span class="fw-bold" aria-hidden="true" style="background-color: #e7e4d7; color: #121010;">&raquo;</span>
+              </a>
+            </li>
+          {{/if}}
+        </ul>
+      </nav>
+    </div>
+
+    </div>
+  </section>
 </main>

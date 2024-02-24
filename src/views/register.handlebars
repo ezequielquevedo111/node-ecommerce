@@ -1,36 +1,60 @@
-<main>
-  <h1 class="fw-bolder text-center text-break" style="color: #352D2D">ENTER YOUR
-    PERSONAL INFORMATION TO COMPLETE THE REGISTRATION.</h1>
+<main class="min-vh-100">
   <div
-    class="container-fluid w-100 d-flex justify-content-center align-content-center pt-5 pb-5"
+    class="container-fluid d-flex justify-content-center align-content-center pt-5 pb-5"
   >
-
-    <form>
-      <div class="mb-3">
-        <label for="exampleInputEmail1" class="form-label fw-semibold">Full name</label>
-        <input
-          type="email"
-          class="form-control"
-          id="exampleInputEmail1"
-          aria-describedby="emailHelp"
-        />
-        <div id="emailHelp" class="form-text">Example: Ezequiel Quevedo.</div>
+    <section class="w-50 d-flex justify-content-center align-items-center">
+      <div class="">
+        <h2 class="fw-bolder fs-1 text-left">CREATE YOUR ACCOUNT.</h2>
+        <p class="fw-medium fs-3">Enter the corresponding values for each field.</p>
       </div>
+    </section>
+    <form class="w-50 m-5">
       <div class="mb-3">
-        <label for="exampleInputEmail1" class="form-label fw-semibold">User
-          photo</label>
+        <label
+          id="exampleInputEmail1"
+          aria-describedby="emailHelp"
+          class="form-label fw-semibold fs-4"
+        >Name</label>
         <input
           type="email"
           class="form-control"
-          id="exampleInputEmail1"
+          id="emailHelp"
           aria-describedby="emailHelp"
         />
-        <div id="emailHelp" class="form-text">Example: user.png.</div>
+        <div id="emailHelp" class="form-text" style="color: #fcefaa;">Example:
+          Ezequiel</div>
       </div>
       <div class="mb-3">
         <label
+          id="exampleSurname"
+          aria-describedby="surnameHelp"
+          class="form-label fw-semibold fs-4"
+        >Surname</label>
+        <input
+          type="text"
+          class="form-control"
+          id="surnameHelp"
+          aria-describedby="surnameHelp"
+        />
+        <div id="emailHelp" class="form-text" style="color: #fcefaa;">Example:
+          Quevedo</div>
+      </div>
+      <div class="mb-3">
+        <label for="exampleUserPhoto" class="form-label fw-semibold fs-4">User
+          photo</label>
+        <input
+          type="text"
+          class="form-control"
+          id="photo"
+          aria-describedby="photo"
+        />
+        <div id="photoHelp" class="form-text" style="color: #fcefaa;">Example:
+          user.png</div>
+      </div>
+      <div class="mb-3 w-100%">
+        <label
           for="exampleInputEmail1"
-          class="form-label fw-semibold"
+          class="form-label fw-semibold fs-4"
         >Email</label>
         <input
           type="email"
@@ -38,11 +62,34 @@
           id="exampleInputEmail1"
           aria-describedby="emailHelp"
         />
-        <div id="emailHelp" class="form-text">Example:
-          ezequielquevedo111@gmail.com.</div>
+        <div id="emailHelp" class="form-text" style="color: #fcefaa;">Example:
+          ezequielquevedo111@gmail.com</div>
+      </div>
+      <div class="mb-3 w-100%">
+        <label
+          for="passwordHelp"
+          class="form-label fw-semibold fs-4"
+        >Password</label>
+        <input
+          type="password"
+          class="form-control"
+          id="exampleInputPassword"
+          aria-describedby="passwordHelp"
+        />
+        <div
+          id="passwordHelp"
+          class="form-text"
+          style="color: #fcefaa;"
+        >Example: ezequielquevedo111@gmail.com</div>
       </div>
 
-      <button type="submit" class="btn btn-primary">Register</button>
+      <button
+        type="submit"
+        class="btn w-100 fw-semibold"
+        id="newProduct"
+        style="background-color: #fcefaa; color: #121010"
+      >Register</button>
     </form>
   </div>
 </main>
+<script src="./form.js"></script>

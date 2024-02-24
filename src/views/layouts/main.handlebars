@@ -14,11 +14,20 @@
   <body>
     <nav class="navbar navbar-expand-lg bg-body-light">
       <div class="container-fluid">
-        <a
-          class="navbar-brand fw-bold m-3 fs-3"
-          href="./"
-          style="color: #352D2D"
-        >FAZT</a>
+        <a class="navbar-brand fw-bold m-3 fs-3 logo" href="./">FAZT</a>
+          <form class="d-flex w-25" role="search" method="GET" action="/">
+            <input
+            class="form-control me-2 fw-medium rounded-0"
+            type="search"
+            placeholder="Search"
+            aria-label="Search"
+            name="title"
+            style="color: #121010;"
+              />
+            <button class="fw-bolder rounded-0 custom-button" type="submit">SEARCH</button>
+          </form>
+        <div>
+        
         <button
           class="navbar-toggler"
           type="button"
@@ -30,40 +39,61 @@
         >
           <span class="navbar-toggler-icon"></span>
         </button>
+       
         <div
           class="collapse navbar-collapse justify-content-end"
           id="navbarNavAltMarkup"
         >
-          <div class="navbar-nav">
+          <div class="navbar-nav p-2">
             <a
-              class="nav-link fw-bold active"
-              style="color: #352D2D"
-              aria-current="page"
-              href="./real"
-            >REAL</a>
-            <a
-              class="nav-link fw-bold active"
-              style="color: #352D2D"
+              class="nav-link fw-bold active m-2"
+              style="color: #e7e4d7"
               href="./form"
             >FORM</a>
+             <a
+              class="nav-link fw-bold active m-2"
+              style="color: #e7e4d7"
+              href="./login"
+            >LOGIN</a>
             <a
-              class="nav-link fw-bold active"
-              style="color: #352D2D"
+              class="nav-link fw-bold active m-2"
+              style="color: #e7e4d7"
               href="./register"
             >REGISTER</a>
+            <a href="" class="m-2 cart position-relative">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="25"
+                height="38"
+                fill="#e7e4d7"
+                class="bi bi-cart "
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"
+                />
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill" style="color: #ffc850; background-color:#121010"> 99+
+                <span class="visually-hidden">unread messages</span>
+                </span>
+
+              </svg>
+            </a>
           </div>
         </div>
+         
       </div>
     </nav>
     {{{body}}}
     <footer
-      class="w-100 d-flex row align-content-center text-center pt-5"
-      style="height: 10rem"
+      class="d-flex flex-row justify-content-evenly align-items-center pt-5 container-fluid"
+      style="height: 10rem;"
     >
-      <p class="fw-bold" style="color: #352D2D ">CONNECT WITH US FOR THE LATEST
-        UPDATES AND EXCLUSIVE OFFERS. FOLLOW OUR JOURNEY AND STAY INSPIRED.</p>
-      <p class="fw-bold" style="color: #352D2D ">© 2024 YOUR COMPANY. ALL RIGHTS
-        RESERVED.</p>
+      <p class="fw-bold" style="color: #e7e4d7">CONNECT WITH US FOR THE LATEST
+        UPDATES AND EXCLUSIVE OFFERS.<br />
+        FOLLOW OUR JOURNEY AND STAY INSPIRED.</p>
+          <a href="https://github.com/ezequielquevedo111" Target="_blank" class="fw-bold text-decoration-none" style="color: #ffc850">FROM CÓRDOBA ARGENTINA <br/> BY EZEQUIEL QUEVEDO</a>
+      <p class="fw-bold" style="color: #e7e4d7">© 2024 YOUR COMPANY.<br />
+        ALL RIGHTS RESERVED.</p>
     </footer>
   </body>
   <script

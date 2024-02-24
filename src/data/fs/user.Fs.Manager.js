@@ -41,15 +41,33 @@ class UserManager {
   }
 
   //METODO PARA LEER TODOS LOS ARCHIVOS CON VALIDACIONES//
-  read() {
-    return fs.promises
-      .readFile(this.path, settings)
-      .then((res) => JSON.parse(res))
-      .catch((error) => {
-        console.log(error.message);
+  async read(options = {}) {
+    try {
+      let doc = await fs.promises.readFile(this.path, settings);
+      let data = JSON.parse(doc);
+
+      if (options.filter && options.filter.email) {
+        data = data.filter((user) => user.email === options.filter.email);
+      }
+      if (options.sort) {
+        data.sort((a, b) => {
+          const nameA = a.name.toUpperCase();
+          const nameB = b.name.toUpperCase();
+          if (options.sort === "asc") {
+            return nameA.localeCompare(nameB);
+          } else if (options.sort === "desc") {
+            return nameB.localeCompare(nameA);
+          }
+        });
+      } else if (!data) {
+        const error = new Error("Existing documents not found.");
         error.statusCode = 404;
         throw error;
-      });
+      }
+      return data;
+    } catch (error) {
+      throw error;
+    }
   }
 
   read(options = {}) {
@@ -184,10 +202,12 @@ const users = new UserManager("./src/data/fs/files/users.Fs.json");
 
 // console.log(users.readByEmail("ezequevedo1@gmail.com"));
 
-users.read({
-  filter: { email: "sergio23@gmail.com" },
-  sort: "desc",
+const readingUser = await users.read({
+  sort: "asc",
 });
+
+console.log(readingUser);
+
 
 export default users;
 

@@ -1,3 +1,6 @@
+
+//Validamos si se ingresaron propiedades a modificar en la order//
+
 const isPropUpdate = (req) => {
   try {
     const data = {};
