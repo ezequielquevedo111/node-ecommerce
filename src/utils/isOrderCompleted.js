@@ -32,6 +32,7 @@ const isOrderCompleted = async (doc, data) => {
     );
     error.statusCode = 404;
     throw error;
+
   } catch (error) {
     throw error;
   }

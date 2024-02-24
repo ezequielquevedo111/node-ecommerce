@@ -1,5 +1,4 @@
 import { products } from "../data/mongo/manager.mongo.js";
-
 //Verificas si existe stock suficiente para crear la order//
 const isStockAvailable = async (dataBody) => {
   try {

@@ -36,6 +36,7 @@
 2. Configuramos el manager, models y endpoints.
 3. Testeo en postman y realizo capturas.
 
+
 # Segunda Pre Entrega.
 
 1. Agrego paginate a cada manager con la correspondiente population dependiendo el caso.
@@ -48,3 +49,4 @@
 1. Instalo las dependencias correspondientes y configuro en el archivo server el middleware de session.
 2. Configuro los endpoints de sessions con sus respectivos middlewares y utils para realizar validaciones.
 3. Testeo en postman y realizo capturas.
+

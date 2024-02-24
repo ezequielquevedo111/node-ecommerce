@@ -6,6 +6,7 @@ import User from "./models/user.model.js";
 import Types from "mongoose";
 import Mongoose from "mongoose";
 
+
 class MongoManager {
   constructor(model) {
     this.model = model;
@@ -20,6 +21,7 @@ class MongoManager {
   }
   async read(obj) {
     try {
+
       const { filter, orderAndPaginate } = obj;
       const allDocs = await this.model.paginate(filter, orderAndPaginate);
       const data = JSON.parse(JSON.stringify(allDocs));
@@ -30,6 +32,7 @@ class MongoManager {
         throw error;
       }
       return data;
+
     } catch (error) {
       throw error;
     }
@@ -57,6 +60,7 @@ class MongoManager {
   //Al eliminar una order que ya está finalizada y se descontó el stock
   //Antes de eliminarla hay que reecomponer el stock del producto
   //que antes se le descontó//
+
   async destroy(id) {
     try {
       const doc = await this.model.findByIdAndDelete(id);
@@ -67,7 +71,9 @@ class MongoManager {
     }
   }
 
+
   //INICIO - Metodos de Manager Orders//
+
   async readOrders(id) {
     try {
       const doc = await this.model.find({ userId: id });
@@ -132,14 +138,17 @@ class MongoManager {
         },
       ]);
       return report;
+
     } catch (error) {
       throw error;
     }
   }
 
+
   async readByEmail(email) {
     try {
       const docEmail = await this.model.findOne({ email });
+
       if (!docEmail || docEmail.length === 0) {
         const error = new Error(`User with email ${email} not found`);
         error.statusCode = 404;
@@ -150,6 +159,7 @@ class MongoManager {
       throw error;
     }
   }
+
 
   async stats({ filter }) {
     try {
@@ -167,6 +177,7 @@ class MongoManager {
 
   //FIN - Metodos de Manager Orders//
 }
+
 
 const products = new MongoManager(Product);
 const users = new MongoManager(User);

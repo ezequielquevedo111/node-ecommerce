@@ -3,12 +3,15 @@ import { Router } from "express";
 import { products } from "../../data/mongo/manager.mongo.js";
 import propsProducts from "../../middlewares/propsProducts.js";
 import isAdmin from "../../middlewares/isAdmin.js";
+import isQueryFilter from "../../utils/isQueryFilter.js";
 const productsRouter = Router();
 
 // Endpoints - Products //
 
 //CREATE PRODUCT WITH POST//
+
 productsRouter.post("/", propsProducts, isAdmin, async (req, res, next) => {
+
   try {
     const dataProduct = req.body;
     const response = await products.create(dataProduct);
@@ -24,6 +27,7 @@ productsRouter.post("/", propsProducts, isAdmin, async (req, res, next) => {
 //GET ALL PRODUCTS//
 productsRouter.get("/", async (req, res, next) => {
   try {
+
     // Filtrado dinámico dependiendo de la propiedad
     const orderAndPaginate = {
       limit: req.query.limit || 10,
@@ -41,6 +45,7 @@ productsRouter.get("/", async (req, res, next) => {
     }
 
     let allProducts = await products.read({ filter, orderAndPaginate });
+
     return res.json({
       statusCode: 200,
       response: allProducts,

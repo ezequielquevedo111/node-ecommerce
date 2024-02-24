@@ -2,6 +2,7 @@ import { Router } from "express";
 // import users from "../../data/fs/user.Fs.Manager.js";
 import { users } from "../../data/mongo/manager.mongo.js";
 import propsUsers from "../../middlewares/propsUsers.js";
+import isQueryFilter from "../../utils/isQueryFilter.js";
 const usersRouter = Router();
 
 // Endpoints - Users //
@@ -28,6 +29,7 @@ usersRouter.get("/", async (req, res, next) => {
     console.log(orderBy);
     let filter = req.query.filter;
     const allUsers = await users.read({ filter, orderBy });
+
     return res.json({
       statusCode: 200,
       response: allUsers,

@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { orders } from "../../data/mongo/manager.mongo.js";
 import propsOrders from "../../middlewares/propsOrders.js";
+
 import isPropUpdate from "../../utils/isPropUpdate.js";
 import isStockAvailable from "../../utils/isStockAvailable.js";
 const ordersRouter = Router();
@@ -36,6 +37,7 @@ ordersRouter.get("/:uid", async (req, res, next) => {
       orderAndPaginate.sort.state = -1;
     }
     const allOrders = await orders.read({ filter, orderAndPaginate });
+
     return res.json({
       statusCode: 200,
       response: allOrders,
@@ -77,6 +79,7 @@ ordersRouter.put("/:oid", async (req, res, next) => {
   }
 });
 
+
 ordersRouter.get("/report/:uid", async (req, res, next) => {
   try {
     const { uid } = req.params;
@@ -89,5 +92,6 @@ ordersRouter.get("/report/:uid", async (req, res, next) => {
     return next(error);
   }
 });
+
 
 export default ordersRouter;
