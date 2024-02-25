@@ -68,7 +68,7 @@ server.use(
     saveUninitialized: true,
     store: new MongoStore({
       mongoUrl: process.env.DB_ENV_LINK,
-      ttl: 10,
+      ttl: 7 * 24 * 60 * 60,
     }),
   })
 );

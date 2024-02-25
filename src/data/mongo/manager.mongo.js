@@ -6,7 +6,6 @@ import User from "./models/user.model.js";
 import Types from "mongoose";
 import Mongoose from "mongoose";
 
-
 class MongoManager {
   constructor(model) {
     this.model = model;
@@ -21,7 +20,6 @@ class MongoManager {
   }
   async read(obj) {
     try {
-
       const { filter, orderAndPaginate } = obj;
       const allDocs = await this.model.paginate(filter, orderAndPaginate);
       const data = JSON.parse(JSON.stringify(allDocs));
@@ -32,7 +30,6 @@ class MongoManager {
         throw error;
       }
       return data;
-
     } catch (error) {
       throw error;
     }
@@ -70,7 +67,6 @@ class MongoManager {
       throw error;
     }
   }
-
 
   //INICIO - Metodos de Manager Orders//
 
@@ -138,28 +134,25 @@ class MongoManager {
         },
       ]);
       return report;
-
     } catch (error) {
       throw error;
     }
   }
-
 
   async readByEmail(email) {
     try {
       const docEmail = await this.model.findOne({ email });
 
-      if (!docEmail || docEmail.length === 0) {
-        const error = new Error(`User with email ${email} not found`);
-        error.statusCode = 404;
-        throw error;
-      }
+      // if (!docEmail || docEmail.length === 0) {
+      //   const error = new Error(`User with email ${email} not found`);
+      //   error.statusCode = 404;
+      //   throw error;
+      // }
       return docEmail;
     } catch (error) {
       throw error;
     }
   }
-
 
   async stats({ filter }) {
     try {
@@ -177,7 +170,6 @@ class MongoManager {
 
   //FIN - Metodos de Manager Orders//
 }
-
 
 const products = new MongoManager(Product);
 const users = new MongoManager(User);

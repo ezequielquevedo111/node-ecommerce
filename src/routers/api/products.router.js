@@ -2,7 +2,7 @@ import { Router } from "express";
 // import products from "../../data/fs/product.Fs.Manager.js";
 import { products } from "../../data/mongo/manager.mongo.js";
 import propsProducts from "../../middlewares/propsProducts.js";
-import isAdmin from "../../middlewares/isAdmin.js";
+// import isAdmin from "../../middlewares/isAdmin.js";
 import isQueryFilter from "../../utils/isQueryFilter.js";
 const productsRouter = Router();
 
@@ -10,8 +10,7 @@ const productsRouter = Router();
 
 //CREATE PRODUCT WITH POST//
 
-productsRouter.post("/", propsProducts, isAdmin, async (req, res, next) => {
-
+productsRouter.post("/", propsProducts, async (req, res, next) => {
   try {
     const dataProduct = req.body;
     const response = await products.create(dataProduct);
@@ -27,7 +26,6 @@ productsRouter.post("/", propsProducts, isAdmin, async (req, res, next) => {
 //GET ALL PRODUCTS//
 productsRouter.get("/", async (req, res, next) => {
   try {
-
     // Filtrado dinámico dependiendo de la propiedad
     const orderAndPaginate = {
       limit: req.query.limit || 10,
