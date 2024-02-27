@@ -46,11 +46,14 @@
           id="navbarNavAltMarkup"
         >
           <div class="navbar-nav p-2">
+            {{#ifEquals user.role 1}}
             <a
               class="nav-link fw-bold active m-2"
               style="color: #e7e4d7"
               href="/products/form"
             >FORM</a>
+             {{/ifEquals }}
+            {{#ifEquals user.role null}}
              <a
               class="nav-link fw-bold  active m-2"
               style="color: #e7e4d7"
@@ -61,7 +64,21 @@
               style="color: #e7e4d7"
               href="/sessions/register"
             >REGISTER</a>
-            <a href="/orders" class="m-2 cart position-relative">
+            {{/ifEquals}}
+              {{#ifEquals user.role 0}}
+             <a
+              class="nav-link fw-bold  active m-2"
+              style="color: #e7e4d7"
+              href="#"
+            >ORDERS</a>
+            {{/ifEquals}}
+             <a
+              class="nav-link fw-bold  active m-2"
+              style="color: #e7e4d7"
+              href="#"
+              id="signout"
+            >SIGN OUT</a>
+            <a href="#" class="m-2 cart position-relative">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="25"
@@ -73,8 +90,7 @@
                 <path
                   d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"
                 />
-                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill" style="color: #ffc850; background-color:#121010"> 99+
-                <span class="visually-hidden">unread messages</span>
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill" style="color: #ffc850; background-color:#121010">
                 </span>
 
               </svg>
@@ -102,4 +118,5 @@
     integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
     crossorigin="anonymous"
   ></script>
+  <script src="/scripts/signout.js"></script>
 </html>

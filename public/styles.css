@@ -133,3 +133,8 @@ a.cart:hover svg {
   background-color: #ffc850;
   color: #121010; /* Cambia este color al que desees para el texto en hover */
 }
+
+.icons .login-icons a.login-icon:hover {
+  fill: #ffc850;
+  transition: all 0.4s ease-in-out;
+}

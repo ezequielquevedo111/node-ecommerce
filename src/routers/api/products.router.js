@@ -2,26 +2,33 @@ import { Router } from "express";
 // import products from "../../data/fs/product.Fs.Manager.js";
 import { products } from "../../data/mongo/manager.mongo.js";
 import propsProducts from "../../middlewares/propsProducts.js";
-// import isAdmin from "../../middlewares/isAdmin.js";
+import isAdmin from "../../middlewares/isAdmin.js";
 import isQueryFilter from "../../utils/isQueryFilter.js";
+import passport from "../../middlewares/passport.js";
 const productsRouter = Router();
 
 // Endpoints - Products //
 
 //CREATE PRODUCT WITH POST//
 
-productsRouter.post("/", propsProducts, async (req, res, next) => {
-  try {
-    const dataProduct = req.body;
-    const response = await products.create(dataProduct);
-    return res.json({
-      statusCode: 201,
-      response,
-    });
-  } catch (error) {
-    return next(error);
+productsRouter.post(
+  "/",
+  passport.authenticate("jwt", { session: false }),
+  isAdmin,
+  propsProducts,
+  async (req, res, next) => {
+    try {
+      const dataProduct = req.body;
+      const response = await products.create(dataProduct);
+      return res.json({
+        statusCode: 201,
+        response,
+      });
+    } catch (error) {
+      return next(error);
+    }
   }
-});
+);
 
 //GET ALL PRODUCTS//
 productsRouter.get("/", async (req, res, next) => {
