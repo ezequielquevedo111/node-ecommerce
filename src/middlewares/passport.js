@@ -30,6 +30,8 @@ passport.use(
     }
   )
 );
+
+
 passport.use(
   "login",
   new LocalStrategy(
@@ -37,20 +39,21 @@ passport.use(
     async (req, email, password, done) => {
       try {
         const user = await users.readByEmail(email);
-        if (!user) return done(null, false);
-        if (!verifyHash(password, user.password))
-          return done(null, false, { messages: "Bad auth from passport cb" });
-        // req.session.email = email;
-        // req.session.role = user.role;
-        const token = createToken({ email, role: user.role });
-        req.token = token;
-        return done(null, user);
+        if (user && verifyHash(password, user.password)) {
+          const token = createToken({ email, role: user.role });
+          req.token = token;
+          // console.log(user);
+          return done(null, user);
+        } else {
+          return done(null, false);
+        }
       } catch (error) {
         return done(error);
       }
     }
   )
 );
+
 
 passport.use(
   "google",

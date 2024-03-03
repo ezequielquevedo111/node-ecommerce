@@ -1,24 +1,35 @@
-document.querySelector("#signout").addEventListener("click", async (req) => {
-  event.preventDefault();
-  try {
-    const token = localStorage.getItem("token");
-    const opts = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
-    let response = await fetch("/api/sessions/signout", opts);
-    response = await response.json();
-    console.log(response);
-    if (response.statusCode === 200) {
-      alert("Signed out!");
-      location.replace("/");
-      // localStorage.setItem("token", response.token)
+fetch("/api/sessions/", { method: "POST" })
+  .then((res) => res.json())
+  .then((res) => {
+    //console.log(res);
+    if (res.statusCode === 200) {
+      document.querySelector(".navbar-nav").removeChild(document.querySelector("#registerNav"))
+      document.querySelector(".navbar-nav").removeChild(document.querySelector("#loginNav"))
+      document.querySelector("#signout").addEventListener("click", async () => {
+        try {
+          const opts = {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+          };
+          let response = await fetch("/api/sessions/signout", opts);
+          response = await response.json();
+          console.log(response);
+          if (response.statusCode === 200) {
+            alert(response.message);
+            location.replace("/");
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      });
     } else {
-      alert("Cannot signout!");
+      document.querySelector(".navbar-nav").removeChild(document.querySelector("#formNav"))
+      document.querySelector(".navbar-nav").removeChild(document.querySelector("#ordersNav"))
+      document.querySelector(".navbar-nav").removeChild(document.querySelector("#signout"))
     }
-  } catch (error) {
-    console.log(error);
-  }
-});
+    if (res.response?.role === 0) {
+      document.querySelector(".navbar-nav").removeChild(document.querySelector("#formNav"))
+    } else if (res.response?.role === 1) {
+      document.querySelector(".navbar-nav").removeChild(document.querySelector("#ordersNav"))
+    }
+  });
