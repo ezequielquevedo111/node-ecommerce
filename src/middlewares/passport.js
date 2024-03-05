@@ -45,7 +45,7 @@ passport.use(
           // console.log(user);
           return done(null, user);
         } else {
-          return done(null, false);
+          return done(null, false, {messages: "Bad auth from passport cb"});
         }
       } catch (error) {
         return done(error);

@@ -20,7 +20,7 @@ selector.addEventListener("click", async (event) => {
     res = await res.json();
     if (res.statusCode === 201) {
       alert(res.message);
-      location.replace("/login");
+      location.replace("/sessions/login");
     }
     res.statusCode === 401 && alert(res.message);
 
