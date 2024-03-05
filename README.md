@@ -54,3 +54,9 @@
 1. Instalo las dependencias correspondientes y configuro los endpoints correspondientes.
 2. Modifico middlewares adaptando las sesiones con el token.
 3. Testeo y realizo capturas.
+
+# Octavo desafío se agrega Policies, CustomRouter
+
+1. Cambiamos el enroutamiento de todos los endpoints manejando solamente con el customRouter, modifico cada endpoint.
+2. Genero las policies para que cada usuario solo pueda acceder a la vista/endpoint permitida y generamos las responses genericas.
+3. Testeamos y realizamos capturas.
