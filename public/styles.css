@@ -64,17 +64,17 @@
   font-weight: 800;
 }
 
-.card:hover::before {
+.cardHome .card:hover::before {
   opacity: 1; /* Mostrar al hacer hover */
 }
 
-.card:hover img {
+.cardHome .card:hover img {
   width: 100%;
   height: auto;
   background-color: rgba(18, 16, 16, 0.8);
 }
 
-.card:hover .card-body h5,
+.cardHome .card:hover .card-body h5,
 .card:hover .card-body p {
   color: #e7e4d7; /* Color claro de la fuente */
 }
@@ -133,3 +133,10 @@ a.cart:hover svg {
   background-color: #ffc850;
   color: #121010; /* Cambia este color al que desees para el texto en hover */
 }
+
+.icons .login-icons a.login-icon:hover {
+  fill: #ffc850;
+  transition: all 0.4s ease-in-out;
+}
+
+

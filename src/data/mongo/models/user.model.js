@@ -16,10 +16,11 @@ const schema = new Schema(
         "https://cdn3.vectorstock.com/i/1000x1000/30/97/flat-business-man-user-profile-avatar-icon-vector-4333097.jpg",
     },
     age: { type: Number, default: 18 },
+    role: { type: Number, default: 0 },
   },
+
   { timestamps: true }
 );
-
 
 schema.plugin(mongoosePaginate);
 
