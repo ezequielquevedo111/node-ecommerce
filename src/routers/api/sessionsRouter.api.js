@@ -109,11 +109,15 @@ export default class SessionsRouter extends CustomRouter {
               maxAge: 7 * 24 * 60 * 60,
               httpOnly: true,
             })
-            .json({
-              statusCode: 200,
+            .success200({
               message: "Logged in with Google!",
               session: req.session,
             });
+          // .json({
+          //   statusCode: 200,
+          //   message: "Logged in with Google!",
+          //   session: req.session,
+          // });
           //EN ESTE CASO HABRÍA QUE VER COMO APLICAR PARA PASAR LA SESSION
         } catch (error) {
           return next(error);
@@ -123,17 +127,18 @@ export default class SessionsRouter extends CustomRouter {
 
     //me
 
-    this.read("/", passCallBack("jwt"), async (req, res, next) => {
+    this.read("/", ["PUBLIC"], passCallBack("jwt"), async (req, res, next) => {
       try {
-        const user = {
-          email: req.user.email,
-          role: req.user.role,
-          photo: req.user.photo,
-        };
-        return res.json({
-          statusCode: 200,
-          response: user,
-        });
+        // const user = {
+        //   email: req.user.email,
+        //   role: req.user.role,
+        //   photo: req.user.photo,
+        // };
+        // return res.json({
+        //   statusCode: 200,
+        //   response: user,
+        // });
+        return res.success200({ response: { role: req.user.role } });
       } catch (error) {
         return next(error);
       }

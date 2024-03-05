@@ -26,10 +26,8 @@ export default class CustomRouter {
   }
 
   responses(req, res, next) {
-    res.success200 = (payload) =>
-      res.json({ statusCode: 200, response: payload });
-    res.success201 = (payload) =>
-      res.json({ statusCode: 201, response: payload });
+    res.success200 = (payload) => res.json({ statusCode: 200, ...payload });
+    res.success201 = (payload) => res.json({ statusCode: 201, ...payload });
     res.error400 = (message) => res.json({ statusCode: 400, message });
     res.error401 = () => res.json({ statusCode: 401, message: "Bad auth" });
     res.error403 = () => res.json({ statusCode: 403, message: "Forbidden!" });
@@ -52,7 +50,7 @@ export default class CustomRouter {
             (role === 1 && arrayOfPolicies.includes("ADMIN")) ||
             (role === 2 && arrayOfPolicies.includes("PREM"))
           ) {
-            const user = await users(email);
+            const user = await users.readByEmail(email);
             req.user = user;
             return next();
           } else {
