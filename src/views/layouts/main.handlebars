@@ -40,30 +40,42 @@
         >
           <span class="navbar-toggler-icon"></span>
         </button>
-       
+      
         <div
           class="collapse navbar-collapse justify-content-end"
           id="navbarNavAltMarkup"
         >
+<<<<<<< HEAD
           <div class="navbar-nav p-2">
             {{#ifEquals user.role 1}}
+=======
+          <div class="navbar-nav p-2" id="navbar-nav">
+>>>>>>> 339855bf4a7c270d5fbeaf04bb7ed0ac674b337a
             <a
               class="nav-link fw-bold active m-2"
               style="color: #e7e4d7"
               href="/products/form"
+              id="formNav"
             >FORM</a>
+<<<<<<< HEAD
              {{/ifEquals }}
             {{#ifEquals user.role null}}
              <a
+=======
+            <a
+>>>>>>> 339855bf4a7c270d5fbeaf04bb7ed0ac674b337a
               class="nav-link fw-bold  active m-2"
               style="color: #e7e4d7"
               href="/sessions/login"
+              id="loginNav"
             >LOGIN</a>
             <a
               class="nav-link fw-bold  active m-2"
               style="color: #e7e4d7"
               href="/sessions/register"
+              id="registerNav"
             >REGISTER</a>
+<<<<<<< HEAD
             {{/ifEquals}}
               {{#ifEquals user.role 0}}
              <a
@@ -78,6 +90,19 @@
               href="#"
               id="signout"
             >SIGN OUT</a>
+=======
+            <a
+              class="nav-link fw-bold  active m-2"
+              style="color: #e7e4d7"
+              href="/orders"
+              id="ordersNav"
+            >ORDERS</a>
+            <span
+              class="btn fw-bold active m-2"
+              style="color: #e7e4d7"
+              id="signout"
+            >SIGN OUT</span>
+>>>>>>> 339855bf4a7c270d5fbeaf04bb7ed0ac674b337a
             <a href="#" class="m-2 cart position-relative">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -97,7 +122,7 @@
             </a>
           </div>
         </div>
-         
+        
       </div>
     </nav>
     {{{body}}}
@@ -119,4 +144,11 @@
     crossorigin="anonymous"
   ></script>
   <script src="/scripts/signout.js"></script>
+<<<<<<< HEAD
 </html>
+=======
+</html>
+
+
+{{!-- //VERIFICAR BIEN CONDICIONALES PARA VER QUE TRAER PORQUE EN ALGUNOS FUNCIONA// --}}
+>>>>>>> 339855bf4a7c270d5fbeaf04bb7ed0ac674b337a

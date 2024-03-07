@@ -1,7 +1,7 @@
 import { Router } from "express";
-import { users } from "../../data/mongo/manager.mongo.js";
+// import { users } from "../../data/mongo/manager.mongo.js";
 import has8char from "../../middlewares/has8char.js";
-import isValidPass from "../../middlewares/isValidPass.js";
+// import isValidPass from "../../middlewares/isValidPass.js";
 import passport from "./../../middlewares/passport.js";
 import passCallBack from "../../middlewares/passCallBack.js";
 
@@ -92,11 +92,16 @@ sessionsRouter.get(
   passport.authenticate("google", opts),
   async (req, res, next) => {
     try {
-      return res.json({
-        statusCode: 200,
-        message: "Logged in with Google!",
-        session: req.session,
-      });
+      return res
+        .cookie("token", req.token, {
+          maxAge: 7 * 24 * 60 * 60,
+          httpOnly: true,
+        })
+        .json({
+          statusCode: 200,
+          message: "Logged in with Google!",
+          session: req.session,
+        });
     } catch (error) {
       return next(error);
     }
