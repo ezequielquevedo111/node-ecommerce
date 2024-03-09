@@ -1,8 +1,10 @@
-import "dotenv/config.js";
+// import "dotenv/config.js";
+import env from "./src/utils/envt.utils.js";
 import dbConnection from "./src/utils/db.js";
 import express from "express";
 import { createServer } from "http";
 // import router from "./src/routers/index.router.js";
+import argsUtils from "./src/utils/args.utils.js";
 import IndexRouter from "./src/routers/index.router.js";
 import { engine } from "express-handlebars";
 import errorHandler from "./src/middlewares/errorHandler.js";
@@ -68,7 +70,7 @@ server.use(
     resave: true,
     saveUninitialized: true,
     store: new MongoStore({
-      mongoUrl: process.env.DB_ENV_LINK,
+      mongoUrl: env.DB_ENV_LINK,
       ttl: 7 * 24 * 60 * 60,
     }),
   })

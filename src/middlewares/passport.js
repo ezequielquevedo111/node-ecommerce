@@ -1,21 +1,3 @@
-<<<<<<< HEAD
-fetch("/api/sessions/", { method: "POST" })
-  .then((res) => res.json())
-  .then((res) => {
-    //console.log(res);
-    if (res.statusCode === 200) {
-      document
-        .querySelector(".navbar-nav")
-        .removeChild(document.querySelector("#registerNav"));
-      document
-        .querySelector(".navbar-nav")
-        .removeChild(document.querySelector("#loginNav"));
-      document.querySelector("#signout").addEventListener("click", async () => {
-        try {
-          const opts = {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-=======
 import { users } from "../data/mongo/manager.mongo.js";
 import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
@@ -49,7 +31,6 @@ passport.use(
   )
 );
 
-
 passport.use(
   "login",
   new LocalStrategy(
@@ -63,7 +44,7 @@ passport.use(
           // console.log(user);
           return done(null, user);
         } else {
-          return done(null, false, {messages: "Bad auth from passport cb"});
+          return done(null, false, { messages: "Bad auth from passport cb" });
         }
       } catch (error) {
         return done(error);
@@ -71,7 +52,6 @@ passport.use(
     }
   )
 );
-
 
 passport.use(
   "google",
@@ -92,45 +72,40 @@ passport.use(
             lastName: profile.name.familyName,
             photo: profile.coverPhoto,
             password: createHash(profile.id),
->>>>>>> 61fffd5ffa944fa15b7a3d7c943a06ad5a7f694e
           };
-          let response = await fetch("/api/sessions/signout", opts);
-          response = await response.json();
-          console.log(response);
-          if (response.statusCode === 200) {
-            alert(response.message);
-            location.replace("/");
-          }
-        } catch (error) {
-          console.log(error);
+          user = await users.create(user);
         }
-      });
-    } else {
-      document
-        .querySelector(".navbar-nav")
-        .removeChild(document.querySelector("#formNav"));
-      document
-        .querySelector(".navbar-nav")
-        .removeChild(document.querySelector("#ordersNav"));
-      document
-        .querySelector(".navbar-nav")
-        .removeChild(document.querySelector("#signout"));
+        req.session.email = user.email;
+        req.session.role = user.role;
+        return done(null, user);
+      } catch (error) {
+        return done(error);
+      }
     }
-    if (res.response?.role === 0) {
-      document
-        .querySelector(".navbar-nav")
-        .removeChild(document.querySelector("#formNav"));
-    } else if (res.response?.role === 1) {
-      document
-        .querySelector(".navbar-nav")
-        .removeChild(document.querySelector("#ordersNav"));
+  )
+);
+
+passport.use(
+  "jwt",
+  new JwtStrategy(
+    {
+      jwtFromRequest: ExtractJwt.fromExtractors([
+        (req) => req?.cookies["token"],
+      ]),
+      secretOrKey: SECRET,
+    },
+    async (jwt_payload, done) => {
+      try {
+        let user = await users.readByEmail(jwt_payload.email);
+        if (user) {
+          user.password = null;
+          return done(null, user);
+        } else return done(null, false);
+      } catch (error) {
+        return done(error);
+      }
     }
-<<<<<<< HEAD
-  });
-=======
   )
 );
 
 export default passport;
-
->>>>>>> 61fffd5ffa944fa15b7a3d7c943a06ad5a7f694e

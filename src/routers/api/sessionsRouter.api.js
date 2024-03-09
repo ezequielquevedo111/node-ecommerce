@@ -1,4 +1,3 @@
-// import { Router } from "express";
 import has8char from "../../middlewares/has8char.js";
 import passport from "./../../middlewares/passport.js";
 import passCallBack from "../../middlewares/passCallBack.js";
@@ -30,8 +29,9 @@ export default class SessionsRouter extends CustomRouter {
     );
 
     //login
-    sessionsRouter.post(
+    this.create(
       "/login",
+      ["PUBLIC"],
       // passport.authenticate("login", opts),
       passCallBack("login"),
       async (req, res, next) => {
@@ -41,10 +41,11 @@ export default class SessionsRouter extends CustomRouter {
               maxAge: 7 * 24 * 60 * 60,
               httpOnly: true,
             })
-            .json({
-              statusCode: 200,
-              message: "Logged in",
-            });
+            .success200({ message: "Logged in" });
+          // .json({
+          //   statusCode: 200,
+          //   message: "Logged in",
+          // });
         } catch (error) {
           return next(error);
         }
@@ -96,8 +97,9 @@ export default class SessionsRouter extends CustomRouter {
     );
 
     //google-callback
-    sessionsRouter.get(
+    this.read(
       "/google/callback",
+      ["USER", "ADMIN", "PREM"],
       passport.authenticate("google", opts),
       async (req, res, next) => {
         try {
@@ -106,11 +108,16 @@ export default class SessionsRouter extends CustomRouter {
               maxAge: 7 * 24 * 60 * 60,
               httpOnly: true,
             })
-            .json({
-              statusCode: 200,
+            .success200({
               message: "Logged in with Google!",
               session: req.session,
             });
+          // .json({
+          //   statusCode: 200,
+          //   message: "Logged in with Google!",
+          //   session: req.session,
+          // });
+          //EN ESTE CASO HABRÍA QUE VER COMO APLICAR PARA PASAR LA SESSION
         } catch (error) {
           return next(error);
         }
