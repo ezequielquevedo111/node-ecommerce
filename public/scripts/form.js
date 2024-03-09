@@ -9,14 +9,12 @@ selector.addEventListener("click", async (event) => {
       price: document.querySelector("#price").value,
       stock: document.querySelector("#stock").value,
     };
-    // console.log(data);
     const opts = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
     };
     let res = await fetch("/api/products", opts);
-    // console.log(res);
     res = await res.json();
     console.log(res);
 
@@ -25,6 +23,7 @@ selector.addEventListener("click", async (event) => {
       location.replace("/");
     }
     res.statusCode === 401 && alert(res.message);
+    res.statusCode === 400 && alert(res.response);
   } catch (error) {
     alert(error.message);
     // Swal.fire({
