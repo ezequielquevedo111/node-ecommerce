@@ -1,10 +1,14 @@
-fetch("/api/sessions/", { method: "POST" })
+fetch("/api/sessions/")
   .then((res) => res.json())
   .then((res) => {
     //console.log(res);
     if (res.statusCode === 200) {
-      document.querySelector(".navbar-nav").removeChild(document.querySelector("#registerNav"))
-      document.querySelector(".navbar-nav").removeChild(document.querySelector("#loginNav"))
+      document
+        .querySelector(".navbar-nav")
+        .removeChild(document.querySelector("#registerNav"));
+      document
+        .querySelector(".navbar-nav")
+        .removeChild(document.querySelector("#loginNav"));
       document.querySelector("#signout").addEventListener("click", async () => {
         try {
           const opts = {
@@ -23,13 +27,24 @@ fetch("/api/sessions/", { method: "POST" })
         }
       });
     } else {
-      document.querySelector(".navbar-nav").removeChild(document.querySelector("#formNav"))
-      document.querySelector(".navbar-nav").removeChild(document.querySelector("#ordersNav"))
-      document.querySelector(".navbar-nav").removeChild(document.querySelector("#signout"))
+      document
+        .querySelector(".navbar-nav")
+        .removeChild(document.querySelector("#formNav"));
+      document
+        .querySelector(".navbar-nav")
+        .removeChild(document.querySelector("#ordersNav"));
+      document
+        .querySelector(".navbar-nav")
+        .removeChild(document.querySelector("#signout"));
     }
     if (res.response?.role === 0) {
-      document.querySelector(".navbar-nav").removeChild(document.querySelector("#formNav"))
+      document
+        .querySelector(".navbar-nav")
+        .removeChild(document.querySelector("#formNav"));
     } else if (res.response?.role === 1) {
-      document.querySelector(".navbar-nav").removeChild(document.querySelector("#ordersNav"))
+      document
+        .querySelector(".navbar-nav")
+        .removeChild(document.querySelector("#ordersNav"));
     }
   });
+
