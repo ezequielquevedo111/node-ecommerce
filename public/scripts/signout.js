@@ -47,3 +47,4 @@ fetch("/api/sessions/")
         .removeChild(document.querySelector("#ordersNav"));
     }
   });
+

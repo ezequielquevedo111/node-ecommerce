@@ -58,3 +58,4 @@ export default class ViewsRouter extends CustomRouter {
     this.router.use("/sessions", sessionsRouter);
   }
 }
+

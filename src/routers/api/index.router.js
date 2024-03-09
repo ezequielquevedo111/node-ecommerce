@@ -28,3 +28,4 @@ export default class ApiRouter extends CustomRouter {
     this.router.use("/users", usersRouter);
   }
 }
+
