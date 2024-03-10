@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 fetch("/api/sessions/")
   .then((res) => res.json())
   .then((res) => {
@@ -49,5 +47,3 @@ fetch("/api/sessions/")
         .removeChild(document.querySelector("#ordersNav"));
     }
   });
-
->>>>>>> 61fffd5ffa944fa15b7a3d7c943a06ad5a7f694e

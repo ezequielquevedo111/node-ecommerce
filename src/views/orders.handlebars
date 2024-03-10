@@ -1,59 +1,79 @@
 <main class="container-fluid">
-    <div class="p-3">
-        <h2 class="text-center">
-        MY ORDERS
+  <div class="p-3">
+    <h2 class="text-center">
+      MY ORDERS
     </h2>
-    </div>
-    
-    {{#if message}}
+  </div>
+
+  {{#if message}}
     <section class="h-100 d-flex align-items-center justify-content-center">
-    <div class="container text-center"> <!-- Agregado text-center -->
-        <h3 class="text-center mb-0" style="padding-bottom: 20px;">{{this.message}}</h3>
-        <a class="btn fw-bold active m-2 text-center"
-            style="color: #e7e4d7;"
-            href="/"
+      <div class="container text-center">
+        <!-- Agregado text-center -->
+        <h3
+          class="text-center mb-0"
+          style="padding-bottom: 20px;"
+        >{{this.message}}</h3>
+        <a
+          class="btn fw-bold active m-2 text-center"
+          style="color: #e7e4d7;"
+          href="/"
         >Purchase</a>
-    </div>
-</section>
-    {{else}}
-    {{#each orders}}
-    <section >
-    <div class="container py-5">
-    <div class="row justify-content-center mb-3">
-        <div class="col-md-12 col-xl-6">
-        <div class="card shadow-0 border rounded-3">
-            <div class="card-body">
-            <div class="row">
-                <div class="col-md-12 col-lg-3 col-xl-3 mb-4 mb-lg-0">
-                <div class="bg-image hover-zoom ripple rounded ripple-surface">
-                    <img src={{this.productId.photo}}
-                    class="w-100" />
-                    <a href="#!">
-                    <div class="hover-overlay">
-                        <div class="mask" style="background-color: rgba(253, 253, 253, 0.15);"></div>
-                    </div>
-                    </a>
-                </div>
-                </div>
-                <div class="col-md-6 col-lg-6 col-xl-6">
-                <div class="d-flex justify-content-center align-items-center" style="height: 100%;">
-                    <h5>{{this.productId.title}}</h5>
-                </div>
-                </div>
-                <div class="col-md-6 col-lg-3 col-xl-3 border-sm-start-none border-start justify-content-center align-items-center"> <!-- Agrega estas clases -->
-                <div class="d-flex flex-column align-items-center mb-1 justify-items-center">
-                    <h4 class="mb-1 me-1">{{this.productId.price}}</h4>
-                    <button class="btn btn-danger btn-sm w-100" type="button">Delete order</button>
-                </div>
-                    
-                </div>
-            </div>
-            </div>
-        </div>
-        </div> 
-    </div>
-    </div>
+      </div>
     </section>
+  {{else}}
+    {{#each orders}}
+      <section>
+        <div class="container py-5">
+          <div class="row justify-content-center mb-3">
+            <div class="col-md-12 col-xl-6">
+              <div class="card shadow-0 border rounded-3">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-md-12 col-lg-3 col-xl-3 mb-4 mb-lg-0">
+                      <div
+                        class="bg-image hover-zoom ripple rounded ripple-surface"
+                      >
+                        <img src={{this.productId.photo}} class="w-100" />
+                        <a href="#!">
+                          <div class="hover-overlay">
+                            <div
+                              class="mask"
+                              style="background-color: rgba(253, 253, 253, 0.15);"
+                            ></div>
+                          </div>
+                        </a>
+                      </div>
+                    </div>
+                    <div class="col-md-6 col-lg-6 col-xl-6">
+                      <div
+                        class="d-flex justify-content-center align-items-center"
+                        style="height: 100%;"
+                      >
+                        <h5>{{this.productId.title}}</h5>
+                      </div>
+                    </div>
+                    <div
+                      class="col-md-6 col-lg-3 col-xl-3 border-sm-start-none border-start justify-content-center align-items-center"
+                    >
+                      <!-- Agrega estas clases -->
+                      <div
+                        class="d-flex flex-column align-items-center mb-1 justify-items-center"
+                      >
+                        <h4 class="mb-1 me-1">{{this.productId.price}}</h4>
+                        <button
+                          class="btn btn-danger btn-sm w-100"
+                          type="button"
+                        >Delete order</button>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     {{/each}}
-    {{/if}}
+  {{/if}}
 </main>

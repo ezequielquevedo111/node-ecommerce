@@ -2,7 +2,7 @@ import CustomRouter from "../CustomRouter.js";
 import { products } from "../../data/mongo/manager.mongo.js";
 import propsProducts from "../../middlewares/propsProducts.js";
 import isAdmin from "../../middlewares/isAdmin.js";
-import passport from "../../middlewares/passport.js";
+// import passport from "../../middlewares/passport.js";
 import passCallBack from "../../middlewares/passCallBack.js";
 
 export default class ProductsRouter extends CustomRouter {
@@ -108,4 +108,3 @@ export default class ProductsRouter extends CustomRouter {
     });
   }
 }
-
