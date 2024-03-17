@@ -55,10 +55,14 @@
 2. Modifico middlewares adaptando las sesiones con el token.
 3. Testeo y realizo capturas.
 
-
 # Octavo desafío se agrega Policies, CustomRouter
 
 1. Cambiamos el enroutamiento de todos los endpoints manejando solamente con el customRouter, modifico cada endpoint.
 2. Genero las policies para que cada usuario solo pueda acceder a la vista/endpoint permitida y generamos las responses genericas.
 3. Testeamos y realizamos capturas.
 
+# Noveno desafío se agrega CORS para conectar con el servidor externo(front app), patrón MVCS.
+
+1. Agrego las nuevas dependecias de CORS el cuál lo incluyo en el archivo server.
+2. Agregamos la capa controllers y services para quitar responsabilidad a los routers.
+3. Testeamos y realizamos capturas del front y de APIs en Postman.

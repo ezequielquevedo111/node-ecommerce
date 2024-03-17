@@ -18,12 +18,7 @@ const usersRouter = users.getRouter();
 export default class ApiRouter extends CustomRouter {
   init() {
     this.router.use("/products", productsRouter);
-    this.router.use(
-      "/orders",
-      passCallBack("jwt"),
-      // passport.authenticate("jwt", { session: false }),
-      ordersRouter
-    );
+    this.router.use("/orders", passCallBack("jwt"), ordersRouter);
     this.router.use("/sessions", sessionsRouter);
     this.router.use("/users", usersRouter);
   }
