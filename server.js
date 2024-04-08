@@ -13,6 +13,7 @@ import __dirname from "./utils.js";
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
 import expressSession from "express-session";
+import cors from "cors";
 // import sessionFileStore  from "session-file-store";
 import MongoStore from "connect-mongo";
 
@@ -63,6 +64,12 @@ server.use(cookieParser());
 // );
 
 //MONGO STORAGE
+server.use(
+  cors({
+    origin: true,
+    credentials: true,
+  })
+);
 
 server.use(
   expressSession({

@@ -53,9 +53,7 @@ export default class CustomRouter {
             const user = await users.readByEmail(email);
             req.user = user;
             return next();
-          } else {
-            return res.error403();
-          }
+          } else return res.error403();
         }
       }
     } catch (error) {
