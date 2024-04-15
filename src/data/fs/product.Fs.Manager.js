@@ -1,6 +1,7 @@
 //VALORES INICIALES//
 import fs from "fs";
 import crypto from "crypto";
+import notFoundDoc from "../../utils/notFoundDoc.util.js";
 const route = "./server/data/fs/files/products.Fs.json";
 const settings = "utf-8";
 
@@ -29,67 +30,81 @@ class ProductManager {
   }
 
   //METODO CREADOR CON VALIDACIONES//
-  create(data) {
+  async create(data) {
     try {
-      const product = {
-        id: crypto.randomBytes(12).toString("hex"),
-        title: data.title,
-        photo: data.photo,
-        price: parseInt(data.price),
-        stock: parseInt(data.stock),
-      };
-      ProductManager.#products.push(product);
+      // const product = {
+      //   _id: crypto.randomBytes(12).toString("hex"),
+      //   title: data.title,
+      //   photo: data.photo,
+      //   price: parseInt(data.price) || 1000,
+      //   stock: parseInt(data.stock) || 10,
+      //   date: data.date || new Date(),
+      // };
+      ProductManager.#products.push(data);
       const dataProduct = JSON.stringify(ProductManager.#products, null, 2);
-      fs.writeFileSync(this.path, dataProduct);
-      return product;
+      await fs.promises.writeFile(this.path, dataProduct);
+      return data;
     } catch (error) {
-      console.log(error.message);
-      error.statusCode = 404;
       throw error;
     }
   }
 
-  //METODO PARA LEER TODOS LOS ARCHIVOS CON VALIDACIONES//
-  read() {
-    return fs.promises
-      .readFile(this.path, settings)
-      .then((res) => JSON.parse(res))
-      .catch((error) => {
-        console.log(error.message);
+  async read(obj) {
+    try {
+      const { filter, orderAndPaginate } = obj;
+      let allDocs = await fs.readFileSync(this.path, "utf-8");
+      let data = JSON.parse(allDocs);
+
+      if (data.length === 0) {
+        const error = new Error("There are no documents available.");
         error.statusCode = 404;
         throw error;
-      });
+      } else {
+        if (filter && filter.title) {
+          data = data.filter((product) =>
+            product.title.toLowerCase().includes(filter.title.toLowerCase())
+          );
+        }
+
+        if (orderAndPaginate) {
+          const { sortBy, sortOrder } = orderAndPaginate;
+          data.sort((a, b) => {
+            if (sortOrder === "asc") {
+              return a[sortBy] - b[sortBy];
+            } else if (sortOrder === "desc") {
+              return b[sortBy] - a[sortBy];
+            }
+          });
+        }
+
+        return data;
+      }
+    } catch (error) {
+      throw error;
+    }
   }
 
   //METODO PARA LEER UN ARCHIVO POR ID CON VALIDACIONES//
-  readOne(id) {
-    return fs.promises
-      .readFile(this.path, settings)
-      .then((res) => {
-        const data = JSON.parse(res);
-        const productById = data.find((product) => product.id === id);
-        if (!productById) {
-          throw new Error("No matches were found with the entered ID");
-        } else {
-          return productById;
-        }
-      })
-      .catch((error) => {
-        console.log(error.message);
-        error.statusCode = 404;
-        throw error;
-      });
+
+  async readOne(id) {
+    try {
+      const res = await fs.promises.readFile(this.path, "utf8");
+      const doc = JSON.parse(res);
+      const product = doc.find((each) => each._id === id);
+      // notFoundDoc(product);
+      return product;
+    } catch (error) {
+      throw error;
+    }
   }
 
   //METODO PARA ELIMINAR UN ARCHIVO POR ID CON VALIDACIONES//
   async destroy(id) {
     try {
-      const oneProduct = ProductManager.#products.find(
-        (user) => user.id === id
-      );
+      const oneProduct = await this.readOne(id);
       if (oneProduct) {
         ProductManager.#products = ProductManager.#products.filter(
-          (user) => user.id !== id
+          (product) => product._id !== id
         );
 
         await fs.promises.writeFile(
@@ -97,71 +112,47 @@ class ProductManager {
           JSON.stringify(ProductManager.#products, null, 2)
         );
 
-        console.log("Deleted product with ID: " + id);
-        return oneProduct.id;
-      } else {
-        throw new Error("There isn't a product with ID: " + id);
+        return oneProduct;
       }
     } catch (error) {
-      console.log(error.message);
-      return error.message;
+      throw error;
     }
   }
 
   //METODO PARA ACTUALIZAR ARCHIVO POR ID CON VALIDACIONES//
-  update(id, data) {
+  async update(id, data) {
     try {
-      const oneProduct = ProductManager.#products.find(
-        (product) => product.id === id
-      );
-      if (
-        !oneProduct ||
-        !(
-          data.hasOwnProperty("title") ||
-          data.hasOwnProperty("photo") ||
-          data.hasOwnProperty("price") ||
-          data.hasOwnProperty("stock")
-        ) ||
-        (data.hasOwnProperty("price") && typeof data.price !== "number") ||
-        (data.hasOwnProperty("stock") && typeof data.stock !== "number")
-      ) {
-        throw new Error(
-          `There isn't a product with ID: ${id}, or there isn't a property named as title, photo, price, or stock. Also, ensure that the values entered for price or stock are of numeric type`
-        );
-      } else {
-        for (const prop in data) {
-          switch (prop) {
-            case "title":
-              oneProduct.title = data.title;
-              break;
-            case "photo":
-              oneProduct.photo = data.photo;
-              break;
-            case "price":
-              oneProduct.price = data.price;
-              break;
-            case "stock":
-              oneProduct.stock = data.stock;
-              break;
-          }
-        }
-        fs.writeFileSync(
-          this.path,
-          JSON.stringify(ProductManager.#products, null, 2)
-        );
-        return oneProduct;
+      const doc = await this.readOne(id);
+      for (let each in data) {
+        doc[each] = data[each];
       }
+      const index = ProductManager.#products.findIndex(
+        (product) => product._id === id
+      );
+      if (index !== -1) {
+        ProductManager.#products[index] = doc;
+      }
+      await fs.promises.writeFile(
+        this.path,
+        JSON.stringify(ProductManager.#products, null, 2)
+      );
+
+      return doc;
     } catch (error) {
-      console.log(error.message);
-      error.statusCode = 404;
       throw error;
     }
   }
 }
 
 const products = new ProductManager("./src/data/fs/files/products.Fs.json");
+// products
+//   .readOne("04ee4d5740ef75b864851b4b")
+//   .then((res) => console.log(res))
+//   .catch((error) => console.error(error));
 
-//Comentado el update porque cuando inicias nodemon se crea un loop porque ejecuta la siguiente linea//
-// products.update("696abf5b72e3f7427fbd8ec9", { stock: "abc" });
+// products
+//   .update("3afec3f6f6eb5f60d21412a7", { title: "Redragon Yama" })
+//   .then((res) => console.log(res))
+//   .catch((error) => console.error(error));
 
 export default products;

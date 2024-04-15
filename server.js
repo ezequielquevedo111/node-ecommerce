@@ -1,6 +1,6 @@
 // import "dotenv/config.js";
 import env from "./src/utils/envt.utils.js";
-import dbConnection from "./src/utils/db.js";
+// import dbConnection from "./src/utils/db.js";
 import express from "express";
 import { createServer } from "http";
 // import router from "./src/routers/index.router.js";
@@ -21,10 +21,11 @@ import MongoStore from "connect-mongo";
 const server = express();
 const httpServer = createServer(server);
 
-const PORT = 8080;
+const PORT = process.env.PORT || 8080;
+
 const ready = () => {
   console.log("server ready on PORT: " + PORT);
-  dbConnection();
+  // dbConnection();
 };
 
 // server.listen(PORT, ready);
@@ -87,6 +88,7 @@ server.use(express.json());
 server.use(express.urlencoded({ extended: true }));
 server.use(express.static("public"));
 server.use(morgan("dev"));
+// server.use(  compression({    brotli: { enabled: true, zlib: {} }, }));
 
 //Endpoints
 const router = new IndexRouter();

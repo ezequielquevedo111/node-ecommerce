@@ -2,7 +2,6 @@ import { model, Schema, Types } from "mongoose";
 
 import mongoosePaginate from "mongoose-paginate-v2";
 
-
 let collection = "orders";
 
 const schema = new Schema(
@@ -15,12 +14,27 @@ const schema = new Schema(
   { timestamps: true }
 );
 
-
 schema.pre("find", function () {
-  this.populate("userId", "-password -createdAt -updatedAt -__v");
+  this.populate("userId", "-password");
 });
 schema.pre("find", function () {
-  this.populate("productId", "-createdAt -updatedAt -__v");
+  this.populate("productId", "price photo stock title createdAt updatedAt __v");
+});
+
+schema.pre("save", async function (next) {
+  try {
+    // Buscar el producto asociado a esta orden y poblar los campos correspondientes
+    const product = await this.model("products").findById(this.productId);
+    if (!product) {
+      throw new Error("Product not found");
+    }
+    this.price = product.price;
+    this.stock = product.stock;
+    this.title = product.title;
+    next();
+  } catch (error) {
+    next(error);
+  }
 });
 
 schema.plugin(mongoosePaginate);

@@ -1,5 +1,5 @@
-import { users } from "../data/mongo/manager.mongo.js";
 import passport from "passport";
+import repository from "../repositories/users.rep.js";
 import { Strategy as LocalStrategy } from "passport-local";
 import { Strategy as GoogleStrategy } from "passport-google-oauth2";
 import { ExtractJwt, Strategy as JwtStrategy } from "passport-jwt";
@@ -14,16 +14,20 @@ passport.use(
     { passReqToCallback: true, usernameField: "email" },
     async (req, email, password, done) => {
       try {
-        const one = await users.readByEmail(email);
-        if (one)
+        // console.log(req.body.email);
+        const one = await repository.readByEmail(email);
+        // console.log(one);
+        if (one) {
           return done(null, false, {
             messages: "Already exists",
             statusCode: 400,
           });
-        const data = req.body;
-        data.password = createHash(password);
-        let user = await users.create(data);
-        return done(null, user);
+        } else {
+          let user = await repository.create(req.body);
+          return done(null, user);
+        }
+        // const data = req.body;
+        // data.password = password;
       } catch (error) {
         return done(error);
       }
@@ -37,10 +41,15 @@ passport.use(
     { passReqToCallback: true, usernameField: "email" },
     async (req, email, password, done) => {
       try {
-        const user = await users.readByEmail(email);
-        if (user && verifyHash(password, user.password)) {
-          const token = createToken({ email, role: user.role });
+        const user = await repository.readByEmail(email);
+        // console.log(user);
+        // console.log(password, user.password);
+        const verify = verifyHash(password, user.password);
+        if (user?.verified && verify) {
+          const token = createToken({ _id: user._id, role: user.role });
+          // console.log(token);
           req.token = token;
+          req.user = user;
           // console.log(user);
           return done(null, user);
         } else {
@@ -64,7 +73,7 @@ passport.use(
     },
     async (req, accessToken, refreshToken, profile, done) => {
       try {
-        let user = await users.readByEmail(profile.id);
+        let user = await repository.readByEmail(profile.id);
         if (!user) {
           user = {
             email: profile.id,
@@ -73,7 +82,7 @@ passport.use(
             photo: profile.coverPhoto,
             password: createHash(profile.id),
           };
-          user = await users.create(user);
+          user = await repository.create(user);
         }
         req.session.email = user.email;
         req.session.role = user.role;
@@ -85,22 +94,48 @@ passport.use(
   )
 );
 
+// passport.use(
+//   "jwt",
+//   new JwtStrategy(
+//     {
+//       jwtFromRequest: ExtractJwt.fromExtractors([
+//         (req) => req?.cookies["token"],
+//       ]),
+//       secretOrKey: SECRET,
+//     },
+//     async (jwt_payload, done) => {
+//       try {
+//         let user = await repository.readByEmail(jwt_payload.email);
+//         if (user) {
+//           user.password = null;
+//           return done(null, user);
+//         } else return done(null, false);
+//       } catch (error) {
+//         return done(error);
+//       }
+//     }
+//   )
+// );
+
+//
+
 passport.use(
   "jwt",
   new JwtStrategy(
     {
+      secretOrKey: process.env.SECRET,
       jwtFromRequest: ExtractJwt.fromExtractors([
         (req) => req?.cookies["token"],
       ]),
-      secretOrKey: SECRET,
     },
-    async (jwt_payload, done) => {
+    async (payload, done) => {
       try {
-        let user = await users.readByEmail(jwt_payload.email);
+        const user = await repository.readOne(payload._id);
         if (user) {
-          user.password = null;
           return done(null, user);
-        } else return done(null, false);
+        } else {
+          return done(null, false, { statusCode: 403 });
+        }
       } catch (error) {
         return done(error);
       }

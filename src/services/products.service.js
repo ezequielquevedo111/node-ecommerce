@@ -1,13 +1,16 @@
-import { products } from "../data/mongo/manager.mongo.js";
+// import products from "../data/mongo/products.mongo.js";
+// import dao from "../data/index.factory.js";
+// const { products } = dao;
+import repository from "../repositories/products.rep.js";
 
 class ProductsService {
   constructor() {
-    this.model = products;
+    this.repository = repository;
   }
 
   create = async (dataProduct) => {
     try {
-      const response = await this.model.create(dataProduct);
+      const response = await this.repository.create(dataProduct);
       return response;
     } catch (error) {
       throw error;
@@ -15,7 +18,7 @@ class ProductsService {
   };
   read = async ({ filter, orderAndPaginate }) => {
     try {
-      const response = await this.model.read({ filter, orderAndPaginate });
+      const response = await this.repository.read({ filter, orderAndPaginate });
       return response;
     } catch (error) {
       throw error;
@@ -24,7 +27,7 @@ class ProductsService {
 
   readOne = async (pid) => {
     try {
-      const response = await this.model.readOne(pid);
+      const response = await this.repository.readOne(pid);
       return response;
     } catch (error) {
       throw error;
@@ -33,7 +36,7 @@ class ProductsService {
 
   update = async (pid, data) => {
     try {
-      const response = await this.model.update(pid, data);
+      const response = await this.repository.update(pid, data);
       return response;
     } catch (error) {
       throw error;
@@ -42,7 +45,7 @@ class ProductsService {
 
   destroy = async (pid) => {
     try {
-      const response = await this.model.destroy(pid);
+      const response = await this.repository.destroy(pid);
       return response;
     } catch (error) {
       throw error;
@@ -52,3 +55,4 @@ class ProductsService {
 
 const service = new ProductsService();
 export default service;
+

@@ -1,4 +1,5 @@
-import { orders } from "../data/mongo/manager.mongo.js";
+import orders from "../data/mongo/manager.mongo.js"; //cambiar orders ver
+//el error//
 import Product from "../data/mongo/models/product.model.js";
 
 //VALIDO SI LA ORDER ESTÁ FINALIZADA Y ACTUALIZO EL STOCK DEL PRODUCTO//
@@ -32,7 +33,6 @@ const isOrderCompleted = async (doc, data) => {
     );
     error.statusCode = 404;
     throw error;
-
   } catch (error) {
     throw error;
   }

@@ -17,6 +17,8 @@ const schema = new Schema(
     },
     age: { type: Number, default: 18 },
     role: { type: Number, default: 0 },
+    verified: { type: Boolean, default: false },
+    verifiedCode: { type: String, required: true },
   },
 
   { timestamps: true }

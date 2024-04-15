@@ -1,4 +1,4 @@
-import { products } from "../../data/mongo/manager.mongo.js";
+import products from "../../data/mongo/products.mongo.js";
 import SessionsRouter from "./sessions.views.js";
 import CustomRouter from "../CustomRouter.js";
 import OrdersRouter from "./orders.views.js";

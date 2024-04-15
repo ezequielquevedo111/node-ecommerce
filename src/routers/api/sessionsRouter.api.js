@@ -10,6 +10,7 @@ import {
   badauth,
   google,
   me,
+  verifyAccount,
 } from "../../controllers/sessions.controller.js";
 
 // const sessionsRouter = Router();
@@ -21,8 +22,8 @@ export default class SessionsRouter extends CustomRouter {
     this.create(
       "/register",
       ["PUBLIC"],
-      has8char,
       passCallBack("register"),
+      has8char,
       register
     );
 
@@ -66,5 +67,8 @@ export default class SessionsRouter extends CustomRouter {
         return next(error);
       }
     });
+
+    this.update("/verify", ["PUBLIC"], verifyAccount);
   }
 }
+
