@@ -1,50 +1,73 @@
 [
   {
-    "id": "9bced94e5f95b7984981d737",
-    "name": "sergio perez",
+    "_id": "9bced94e5f95b7984981d737",
+    "name": "Sergio",
     "photo": "/desktop/images/bulldog.png",
-    "email": "sergio23@gmail.com"
+    "email": "sergioperez@gmail.com"
   },
   {
-    "id": "a7980dc795a629815043076c",
-    "name": "Ezequiel Quevedo",
+    "_id": "a7980dc795a629815043076c",
+    "name": "Nicolas",
     "photo": "/desktop/images/bulldog.png",
-    "email": "ezequevedo1@gmail.com"
+    "email": "nicolasquevedo1@gmail.com"
   },
   {
-    "id": "2b2c7d44f8cd4ca06354084a",
-    "name": "ezequiel quevedo",
+    "_id": "2b2c7d44f8cd4ca06354084a",
+    "name": "Mauro",
     "photo": "user.png",
     "email": "ezequevedo1@gmail.com"
   },
   {
-    "id": "a5a8176e63963d13d8859c02",
-    "name": "ezequiel messi",
+    "_id": "a5a8176e63963d13d8859c02",
+    "name": "Ignacio",
     "photo": "user.png",
     "email": "ezemessi1@gmail.com"
   },
   {
-    "id": "e777eee877b244e2850885a6",
-    "name": "ezequiel messi",
+    "_id": "e777eee877b244e2850885a6",
+    "name": "Sergio",
     "photo": "user.png",
     "email": "ezemessi1@gmail.com"
   },
   {
-    "id": "84f8de6ade72227ebf2d7797",
-    "name": "ezequiel andres messi",
+    "_id": "84f8de6ade72227ebf2d7797",
+    "name": "Lucho",
     "photo": "user.png",
     "email": "ezemessi10@gmail.com"
   },
   {
-    "id": "841eb13e0a0526fb33808fed",
+    "_id": "841eb13e0a0526fb33808fed",
     "name": "Ezequiel Quevedo",
     "photo": "user.png",
     "email": "ezequevedo1@gmail.com"
   },
   {
-    "id": "ca8729432e9a5ee6115c01be",
+    "_id": "ca8729432e9a5ee6115c01be",
     "name": "lionel andres messi",
     "photo": "messi.png",
     "email": "lionelmessi1@gmail.com"
+  },
+  {
+    "_id": "ff9df83c1ad8bcc02dff1ce0",
+    "name": "Ezequiel",
+    "photo": "https://cdn3.vectorstock.com/i/1000x1000/30/97/flat-business-man-user-profile-avatar-icon-vector-4333097.jpg",
+    "email": "ezequielquevedo111@gmail.com",
+    "password": "$2b$10$EPJJpw51FJ1n3r2U7A4AFeLfpbjVFalIaeKo9vX2DS2RfCj8Gl3xK",
+    "age": 18,
+    "role": 0,
+    "verified": true
+  },
+  {
+    "_id": "6f6620dc74156c9ef511a2f2",
+    "name": "Veronica",
+    "photo": "https://cdn-icons-png.flaticon.com/512/149/149071.png",
+    "email": "verobrochero48@gmail.com",
+    "password": "$2b$10$S672qFCP32z/Z.xU4l8u6OwKl3m5hwi0SzpqcvsxpIpekPWiz4Y3m",
+    "age": 18,
+    "role": 0,
+    "verified": false,
+    "verifiedCode": "b+WhAQF/x9wJfpKx",
+    "updatedAt": "2024-04-13T23:33:36.587Z",
+    "createdAt": "2024-04-13T23:33:36.587Z"
   }
 ]

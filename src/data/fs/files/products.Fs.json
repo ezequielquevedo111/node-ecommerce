@@ -1,72 +1,89 @@
 [
   {
-    "id": "513e60a5b0a2ab432d662136",
+    "_id": "513e60a5b0a2ab432d662136",
     "title": "Keyboard Redragon Yama",
     "photo": "https://http2.mlstatic.com/D_NQ_NP_978866-MLA72512514933_102023-O.webp",
     "price": 14000,
     "stock": 150
   },
   {
-    "id": "696abf5b72e3f7427fbd8ec9",
+    "_id": "696abf5b72e3f7427fbd8ec9",
     "title": "PC AMD",
     "photo": "https://http2.mlstatic.com/D_NQ_NP_978866-MLA72512514933_102023-O.webp",
     "price": 11000,
     "stock": 400
   },
   {
-    "id": "2911805e5d9986470fc35ee9",
+    "_id": "2911805e5d9986470fc35ee9",
     "title": "PC ASUS",
     "photo": "https://http2.mlstatic.com/D_NQ_NP_978866-MLA72512514933_102023-O.webp",
     "price": 3000000,
     "stock": 30
   },
   {
-    "id": "2e62dd8f45b7ad78317f65c1",
+    "_id": "2e62dd8f45b7ad78317f65c1",
     "title": "PC ASUS",
     "photo": "https://http2.mlstatic.com/D_NQ_NP_978866-MLA72512514933_102023-O.webp",
     "price": 3000000,
     "stock": 30
   },
   {
-    "id": "409e71ea49672c089af9b82b",
+    "_id": "409e71ea49672c089af9b82b",
     "title": "PC AMD",
     "photo": "https://http2.mlstatic.com/D_NQ_NP_978866-MLA72512514933_102023-O.webp",
     "price": 3000000,
     "stock": 300
   },
   {
-    "id": "16e2f5679402096974a2db78",
+    "_id": "16e2f5679402096974a2db78",
     "title": "Keyboard HyperX",
     "photo": "https://http2.mlstatic.com/D_NQ_NP_978866-MLA72512514933_102023-O.webp",
     "price": 150000,
     "stock": 10
   },
   {
-    "id": "00f69b09b580a3576df63162",
+    "_id": "00f69b09b580a3576df63162",
     "title": "Redragon Fizz Pro",
     "photo": "https://http2.mlstatic.com/D_NQ_NP_951608-MLA50059007634_052022-O.webp",
     "price": 50000,
     "stock": 20
   },
   {
-    "id": "cc523f81b1c631ce4a3c2ee3",
-    "title": "Redragon Fizz Pro",
-    "photo": "https://http2.mlstatic.com/D_NQ_NP_951608-MLA50059007634_052022-O.webp",
-    "price": 50000,
-    "stock": 20
-  },
-  {
-    "id": "6d70c35c0b77bef0c8f7ed3e",
+    "_id": "6d70c35c0b77bef0c8f7ed3e",
     "title": "Monitor ASUS 44\"",
     "photo": "https://www.bhphotovideo.com/cdn-cgi/image/format=auto,fit=scale-down,width=500,quality=95/https://www.bhphotovideo.com/images/images500x500/asus_49_rog_strix_xg49vq_1555344350_1470911.jpg",
     "price": 300000,
     "stock": 15
   },
   {
-    "id": "04ee4d5740ef75b864851b4b",
+    "_id": "04ee4d5740ef75b864851b4b",
     "title": "Notebook Dell",
     "photo": "https://www.xtr.com.ar/img/p/11411/bdf342dda03e484cb2cc7731f607ee6d.jpeg?quality=95&width=800&height=800&mode=max&upscale=false",
+    "price": 1000,
+    "stock": 300
+  },
+  {
+    "_id": "c87df304198264ce6dacb65b",
+    "title": "ASUS ROCK B550",
+    "photo": "asus.jpg",
     "price": 30000,
-    "stock": 30
+    "stock": 300
+  },
+  {
+    "_id": "375b88dac1637441a87f5cbb",
+    "title": "MONITOR ELECT",
+    "photo": "https://http2.mlstatic.com/D_NQ_NP_700520-MLA31592174598_072019-O.webp",
+    "price": 5000020,
+    "stock": 6
+  },
+  {
+    "_id": "3afec3f6f6eb5f60d21412a7",
+    "title": "Redragon Yama",
+    "photo": "https://http2.mlstatic.com/D_NQ_NP_700520-MLA31592174598_072019-O.webp",
+    "price": 5000020,
+    "stock": 6,
+    "date": "2024-03-29T22:39:11.848Z",
+    "updatedAt": "2024-03-29T22:39:11.848Z",
+    "createdAt": "2024-03-29T22:39:11.848Z"
   }
 ]

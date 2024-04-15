@@ -1,6 +1,9 @@
 //VALORES INICIALES//
 import fs from "fs";
 import crypto from "crypto";
+import notFoundDoc from "../../utils/notFoundDoc.util.js";
+// import { createHash } from "../../utils/hash.utils.js";
+
 const settings = "utf-8";
 
 //CLASE CON METODOS//
@@ -23,117 +26,88 @@ class UserManager {
   }
 
   //METODO CREADOR CON VALIDACIONES//
-  create(data) {
+  async create(data) {
     try {
-      const user = {
-        id: crypto.randomBytes(12).toString("hex"),
-        name: data.name,
-        photo: data.photo,
-        email: data.email,
-      };
-      UserManager.#users.push(user);
+      // console.log(data);
+      // const user = {
+      //   _id: crypto.randomBytes(12).toString("hex"),
+      //   name: data.name,
+      //   photo: data.photo,
+      //   email: data.email,
+      //   password: data.password,
+      //   age: data.age || 18,
+      //   role: data.role || 0,
+      // };
+      // console.log(data);
+      UserManager.#users.push(data);
       const dataUser = JSON.stringify(UserManager.#users, null, 2);
-      fs.writeFileSync(this.path, dataUser);
-      return user;
-    } catch (error) {
-      return error.message;
-    }
-  }
-
-  //METODO PARA LEER TODOS LOS ARCHIVOS CON VALIDACIONES//
-  async read(options = {}) {
-    try {
-      let doc = await fs.promises.readFile(this.path, settings);
-      let data = JSON.parse(doc);
-
-      if (options.filter && options.filter.email) {
-        data = data.filter((user) => user.email === options.filter.email);
-      }
-      if (options.sort) {
-        data.sort((a, b) => {
-          const nameA = a.name.toUpperCase();
-          const nameB = b.name.toUpperCase();
-          if (options.sort === "asc") {
-            return nameA.localeCompare(nameB);
-          } else if (options.sort === "desc") {
-            return nameB.localeCompare(nameA);
-          }
-        });
-      } else if (!data) {
-        const error = new Error("Existing documents not found.");
-        error.statusCode = 404;
-        throw error;
-      }
+      // console.log(dataUser);
+      await fs.promises.writeFile(this.path, dataUser);
       return data;
     } catch (error) {
       throw error;
     }
   }
 
-  read(options = {}) {
-    return fs
-      .readFile(this.path, settings)
-      .then((data) => {
-        let users = JSON.parse(data);
+  //METODO PARA LEER TODOS LOS ARCHIVOS CON VALIDACIONES//
+  async read(obj) {
+    try {
+      const data = await fs.promises.readFile(this.path, "utf8");
+      let users = JSON.parse(data);
 
-        if (options.filter && options.filter.email) {
-          users = users.filter((user) => user.email === options.filter.email);
-        }
+      const { filter = {}, sort } = obj;
 
-        if (options.sort) {
-          users.sort((a, b) => {
-            const nameA = a.name.toUpperCase();
-            const nameB = b.name.toUpperCase();
+      if (filter && filter.email) {
+        users = users.filter((user) => user.email === filter.email);
+      }
 
-            if (options.sort === "asc") {
-              return nameA.localeCompare(nameB);
-            } else if (options.sort === "desc") {
-              return nameB.localeCompare(nameA);
-            }
-          });
-        }
+      if (sort) {
+        users.sort((a, b) => {
+          const nameA = a.name.toUpperCase();
+          const nameB = b.name.toUpperCase();
 
-        if (!data) {
-          const error = new Error("Cannot found any users.");
-          error.statusCode = 404;
-          throw error;
-        }
+          if (sort === "asc") {
+            return nameA.localeCompare(nameB);
+          } else if (sort === "desc") {
+            return nameB.localeCompare(nameA);
+          }
+        });
+      }
 
-        return users;
-      })
-      .catch((error) => {
+      if (!data || users.length === 0) {
+        const error = new Error("There are no documents available.");
         error.statusCode = 404;
         throw error;
-      });
+      }
+
+      return users;
+    } catch (error) {
+      error.statusCode = 404;
+      throw error;
+    }
   }
 
   //METODO PARA LEER UN ARCHIVO POR ID CON VALIDACIONES//
-  readOne(id) {
-    return fs.promises
-      .readFile(this.path, settings)
-      .then((res) => {
-        const data = JSON.parse(res);
-        const userById = data.find((user) => user.id === id);
-        if (!userById) {
-          throw new Error("No matches were found with the entered ID");
-        } else {
-          return userById;
-        }
-      })
-      .catch((error) => {
-        console.log(error.message);
-        error.statusCode = 404;
-        throw error;
-      });
+  async readOne(id) {
+    try {
+      const res = await fs.promises.readFile(this.path, "utf8");
+      const doc = JSON.parse(res);
+      const user = doc.find((user) => user._id === id);
+      notFoundDoc(user);
+      return user;
+    } catch (error) {
+      throw error;
+    }
   }
 
   //METODO PARA ELIMINAR POR ID//
   async destroy(id) {
     try {
-      const oneUser = UserManager.#users.find((user) => user.id === id);
+      const oneUser = await this.readOne(id);
+      // const oneUser = UserManager.#users.find((user) => user.id === id);
       if (oneUser) {
         UserManager.#users = UserManager.#users.filter(
-          (user) => user.id !== id
+          (user) => user._id !== id
         );
 
         await fs.promises.writeFile(
@@ -141,73 +115,121 @@ class UserManager {
           JSON.stringify(UserManager.#users, null, 2)
         );
 
-        console.log("Deleted user with ID: " + id);
-        return oneUser.id;
-      } else {
-        throw new Error("There isn't a user with ID: " + id);
+        return oneUser;
       }
     } catch (error) {
-      console.log(error.message);
-      error.statusCode = 404;
       throw error;
     }
   }
 
-  update(id, data) {
+  // async update(id, data) {
+  //   try {
+  //     const oneUser = await this.readOne(id);
+  //     if (
+  //       !oneUser ||
+  //       !(
+  //         data.hasOwnProperty("name") ||
+  //         data.hasOwnProperty("photo") ||
+  //         data.hasOwnProperty("email")
+  //       )
+  //     ) {
+  //       throw new Error(
+  //         `There isn't a user with ID: ${id} or there isn't exist a property named as name, photo or email`
+  //       );
+  //     } else {
+  //       for (const prop in data) {
+  //         switch (prop) {
+  //           case "name":
+  //             oneUser.name = data.name;
+  //             break;
+  //           case "photo":
+  //             oneUser.photo = data.photo;
+  //             break;
+  //           case "email":
+  //             oneUser.email = data.email;
+  //             break;
+  //         }
+  //       }
+  //       await fs.promises.writeFile(
+  //         this.path,
+  //         JSON.stringify(UserManager.#users, null, 2)
+  //       );
+  //     }
+  //     return oneUser;
+  //   } catch (error) {
+  //     error.statusCode = 404;
+  //     throw error;
+  //   }
+  // }
+
+  async update(id, data) {
     try {
-      const oneUser = UserManager.#users.find((user) => user.id === id);
-      if (
-        !oneUser ||
-        !(
-          data.hasOwnProperty("name") ||
-          data.hasOwnProperty("photo") ||
-          data.hasOwnProperty("email")
-        )
-      ) {
-        throw new Error(
-          `There isn't a user with ID: ${id} or there isn't exist a property named as name, photo or email`
-        );
-      } else {
-        for (const prop in data) {
-          switch (prop) {
-            case "name":
-              oneUser.name = data.name;
-              break;
-            case "photo":
-              oneUser.photo = data.photo;
-              break;
-            case "email":
-              oneUser.email = data.email;
-              break;
-          }
-        }
-        fs.writeFileSync(
-          this.path,
-          JSON.stringify(UserManager.#users, null, 2)
-        );
+      const doc = await this.readOne(id);
+      notFoundDoc(doc);
+
+      for (let each in data) {
+        doc[each] = data[each];
       }
-      return oneUser;
+      const index = UserManager.#users.findIndex((user) => user._id === id);
+      if (index !== -1) {
+        UserManager.#users[index] = doc;
+      }
+      await fs.promises.writeFile(
+        this.path,
+        JSON.stringify(UserManager.#users, null, 2)
+      );
+
+      return doc;
     } catch (error) {
-      console.log(error.message);
-      error.statusCode = 404;
       throw error;
     }
   }
+
+  // async readByEmail({ email }) {
+  //   try {
+  //     const res = await fs.promises.readFile(this.path, "utf8");
+  //     // console.log(res);
+  //     const doc = JSON.parse(res);
+  //     // console.log(doc);
+  //     const user = doc.find((doc) => doc.email === email);
+  //     // console.log(user);
+
+  //     // notFoundDoc(user);
+  //     return user;
+  //   } catch (error) {
+  //     throw error;
+  //   }
+
+  //   // console.log(user);
+  //   // return UserManager.#users.filter((user) => user.email === email);
+  // }
+  // async readByEmail(email) {
+  //   try {
+  //     const res = await fs.promises.readFile(this.path, "utf8");
+  //     const doc = JSON.parse(res);
+  //     const user = doc.find((user) => user.email === email);
+  //     console.log(user);
+  //     // Si no se encuentra ningún usuario, devuelve null en lugar de lanzar un error
+  //     return user || null;
+  //   } catch (error) {
+  //     throw error;
+  //   }
+  // }
+
   readByEmail(email) {
-    return UserManager.#users.filter((user) => user.email === email);
+    try {
+      return (
+        UserManager.#users.find((user) => user.email.toLowerCase() === email) ||
+        null
+      );
+    } catch (error) {
+      console.error(error.message);
+      return null;
+    }
   }
 }
 
 const users = new UserManager("./src/data/fs/files/users.Fs.json");
-
-// console.log(users.readByEmail("ezequevedo1@gmail.com"));
-
-const readingUser = await users.read({
-  sort: "asc",
-});
-
-console.log(readingUser);
-
 
 export default users;
 

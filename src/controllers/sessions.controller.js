@@ -1,5 +1,14 @@
+import service from "../services/users.service.js";
+
 class SessionsController {
   register = async (req, res, next) => {
+    const { email, name, verifiedCode } = req.user;
+    // console.log(req.body);
+    // console.log(req.user);
+
+    // console.log(email, name, verifiedCode);
+    // console.log(verifiedCode);
+    await service.register({ email, name, verifiedCode });
     try {
       return res.success201({ message: "Registered" });
     } catch (error) {
@@ -54,7 +63,33 @@ class SessionsController {
 
   me = async (req, res, next) => {
     try {
-      return res.success200({ response: { role: req.user.role } });
+      console.log(req.body);
+      return res.success200({
+        response: { _id: req.user._id, role: req.user.role },
+      });
+    } catch (error) {
+      return next(error);
+    }
+  };
+
+  verifyAccount = async (req, res, next) => {
+    try {
+      const { email, verifiedCode } = req.body;
+      console.log(email, verifiedCode);
+      const user = await service.readByEmail(email);
+      if (user.verifiedCode === verifiedCode) {
+        console.log(verifiedCode);
+        await service.update(user._id, { verified: true });
+        return res.json({
+          statusCode: 200,
+          message: "Verified user!",
+        });
+      } else {
+        res.json({
+          statusCode: 400,
+          message: "Invalid verified token!",
+        });
+      }
     } catch (error) {
       return next(error);
     }
@@ -63,5 +98,6 @@ class SessionsController {
 
 export default SessionsController;
 const sessionController = new SessionsController();
-const { register, login, signout, badauth, google, me } = sessionController;
-export { register, login, signout, badauth, google, me };
+const { register, login, signout, badauth, google, me, verifyAccount } =
+  sessionController;
+export { register, login, signout, badauth, google, me, verifyAccount };

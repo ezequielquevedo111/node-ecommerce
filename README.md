@@ -66,3 +66,9 @@
 1. Agrego las nuevas dependecias de CORS el cuál lo incluyo en el archivo server.
 2. Agregamos la capa controllers y services para quitar responsabilidad a los routers.
 3. Testeamos y realizamos capturas del front y de APIs en Postman.
+
+# Tercera Pre Entrega.(carpeta DATA se entiende como DAO)
+
+1.
+2.
+3.

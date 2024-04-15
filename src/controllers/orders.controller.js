@@ -43,9 +43,9 @@ class OrdersController {
 
   update = async (req, res, next) => {
     try {
-      const { oid } = req.params;
+      const { id } = req.params;
       const propUpdate = isPropUpdate(req);
-      const oneOrder = await this.service.updateOrder(oid, propUpdate, req);
+      const oneOrder = await this.service.update(id, propUpdate);
       return res.success200(oneOrder);
     } catch (error) {
       return next(error);
@@ -55,6 +55,7 @@ class OrdersController {
   destroy = async (req, res, next) => {
     try {
       const { oid } = req.params;
+      console.log(req.params);
       const oneOrder = await this.service.destroy(oid);
       return res.success200(oneOrder);
     } catch (error) {

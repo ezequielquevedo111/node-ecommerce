@@ -17,7 +17,7 @@ export default class UsersRouter extends CustomRouter {
     this.create("/", ["PUBLIC"], propsUsers, create);
 
     //GET ALL USERS//
-    this.read("/", ["ADMIN", "PREM"], read);
+    this.read("/", ["PUBLIC"], read);
 
     //GET USER BY ID//
     this.read("/:uid", ["ADMIN", "PREM", "USER"], readOne);

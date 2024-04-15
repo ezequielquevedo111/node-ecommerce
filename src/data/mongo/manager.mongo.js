@@ -12,8 +12,9 @@ class MongoManager {
   }
   async create(data) {
     try {
+      // console.log(data);
       const doc = await this.model.create(data);
-      return doc._id;
+      return doc;
     } catch (error) {
       throw error;
     }
@@ -23,7 +24,7 @@ class MongoManager {
       const { filter, orderAndPaginate } = obj;
       const allDocs = await this.model.paginate(filter, orderAndPaginate);
       const data = JSON.parse(JSON.stringify(allDocs));
-      // console.log(data);
+      console.log(data);
       if (allDocs.totalPages === 0 || allDocs.docs.length === 0) {
         const error = new Error("There are no documents available.");
         error.statusCode = 404;
@@ -48,6 +49,9 @@ class MongoManager {
       const opt = { new: true };
       const doc = await this.model.findByIdAndUpdate(id, data, opt);
       notFoundDoc(doc);
+      if (doc.hasOwnProperty("state")) {
+        const stockUpdate = await isOrderCompleted(doc, data);
+      }
       return doc;
     } catch (error) {
       throw error;
@@ -85,7 +89,7 @@ class MongoManager {
     }
   }
 
-  async updateOrder(data, propUpdate, req) {
+  async updateOrder(data, propUpdate) {
     try {
       const opt = { new: true };
       const docUpdate = await this.model
@@ -101,6 +105,8 @@ class MongoManager {
     }
   }
 
+  //VERIFICAR DE HACER EL UPDATE DEL STOCK MEDIANTE  ESTE METODO//
+  //VERICAR COMO POPULAR TODOS LOS DATOS CUANDO CREO UNA ORDEN//
   async report(uid) {
     try {
       const report = await this.model.aggregate([
@@ -133,6 +139,7 @@ class MongoManager {
           },
         },
       ]);
+      //VER DE AGREGAR ACÁ EL UPDATE DEL PRODUCTO UNA VEZ YA TENIDO EL REPORT//
       return report;
     } catch (error) {
       throw error;
@@ -141,6 +148,7 @@ class MongoManager {
 
   async readByEmail(email) {
     try {
+      // console.log(email);
       const docEmail = await this.model.findOne({ email });
 
       // if (!docEmail || docEmail.length === 0) {
@@ -171,8 +179,10 @@ class MongoManager {
   //FIN - Metodos de Manager Orders//
 }
 
-const products = new MongoManager(Product);
-const users = new MongoManager(User);
-const orders = new MongoManager(Order);
+// const products = new MongoManager(Product);
+// const users = new MongoManager(User);
+// const orders = new MongoManager(Order);
 
-export { products, users, orders };
+// export { products, users, orders };
+
+export default MongoManager;

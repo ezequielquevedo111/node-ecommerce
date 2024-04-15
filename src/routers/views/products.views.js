@@ -1,5 +1,5 @@
 // import { Router } from "express";
-import { products } from "../../data/mongo/manager.mongo.js";
+import products from "../../data/mongo/products.mongo.js";
 import CustomRouter from "../CustomRouter.js";
 
 // const productsRouter = Router();

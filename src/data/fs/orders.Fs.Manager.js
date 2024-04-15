@@ -22,9 +22,9 @@ class OrdersManager {
   }
 
   //METODO CREADOR CON VALIDACIONES//
-  create(data) {
+  async create(data) {
     try {
-      const product = OrdersManager.getProductById(products, data.productId);
+      const product = await products.readOne(data.productId);
 
       //VERIFICO SI EL PRODUCTO EXISTE//
       if (!product) {
@@ -37,38 +37,67 @@ class OrdersManager {
       }
 
       const order = {
-        orderId: crypto.randomBytes(12).toString("hex"),
+        _id: crypto.randomBytes(12).toString("hex"),
         productId: data.productId,
         userId: data.userId,
         quantity: data.quantity,
-        state: "pending",
+        state: data.state || 1,
       };
 
       OrdersManager.#orders.push(order);
       const dataOrder = JSON.stringify(OrdersManager.#orders, null, 2);
-      fs.writeFileSync(this.path, dataOrder);
+      await fs.promises.writeFile(this.path, dataOrder);
       return order;
     } catch (error) {
-      console.log(error.message);
       error.statusCode = 404;
       throw error;
     }
   }
 
   //METODO PARA LEER TODO//
-  async read() {
+  // async read() {
+  //   try {
+  //     if (OrdersManager.#orders.length === 0) {
+  //       throw new Error("No existing orders.");
+  //     }
+  //     const data = await fs.promises.readFile(this.path, {
+  //       encoding: settings,
+  //     });
+  //     const orders = JSON.parse(data);
+  //     return orders;
+  //   } catch (error) {
+  //     console.log(error.message);
+  //     error.statusCode = 404;
+  //     throw error;
+  //   }
+  // }
+
+  async read(obj) {
     try {
-      if (OrdersManager.#orders.length === 0) {
-        throw new Error("No existing orders.");
+      const { filter, orderAndPaginate } = obj;
+      let allDocs = await fs.readFileSync(this.path, "utf-8");
+      let data = JSON.parse(allDocs);
+      if (data.length === 0) {
+        const error = new Error("There are no documents available.");
+        error.statusCode = 404;
+        throw error;
+      } else {
+        if (filter && filter.state) {
+          data = data.filter((order) => order.state === filter.state);
+        }
+        if (orderAndPaginate) {
+          const { sortBy, sortOrder } = orderAndPaginate;
+          data.sort((a, b) => {
+            if (sortOrder === "asc") {
+              return a[sortBy] - b[sortBy];
+            } else if (sortOrder === "desc") {
+              return b[sortBy] - a[sortBy];
+            }
+          });
+        }
+        return data;
       }
-      const data = await fs.promises.readFile(this.path, {
-        encoding: settings,
-      });
-      const orders = JSON.parse(data);
-      return orders;
     } catch (error) {
-      console.log(error.message);
-      error.statusCode = 404;
       throw error;
     }
   }
@@ -85,12 +114,10 @@ class OrdersManager {
 
       if (userOrders.length === 0) {
         throw new Error("No existing orders found with the entered user ID.");
-      } else {
-        return userOrders;
       }
+
+      return userOrders;
     } catch (error) {
-      console.log(error.message);
-      error.statusCode = 404;
       throw error;
     }
   }
@@ -98,14 +125,12 @@ class OrdersManager {
   //METODO PARA ELIMINAR UNA ORDEN POR ID//
   async destroy(oid) {
     try {
-      const oneOrder = OrdersManager.#orders.find(
-        (order) => order.orderId === oid
-      );
+      const oneOrder = OrdersManager.#orders.find((order) => order._id === oid);
       if (!oneOrder || OrdersManager.#orders.length === 0) {
         throw new Error("No existing order found with the entered order ID.");
       } else {
         OrdersManager.#orders = OrdersManager.#orders.filter(
-          (order) => order.orderId !== oneOrder.orderId
+          (order) => order._id !== oneOrder._id
         );
         await fs.promises.writeFile(
           this.path,
@@ -113,39 +138,32 @@ class OrdersManager {
           { encoding: settings }
         );
       }
-      console.log("Deleted order with ID: " + oneOrder.orderId);
-      return oneOrder.orderId;
+      return oneOrder;
     } catch (error) {
-      console.log(error.message);
-      error.statusCode = 404;
       throw error;
     }
   }
 
   // OBTENGO EL PRODUCTO QUE LUEGO LE DESCONTARÉ EL STOCK //
-  static async getProductById(pid) {
-    try {
-      const allProducts = await products.read();
-      if (!allProducts) {
-        throw new Error("No available existing products");
-      } else {
-        const oneProduct = allProducts.find((product) => product.id === pid);
-        return oneProduct;
-      }
-    } catch (error) {
-      console.log(error.message);
-      error.statusCode = 404;
-      throw error;
-    }
-  }
+  // static async getProductById(pid) {
+  //   try {
+  //     const data = await products.readOne(pid);
+  //     console.log(data);
+
+  //     const oneProduct = data.find((product) => product._id === pid);
+  //     return oneProduct;
+  //   } catch (error) {
+  //     console.log(error.message);
+  //     error.statusCode = 404;
+  //     throw error;
+  //   }
+  // }
 
   //ACTUALIZO QUANTITY O STATE DE ORDEN DEPENDIENDO DEL VALOR INGRESADO//
   async update(oid, quantity, state) {
     try {
-      const oneOrder = OrdersManager.#orders.find(
-        (order) => order.orderId === oid
-      );
-
+      const oneOrder = OrdersManager.#orders.find((order) => order._id === oid);
+      // console.log(oneOrder);
       if (!oneOrder) {
         throw new Error("No existing order found with the entered order ID.");
       }
@@ -159,27 +177,25 @@ class OrdersManager {
         !isOrderFinalized
       ) {
         oneOrder.quantity = quantity;
-        console.log("Quantity updated successfully");
+        // console.log("Quantity updated successfully");
       }
 
       // ACTUALIZA EL STATE DEPENDIENDO DEL VALOR INGRESADO//
       if (state !== undefined && typeof state === "number") {
         //Cambiar esta
         oneOrder.state = state;
-        console.log("Order state updated successfully");
+        // console.log("Order state updated successfully");
 
         // AJUSTO EL STOCK DEL PRODUCTO //
         if (state === 3) {
           //Cambiar esta
-          const product = await OrdersManager.getProductById(
-            oneOrder.productId
-          );
+          const product = await products.readOne(oneOrder.productId);
 
           if (product) {
             if (product.stock >= oneOrder.quantity) {
               product.stock -= oneOrder.quantity;
               await products.update(oneOrder.productId, product);
-              console.log("Product stock updated successfully");
+              // console.log("Product stock updated successfully");
             } else {
               throw new Error("Not enough stock available for this order.");
             }
@@ -189,7 +205,7 @@ class OrdersManager {
         }
       }
 
-      console.log(oneOrder);
+      // console.log(oneOrder);
 
       // VALIDAMOS SI LA ORDEN ESTÁ FINALIZADA //
       if (isOrderFinalized) {
@@ -205,7 +221,7 @@ class OrdersManager {
 
       return oneOrder;
     } catch (error) {
-      console.log(error.message);
+      // console.log(error.message);
       error.statusCode = 404;
       throw error;
     }
@@ -213,17 +229,5 @@ class OrdersManager {
 }
 
 const orders = new OrdersManager("./src/data/fs/files/orders.Fs.json");
-
-// orders.create({
-//   pid: "513e60a5b0a2ab432d662136",
-//   uid: "9bced94e5f95b7984981d737",
-//   quantity: 10,
-// });
-
-// console.log(await orders.read());
-// await orders.destroy("eee222c000ca31ac745894c8");
-
-//Comentado el update porque cuando inicias nodemon se crea un loop porque ejecuta la siguiente linea//
-// await orders.update("c6b750d30e5717d41dc72150", 50, 3);
 
 export default orders;

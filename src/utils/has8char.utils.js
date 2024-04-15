@@ -1,4 +1,5 @@
 const has8charUtils = (password) => {
+  console.log(password);
   if (password.length < 8) {
     const error = new Error("The password must be at least 8 characters long");
     error.statusCode = 400;
