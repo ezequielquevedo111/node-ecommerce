@@ -78,3 +78,5 @@ export default OrdersController;
 const orderController = new OrdersController();
 const { create, read, update, destroy, report } = orderController;
 export { create, read, update, destroy, report };
+
+

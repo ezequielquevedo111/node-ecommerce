@@ -71,3 +71,4 @@
 
 1. Se modifican y adaptan el manager de FS y MONGO para tener diferente persistencia, se agregan distintos patrones para mejorar y aislar separando mejor por capas.
 2. Se testea cada endpoint y se fetchean los datos desde el frontend
+

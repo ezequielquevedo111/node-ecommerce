@@ -33,3 +33,4 @@ export default class UsersRouter extends CustomRouter {
     this.destroy("/:uid", ["ADMIN", "PREM"], destroy);
   }
 }
+

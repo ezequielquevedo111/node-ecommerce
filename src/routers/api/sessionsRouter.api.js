@@ -71,3 +71,4 @@ export default class SessionsRouter extends CustomRouter {
     this.update("/verify", ["PUBLIC"], verifyAccount);
   }
 }
+

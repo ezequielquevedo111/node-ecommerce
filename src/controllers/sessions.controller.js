@@ -101,3 +101,4 @@ const sessionController = new SessionsController();
 const { register, login, signout, badauth, google, me, verifyAccount } =
   sessionController;
 export { register, login, signout, badauth, google, me, verifyAccount };
+
