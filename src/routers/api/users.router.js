@@ -23,7 +23,7 @@ export default class UsersRouter extends CustomRouter {
     this.read("/:uid", ["ADMIN", "PREM", "USER"], readOne);
 
     //GET USER BY EMAIL//
-    this.read("/:uid/:email", ["ADMIN", "PREM", "USER"], readByEmail);
+    this.read("/:email", ["ADMIN", "PREM", "USER"], readByEmail);
 
     //UPDATE USER //
 
@@ -33,4 +33,3 @@ export default class UsersRouter extends CustomRouter {
     this.destroy("/:uid", ["ADMIN", "PREM"], destroy);
   }
 }
-

@@ -1,12 +1,14 @@
 import argsUtils from "../utils/args.utils.js";
 import dbConnection from "../utils/db.js";
+import "dotenv/config.js";
 
-const enviroment = argsUtils.env;
+// const enviroment = argsUtils.env;
 // const enviroment = "dev";
+const { env } = argsUtils;
 
 let dao = {};
 
-switch (enviroment) {
+switch (env) {
   case "test":
     console.log("test conected");
     const { default: productsTest } = await import(

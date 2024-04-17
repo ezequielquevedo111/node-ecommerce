@@ -1,5 +1,7 @@
 // import { users } from "../data/mongo/manager.mongo.js";
 import service from "../services/users.service.js";
+import CustomError from "../utils/errors/CustomError.js";
+import errors from "../utils/errors/errors.js";
 
 class UsersController {
   constructor() {
@@ -8,7 +10,7 @@ class UsersController {
   create = async (req, res, next) => {
     try {
       const dataUser = req.body;
-      const response = await this.model.service(dataUser);
+      const response = await this.service.create(dataUser);
       return res.success201(response);
     } catch (error) {
       return next(error);
@@ -20,8 +22,12 @@ class UsersController {
       let orderBy = req.query.orderBy;
       console.log(orderBy);
       let filter = req.query.filter;
-      const allUsers = await this.model.service({ filter, orderBy });
-      return res.success200(allUsers);
+      const allUsers = await this.service.read({ filter, orderBy });
+      if (allUsers.docs.length > 0) {
+        return res.success200(allUsers);
+      } else {
+        CustomError.new(errors.notFound);
+      }
     } catch (error) {
       return next(error);
     }
@@ -30,8 +36,12 @@ class UsersController {
   readOne = async (req, res, next) => {
     try {
       const { uid } = req.params;
-      const oneUser = await this.model.service(uid);
-      return res.success200(oneUser);
+      const oneUser = await this.service.readOne(uid);
+      if (oneUser) {
+        return res.success200(oneUser);
+      } else {
+        CustomError.new(errors.notFound);
+      }
     } catch (error) {
       return next(error);
     }
@@ -39,9 +49,14 @@ class UsersController {
 
   readByEmail = async (req, res, next) => {
     try {
-      const { email, oid } = req.params;
-      const oneUser = await this.model.service(email, oid);
-      return res.success200(oneUser);
+      const { email } = req.params;
+      const oneUser = await this.service.readByEmail(email);
+      // console.log(oneUser.docs);
+      if (oneUser) {
+        return res.success200(oneUser);
+      } else {
+        CustomError.new(errors.notFound);
+      }
     } catch (error) {
       return next(error);
     }
@@ -49,10 +64,17 @@ class UsersController {
 
   update = async (req, res, next) => {
     try {
+      // console.log(req);
       const { uid } = req.params;
       const data = req.body;
-      const oneUser = await this.model.service(uid, data);
-      return res.success200(oneUser);
+      console.log(data, uid);
+      const oneUser = await this.service.update(uid, data);
+      console.log(oneUser);
+      if (oneUser) {
+        return res.success200(oneUser);
+      } else {
+        CustomError.new(errors.notFound);
+      }
     } catch (error) {
       return next(error);
     }
@@ -61,8 +83,12 @@ class UsersController {
   destroy = async (req, res, next) => {
     try {
       const { uid } = req.params;
-      const oneUser = await this.model.service(uid);
-      return res.success200(oneUser);
+      const oneUser = await this.service.destroy(uid);
+      if (oneUser) {
+        return res.success200(oneUser);
+      } else {
+        CustomError.new(errors.notFound);
+      }
     } catch (error) {
       return next(error);
     }

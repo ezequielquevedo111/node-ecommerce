@@ -5,7 +5,7 @@
   "type": "module",
   "main": "server.js",
   "scripts": {
-    "start": "node ./server.js",
+    "start": "nodemon ./server.js --env prod",
     "dev": "nodemon ./server.js --env dev",
     "test": "nodemon ./server.js --env test"
   },
@@ -22,6 +22,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.0",
     "express": "^4.18.2",
+    "express-compression": "^1.0.2",
     "express-handlebars": "^7.1.2",
     "express-session": "^1.18.0",
     "i": "^0.3.7",
@@ -40,5 +41,8 @@
     "session-file-store": "^1.5.0",
     "sweetalert2": "^11.10.5",
     "twilio": "^5.0.3"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^8.4.1"
   }
 }

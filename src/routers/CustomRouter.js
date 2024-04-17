@@ -80,7 +80,7 @@ export default class CustomRouter {
   }
 
   update(path, policies, ...cbs) {
-    this.router.post(
+    this.router.put(
       path,
       this.responses,
       this.policies(policies),

@@ -1,5 +1,7 @@
 // import { products } from "../data/mongo/manager.mongo.js";
 import service from "../services/products.service.js";
+import CustomError from "../utils/errors/CustomError.js";
+import errors from "../utils/errors/errors.js";
 
 class ProductsController {
   constructor() {
@@ -34,7 +36,11 @@ class ProductsController {
       }
 
       let allProducts = await this.service.read({ filter, orderAndPaginate });
-      return res.success200(allProducts);
+      if (allProducts.docs.length > 0) {
+        return res.success200(allProducts);
+      } else {
+        CustomError.new(errors.notFound);
+      }
     } catch (error) {
       return next(error);
     }
@@ -44,7 +50,11 @@ class ProductsController {
     try {
       const { pid } = req.params;
       const oneProduct = await this.service.readOne(pid);
-      return res.success200(oneProduct);
+      if (oneProduct) {
+        return res.success200(oneProduct);
+      } else {
+        CustomError.new(errors.notFound);
+      }
     } catch (error) {
       return next(error);
     }
@@ -52,10 +62,17 @@ class ProductsController {
 
   update = async (req, res, next) => {
     try {
+      // console.log(req.params);
+      // console.log(req.body);
       const { pid } = req.params;
       const data = req.body;
       const oneProduct = await this.service.update(pid, data);
-      return res.success200(oneProduct);
+      // console.log(oneProduct);
+      if (oneProduct) {
+        return res.success200(oneProduct);
+      } else {
+        CustomError.new(errors.notFound);
+      }
     } catch (error) {
       return next(error);
     }
@@ -63,9 +80,13 @@ class ProductsController {
 
   destroy = async (req, res, next) => {
     try {
-      const { pid } = req.params;
+      let { pid } = req.params;
       const oneProduct = await this.service.destroy(pid);
-      return res.success200(oneProduct);
+      if (oneProduct) {
+        return res.success200(oneProduct);
+      } else {
+        CustomError.new(errors.notFound);
+      }
     } catch (error) {
       return next(error);
     }

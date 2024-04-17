@@ -20,11 +20,12 @@ class ProductsRep {
 
   readOne = async (id) => await this.model.readOne(id);
 
-  update = async (id, data) => {
-    return await this.model.update(id, data);
+  update = async (pid, data) => {
+    console.log(pid, data);
+    return await this.model.update(pid, data);
   };
 
-  destroy = async (id) => await this.model.destroy(id);
+  destroy = async (pid) => await this.model.destroy(pid);
 }
 
 const repository = new ProductsRep();

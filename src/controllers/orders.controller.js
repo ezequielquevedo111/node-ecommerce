@@ -2,6 +2,9 @@
 // import isStockAvailable from "../utils/isStockAvailable.js";
 import isPropUpdate from "../utils/isPropUpdate.js";
 import service from "../services/orders.service.js";
+import CustomError from "../utils/errors/CustomError.js";
+import errors from "../utils/errors/errors.js";
+import isOrderCompleted from "../utils/isOrderCompleted.js";
 
 class OrdersController {
   constructor() {
@@ -35,7 +38,11 @@ class OrdersController {
         orderAndPaginate.sort.state = -1;
       }
       const allOrders = await this.service.read({ filter, orderAndPaginate });
-      return res.success200(allOrders);
+      if (allOrders.docs.length > 0) {
+        return res.success200(allOrders);
+      } else {
+        CustomError.new(errors.notFound);
+      }
     } catch (error) {
       return next(error);
     }
@@ -46,7 +53,13 @@ class OrdersController {
       const { id } = req.params;
       const propUpdate = isPropUpdate(req);
       const oneOrder = await this.service.update(id, propUpdate);
-      return res.success200(oneOrder);
+      if (oneOrder) {
+        return res.success200(oneOrder);
+      } else if (doc.hasOwnProperty("state")) {
+        const stockUpdate = await isOrderCompleted(doc, data);
+      } else {
+        CustomError.new(errors.notFound);
+      }
     } catch (error) {
       return next(error);
     }
@@ -57,7 +70,11 @@ class OrdersController {
       const { oid } = req.params;
       console.log(req.params);
       const oneOrder = await this.service.destroy(oid);
-      return res.success200(oneOrder);
+      if (oneOrder) {
+        return res.success200(oneOrder);
+      } else {
+        CustomError.new(errors.notFound);
+      }
     } catch (error) {
       return next(error);
     }
@@ -67,7 +84,11 @@ class OrdersController {
     try {
       const { uid } = req.params;
       const report = await this.service.report(uid);
-      return res.success200(report);
+      if (report) {
+        return res.success200(report);
+      } else {
+        CustomError.new(errors.notFound);
+      }
     } catch (error) {
       return next(error);
     }
@@ -78,5 +99,3 @@ export default OrdersController;
 const orderController = new OrdersController();
 const { create, read, update, destroy, report } = orderController;
 export { create, read, update, destroy, report };
-
-

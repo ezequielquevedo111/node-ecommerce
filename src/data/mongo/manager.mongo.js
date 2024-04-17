@@ -1,15 +1,13 @@
 import isOrderCompleted from "../../utils/isOrderCompleted.js";
 import notFoundDoc from "../../utils/notFoundDoc.util.js";
-import Order from "./models/order.model.js";
-import Product from "./models/product.model.js";
-import User from "./models/user.model.js";
-import Types from "mongoose";
 import Mongoose from "mongoose";
 
 class MongoManager {
   constructor(model) {
     this.model = model;
   }
+  //INGRESAR EN CADA CONTROLADOR Y CAMBIAR LOS ERRORES DESDE AHI YA QUE EN MONGO
+  //NO LOS VOY A MANEJAR
   async create(data) {
     try {
       // console.log(data);
@@ -25,11 +23,11 @@ class MongoManager {
       const allDocs = await this.model.paginate(filter, orderAndPaginate);
       const data = JSON.parse(JSON.stringify(allDocs));
       console.log(data);
-      if (allDocs.totalPages === 0 || allDocs.docs.length === 0) {
-        const error = new Error("There are no documents available.");
-        error.statusCode = 404;
-        throw error;
-      }
+      // if (allDocs.totalPages === 0 || allDocs.docs.length === 0) {
+      //   const error = new Error("There are no documents available.");
+      //   error.statusCode = 404;
+      //   throw error;
+      // }
       return data;
     } catch (error) {
       throw error;
@@ -38,7 +36,7 @@ class MongoManager {
   async readOne(id) {
     try {
       const doc = await this.model.findById(id);
-      notFoundDoc(doc);
+      // notFoundDoc(doc);
       return doc;
     } catch (error) {
       throw error;
@@ -46,12 +44,13 @@ class MongoManager {
   }
   async update(id, data) {
     try {
+      // console.log("DATA FROM MANAGER:", data, id);
       const opt = { new: true };
       const doc = await this.model.findByIdAndUpdate(id, data, opt);
-      notFoundDoc(doc);
-      if (doc.hasOwnProperty("state")) {
-        const stockUpdate = await isOrderCompleted(doc, data);
-      }
+      // console.log(doc);
+      // if (doc.hasOwnProperty("state")) {
+      //   const stockUpdate = await isOrderCompleted(doc, data);
+      // }
       return doc;
     } catch (error) {
       throw error;
@@ -65,7 +64,7 @@ class MongoManager {
   async destroy(id) {
     try {
       const doc = await this.model.findByIdAndDelete(id);
-      notFoundDoc(doc);
+      // notFoundDoc(doc);
       return doc;
     } catch (error) {
       throw error;
@@ -73,37 +72,38 @@ class MongoManager {
   }
 
   //INICIO - Metodos de Manager Orders//
+  //METODOS SIN USO//
+  // async readOrders(id) {
+  //   try {
+  //     const doc = await this.model.find({ userId: id });
+  //     notFoundDoc(doc);
+  //     if (doc.length === 0) {
+  //       const error = new Error("There are no documents available.");
+  //       error.statusCode = 404;
+  //       throw error;
+  //     }
+  //     return doc;
+  //   } catch (error) {
+  //     throw error;
+  //   }
+  // }
 
-  async readOrders(id) {
-    try {
-      const doc = await this.model.find({ userId: id });
-      notFoundDoc(doc);
-      if (doc.length === 0) {
-        const error = new Error("There are no documents available.");
-        error.statusCode = 404;
-        throw error;
-      }
-      return doc;
-    } catch (error) {
-      throw error;
-    }
-  }
+  // async updateOrder(data, propUpdate) {
+  //   try {
+  //     const opt = { new: true };
+  //     const docUpdate = await this.model
+  //       .findByIdAndUpdate(data, propUpdate, opt)
+  //       .populate("productId", "price stock title");
+  //     //Lo populo directamente en el metodo porque Moongose
+  //     //no permite aplicarle el metodo pre con findByIdAndUpdate//
 
-  async updateOrder(data, propUpdate) {
-    try {
-      const opt = { new: true };
-      const docUpdate = await this.model
-        .findByIdAndUpdate(data, propUpdate, opt)
-        .populate("productId", "price stock title");
-      //Lo populo directamente en el metodo porque Moongose
-      //no permite aplicarle el metodo pre con findByIdAndUpdate//
-
-      const stockUpdate = await isOrderCompleted(docUpdate, data);
-      return docUpdate;
-    } catch (error) {
-      throw error;
-    }
-  }
+  //     const stockUpdate = await isOrderCompleted(docUpdate, data);
+  //     return docUpdate;
+  //   } catch (error) {
+  //     throw error;
+  //   }
+  // }
+  //METODOS SIN USO//
 
   //VERIFICAR DE HACER EL UPDATE DEL STOCK MEDIANTE  ESTE METODO//
   //VERICAR COMO POPULAR TODOS LOS DATOS CUANDO CREO UNA ORDEN//
@@ -148,7 +148,6 @@ class MongoManager {
 
   async readByEmail(email) {
     try {
-      // console.log(email);
       const docEmail = await this.model.findOne({ email });
 
       // if (!docEmail || docEmail.length === 0) {
