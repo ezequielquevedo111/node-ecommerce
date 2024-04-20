@@ -5,6 +5,8 @@ import { Strategy as GoogleStrategy } from "passport-google-oauth2";
 import { ExtractJwt, Strategy as JwtStrategy } from "passport-jwt";
 import { createHash, verifyHash } from "../utils/hash.utils.js";
 import { createToken } from "../utils/token.utils.js";
+import CustomError from "../utils/errors/CustomError.js";
+import errors from "../utils/errors/errors.js";
 
 const { CLIENT_ID, CLIENT_SECRET, SECRET } = process.env;
 
@@ -18,10 +20,7 @@ passport.use(
         const one = await repository.readByEmail(email);
         // console.log(one);
         if (one) {
-          return done(null, false, {
-            messages: "Already exists",
-            statusCode: 400,
-          });
+          return done(null, false, CustomError.new(errors.userExist));
         } else {
           let user = await repository.create(req.body);
           return done(null, user);
@@ -44,6 +43,9 @@ passport.use(
         const user = await repository.readByEmail(email);
         // console.log(user);
         // console.log(password, user.password);
+        //AGREGAR CONDICIONAL SI NO ENCUENTRA USER
+        //YA QUE TIRA ERROR 500 SI NO ENCUENTRA LA PASSWORD
+        //INDICANDO QUE NO PUEDE LEER PROPIEDADES DE NULL
         const verify = verifyHash(password, user.password);
         if (user?.verified && verify) {
           const token = createToken({ _id: user._id, role: user.role });
@@ -53,7 +55,7 @@ passport.use(
           // console.log(user);
           return done(null, user);
         } else {
-          return done(null, false, { messages: "Bad auth from passport cb" });
+          return done(null, false, CustomError.new(errors.badAuthPassport));
         }
       } catch (error) {
         return done(error);

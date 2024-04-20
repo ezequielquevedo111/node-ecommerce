@@ -28,7 +28,7 @@ class UsersRep {
   };
 
   readByEmail = async (email) => {
-    // console.log(email);
+    console.log(email);
     return await this.model.readByEmail(email);
   };
 

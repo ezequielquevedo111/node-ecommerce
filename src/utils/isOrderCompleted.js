@@ -1,6 +1,7 @@
 import orders from "../data/mongo/manager.mongo.js"; //cambiar orders ver
-//el error//
 import Product from "../data/mongo/models/product.model.js";
+import CustomError from "./errors/CustomError.js";
+import errors from "./errors/errors.js";
 
 //VALIDO SI LA ORDER ESTÁ FINALIZADA Y ACTUALIZO EL STOCK DEL PRODUCTO//
 const isOrderCompleted = async (doc, data) => {
@@ -19,19 +20,18 @@ const isOrderCompleted = async (doc, data) => {
         );
 
         if (!dataUpdate) {
-          const error = new Error("Failed to update product stock.");
-          error.statusCode = 404;
-          throw error;
+          CustomError.new(errors.notStock);
         }
 
         return dataUpdate;
       }
     }
 
-    const error = new Error(
-      "Cannot update product stock, please enter a valid order."
-    );
-    error.statusCode = 404;
+    // const error = new Error(
+    //   "Cannot update product stock, please enter a valid order."
+    // );
+    // error.statusCode = 404;
+    CustomError.new(errors.notStock);
     throw error;
   } catch (error) {
     throw error;

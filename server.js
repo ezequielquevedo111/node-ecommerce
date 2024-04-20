@@ -16,6 +16,7 @@ import expressSession from "express-session";
 import cors from "cors";
 // import sessionFileStore  from "session-file-store";
 import MongoStore from "connect-mongo";
+import compression from "express-compression";
 
 // Creación server //
 const server = express();
@@ -88,7 +89,8 @@ server.use(express.json());
 server.use(express.urlencoded({ extended: true }));
 server.use(express.static("public"));
 server.use(morgan("dev"));
-// server.use(  compression({    brotli: { enabled: true, zlib: {} }, }));
+// server.use(compression());
+server.use(compression({ brotli: { enabled: true, zlib: {} } }));
 
 //Endpoints
 const router = new IndexRouter();

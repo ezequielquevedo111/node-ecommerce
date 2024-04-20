@@ -72,3 +72,8 @@
 1. Se modifican y adaptan el manager de FS y MONGO para tener diferente persistencia, se agregan distintos patrones para mejorar y aislar separando mejor por capas.
 2. Se testea cada endpoint y se fetchean los datos desde el frontend
 
+# Decimo desafío
+
+1. Se agrega Mock para realizar 100 productos mockeados únicamente en el entorno de desarrollo.
+2. Se crea y se modifica cada new Error manejandolo con el diccionario de errores (CustomError).
+3. Se testea en POSTMAN diferentes APIs y se sacan capturas.

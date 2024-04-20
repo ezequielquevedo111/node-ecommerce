@@ -36,6 +36,7 @@ class ProductsService {
 
   update = async (pid, data) => {
     try {
+      console.log(pid, data);
       const response = await this.repository.update(pid, data);
       return response;
     } catch (error) {
@@ -55,4 +56,3 @@ class ProductsService {
 
 const service = new ProductsService();
 export default service;
-
