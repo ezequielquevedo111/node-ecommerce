@@ -10,7 +10,6 @@ class MongoManager {
   //NO LOS VOY A MANEJAR
   async create(data) {
     try {
-      // console.log(data);
       const doc = await this.model.create(data);
       return doc;
     } catch (error) {
@@ -22,12 +21,6 @@ class MongoManager {
       const { filter, orderAndPaginate } = obj;
       const allDocs = await this.model.paginate(filter, orderAndPaginate);
       const data = JSON.parse(JSON.stringify(allDocs));
-      console.log(data);
-      // if (allDocs.totalPages === 0 || allDocs.docs.length === 0) {
-      //   const error = new Error("There are no documents available.");
-      //   error.statusCode = 404;
-      //   throw error;
-      // }
       return data;
     } catch (error) {
       throw error;
@@ -36,7 +29,6 @@ class MongoManager {
   async readOne(id) {
     try {
       const doc = await this.model.findById(id);
-      // notFoundDoc(doc);
       return doc;
     } catch (error) {
       throw error;
@@ -44,13 +36,8 @@ class MongoManager {
   }
   async update(id, data) {
     try {
-      // console.log("DATA FROM MANAGER:", data, id);
       const opt = { new: true };
       const doc = await this.model.findByIdAndUpdate(id, data, opt);
-      // console.log(doc);
-      // if (doc.hasOwnProperty("state")) {
-      //   const stockUpdate = await isOrderCompleted(doc, data);
-      // }
       return doc;
     } catch (error) {
       throw error;

@@ -17,6 +17,8 @@ import cors from "cors";
 // import sessionFileStore  from "session-file-store";
 import MongoStore from "connect-mongo";
 import compression from "express-compression";
+import winston from "./src/middlewares/winston.js";
+import logger from "./src/utils/logger/winston.utils.js";
 
 // Creación server //
 const server = express();
@@ -25,7 +27,7 @@ const httpServer = createServer(server);
 const PORT = process.env.PORT || 8080;
 
 const ready = () => {
-  console.log("server ready on PORT: " + PORT);
+  logger.INFO("server ready on PORT: " + PORT);
   // dbConnection();
 };
 
@@ -89,6 +91,7 @@ server.use(express.json());
 server.use(express.urlencoded({ extended: true }));
 server.use(express.static("public"));
 server.use(morgan("dev"));
+server.use(winston);
 // server.use(compression());
 server.use(compression({ brotli: { enabled: true, zlib: {} } }));
 

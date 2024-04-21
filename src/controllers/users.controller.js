@@ -20,7 +20,6 @@ class UsersController {
     try {
       //FILTRADO DINAMICO DEPENDIENDO LA PROPIEDAD//
       let orderBy = req.query.orderBy;
-      console.log(orderBy);
       let filter = req.query.filter;
       const allUsers = await this.service.read({ filter, orderBy });
       if (allUsers.docs.length > 0) {
@@ -51,7 +50,6 @@ class UsersController {
     try {
       const { email } = req.params;
       const oneUser = await this.service.readByEmail(email);
-      // console.log(oneUser.docs);
       if (oneUser) {
         return res.success200(oneUser);
       } else {
@@ -64,12 +62,9 @@ class UsersController {
 
   update = async (req, res, next) => {
     try {
-      // console.log(req);
       const { uid } = req.params;
       const data = req.body;
-      console.log(data, uid);
       const oneUser = await this.service.update(uid, data);
-      console.log(oneUser);
       if (oneUser) {
         return res.success200(oneUser);
       } else {

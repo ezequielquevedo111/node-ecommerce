@@ -10,7 +10,6 @@ selector.addEventListener("click", async (event) => {
       email: document.querySelector("#emailRegister").value,
       password: document.querySelector("#passwordRegister").value,
     };
-    console.log(data);
     const opts = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -23,8 +22,6 @@ selector.addEventListener("click", async (event) => {
       location.replace("/sessions/login");
     }
     res.statusCode === 401 && alert(res.message);
-
-    console.log(res);
   } catch (error) {
     alert(error.message);
     // Swal.fire({

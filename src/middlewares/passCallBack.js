@@ -1,14 +1,15 @@
 import passport from "passport";
+import winston from "../utils/logger/winston.utils";
 
 export default (strategy) => {
   return async (req, res, next) => {
     passport.authenticate(strategy, (error, user, info) => {
-      console.log({ error, user, info });
+      winston.ERROR({ error, user, info });
       if (error) {
         return next(error);
       }
       if (!user) {
-        console.log(info);
+        winston.INFO(info);
         return res.json({
           statusCode: info.statusCode || 401,
           message: info.messages || info.toString(),

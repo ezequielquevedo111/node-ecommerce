@@ -21,7 +21,6 @@ class ProductsRep {
   readOne = async (id) => await this.model.readOne(id);
 
   update = async (pid, data) => {
-    console.log(pid, data);
     return await this.model.update(pid, data);
   };
 

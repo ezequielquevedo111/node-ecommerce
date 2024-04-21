@@ -9,10 +9,7 @@ class UsersRep {
   }
 
   create = async (data) => {
-    // console.log(data);
-    // const userData = { ...data };
     data = new UserDTO(data);
-    // console.log(data);
     const response = await this.model.create(data);
     return response;
   };
@@ -28,7 +25,6 @@ class UsersRep {
   };
 
   readByEmail = async (email) => {
-    console.log(email);
     return await this.model.readByEmail(email);
   };
 

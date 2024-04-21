@@ -28,20 +28,8 @@ class UserManager {
   //METODO CREADOR CON VALIDACIONES//
   async create(data) {
     try {
-      // console.log(data);
-      // const user = {
-      //   _id: crypto.randomBytes(12).toString("hex"),
-      //   name: data.name,
-      //   photo: data.photo,
-      //   email: data.email,
-      //   password: data.password,
-      //   age: data.age || 18,
-      //   role: data.role || 0,
-      // };
-      // console.log(data);
       UserManager.#users.push(data);
       const dataUser = JSON.stringify(UserManager.#users, null, 2);
-      // console.log(dataUser);
       await fs.promises.writeFile(this.path, dataUser);
       return data;
     } catch (error) {
@@ -184,37 +172,6 @@ class UserManager {
       throw error;
     }
   }
-
-  // async readByEmail({ email }) {
-  //   try {
-  //     const res = await fs.promises.readFile(this.path, "utf8");
-  //     // console.log(res);
-  //     const doc = JSON.parse(res);
-  //     // console.log(doc);
-  //     const user = doc.find((doc) => doc.email === email);
-  //     // console.log(user);
-
-  //     // notFoundDoc(user);
-  //     return user;
-  //   } catch (error) {
-  //     throw error;
-  //   }
-
-  //   // console.log(user);
-  //   // return UserManager.#users.filter((user) => user.email === email);
-  // }
-  // async readByEmail(email) {
-  //   try {
-  //     const res = await fs.promises.readFile(this.path, "utf8");
-  //     const doc = JSON.parse(res);
-  //     const user = doc.find((user) => user.email === email);
-  //     console.log(user);
-  //     // Si no se encuentra ningún usuario, devuelve null en lugar de lanzar un error
-  //     return user || null;
-  //   } catch (error) {
-  //     throw error;
-  //   }
-  // }
 
   readByEmail(email) {
     try {

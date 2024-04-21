@@ -3,7 +3,6 @@ import { config } from "dotenv";
 import "dotenv/config.js";
 
 const { env } = args;
-console.log(args);
 let path;
 if (env === "prod") {
   path = "./.env.prod";

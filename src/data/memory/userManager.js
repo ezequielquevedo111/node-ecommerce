@@ -1,4 +1,5 @@
 import crypto from "crypto";
+import winston from "../../utils/logger/winston.utils";
 
 class UserManager {
   static #users = [];
@@ -50,10 +51,10 @@ class UserManager {
         UserManager.#users = UserManager.#users.filter(
           (user) => user.id !== oneUser.id
         );
-        console.log("Deleted user with ID: " + oneUser.id);
+        winston.INFO("Deleted user with ID: " + oneUser.id);
       }
     } catch (error) {
-      console.log(error.message);
+      winston.WARN(error.message);
       return error.message;
     }
   }
@@ -90,7 +91,7 @@ class UserManager {
       }
       return oneUser;
     } catch (error) {
-      console.log(error.message);
+      winston.WARN(error.message);
       return error.message;
     }
   }
@@ -113,12 +114,7 @@ const user2 = user.create({
   email: "mario@gmail.com",
 });
 
-// console.log(user.read());
-// user.update(user1.id, { email: "pepeargento@gmail.com" });
-// console.log(user.read());
-// console.log(user.readByEmail(user2.email));
-
-console.log(
+winston.INFO(
   user.read({
     sort: "desc",
   })

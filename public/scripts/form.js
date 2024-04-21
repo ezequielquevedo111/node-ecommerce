@@ -16,7 +16,6 @@ selector.addEventListener("click", async (event) => {
     };
     let res = await fetch("/api/products", opts);
     res = await res.json();
-    console.log(res);
 
     if (res.statusCode === 201) {
       alert("PRODUCT CREATE WITH ID " + res.response);

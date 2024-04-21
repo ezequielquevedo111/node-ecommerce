@@ -2,6 +2,7 @@
 import repository from "../../repositories/products.rep.js";
 // import dbConnection from "../../utils/db.js";
 import { faker } from "@faker-js/faker";
+import winston from "../../utils/logger/winston.utils.js";
 // import env from "../../u tils/envt.utils.js";
 
 const productMock = () => {
@@ -19,7 +20,7 @@ const createMocks = async () => {
     const data = productMock();
     await repository.create(data);
   }
-  console.log("100 products created");
+  winston.INFO("100 products created");
 };
 
 createMocks();
