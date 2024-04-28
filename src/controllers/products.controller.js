@@ -11,7 +11,6 @@ class ProductsController {
     try {
       const dataProduct = req.body;
       const response = await this.service.create(dataProduct);
-      console.log(response);
       return res.success201({ response });
     } catch (error) {
       return next(error);
@@ -62,12 +61,9 @@ class ProductsController {
 
   update = async (req, res, next) => {
     try {
-      // console.log(req.params);
-      // console.log(req.body);
       const { pid } = req.params;
       const data = req.body;
       const oneProduct = await this.service.update(pid, data);
-      // console.log(oneProduct);
       if (oneProduct) {
         return res.success200(oneProduct);
       } else {

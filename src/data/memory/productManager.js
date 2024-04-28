@@ -1,4 +1,5 @@
 import crypto from "crypto";
+import winston from "../../utils/logger/winston.utils";
 
 class ProductManager {
   static #products = [];
@@ -38,11 +39,11 @@ class ProductManager {
         ProductManager.#products = ProductManager.#products.filter(
           (product) => product.id !== oneProduct.id
         );
-        console.log("Deleted product with ID: " + oneProduct.id);
+        winston.INFO("Deleted product with ID: " + oneProduct.id);
         return oneProduct.id;
       }
     } catch (error) {
-      console.log(error.message);
+      winston.WARN(error.message);
       return error.message;
     }
   }
@@ -87,7 +88,7 @@ class ProductManager {
         return oneProduct;
       }
     } catch (error) {
-      console.log(error.message);
+      winston.WARN(error.message);
       return error.message;
     }
   }
@@ -109,10 +110,10 @@ const product2 = product.create({
   stock: 20,
 });
 
-console.log(product2);
+winston.IFNO(product2);
 
 product.update(product2.id, { title: "Mouse Redragon", stock: 50 });
-console.log(product.read());
-console.log(product.readOne(product1.id));
+winston.INFO(product.read());
+winston.INFO(product.readOne(product1.id));
 product.destroy(product1.id);
 product.destroy("asdsds");

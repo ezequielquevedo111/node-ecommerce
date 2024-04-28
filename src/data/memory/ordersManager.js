@@ -1,4 +1,5 @@
 import crypto from "crypto";
+import winston from "../../utils/logger/winston.utils";
 
 class OrdersManager {
   static #orders = [];
@@ -40,7 +41,6 @@ class OrdersManager {
         return order;
       }
     } catch (error) {
-      console.log(error.message);
       return error.message;
     }
   }
@@ -62,7 +62,6 @@ class OrdersManager {
         return userOrders;
       }
     } catch (error) {
-      console.log(error.message);
       return error.message;
     }
   }
@@ -79,10 +78,9 @@ class OrdersManager {
         OrdersManager.#orders = OrdersManager.#orders.filter(
           (order) => order.orderId !== oneOrder.orderId
         );
-        console.log("Deleted order with ID: " + oneOrder.orderId);
+        winston.INFO("Deleted order with ID: " + oneOrder.orderId);
       }
     } catch (error) {
-      console.log(error.message);
       return error.message;
     }
   }
@@ -112,13 +110,13 @@ class OrdersManager {
         !isOrderFinalized
       ) {
         oneOrder.quantity = quantity;
-        console.log("Quantity updated successfully");
+        winston.INFO("Quantity updated successfully");
       }
 
       // ACTUALIZA EL STATE DEPENDIENDO DEL VALOR INGRESADO//
       if (state !== undefined && typeof state === "number") {
         oneOrder.state = state;
-        console.log("Order state updated successfully");
+        winston.INFO("Order state updated successfully");
 
         // AJUSTO EL STOCK DEL PRODUCTO //
         if (state === 3) {
@@ -130,7 +128,7 @@ class OrdersManager {
           if (product) {
             if (product.stock >= oneOrder.quantity) {
               product.stock -= oneOrder.quantity;
-              console.log("Product stock updated successfully");
+              winston.INFO("Product stock updated successfully");
             } else {
               throw new Error("Not enough stock available for this order.");
             }
@@ -140,7 +138,7 @@ class OrdersManager {
         }
       }
 
-      console.log(oneOrder);
+      winston.INFO(oneOrder);
 
       // VALIDAMOS SI LA ORDEN ESTÁ FINALIZADA //
       if (isOrderFinalized) {
@@ -149,7 +147,7 @@ class OrdersManager {
 
       return oneOrder;
     } catch (error) {
-      console.log(error.message);
+      winston.WARN(error.message);
       return error.message;
     }
   }
@@ -179,9 +177,4 @@ const order2 = order.create({
   quantity: 10,
 });
 
-// order.update(order1.orderId, undefined, "purchased");
-// console.log(products[1]);
 order.update(order1.orderId, 20, 3);
-// console.log(order2.orderId);
-// order.destroy(order2.orderId);
-// order.read();

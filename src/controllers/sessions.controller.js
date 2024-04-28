@@ -5,11 +5,6 @@ import errors from "../utils/errors/errors.js";
 class SessionsController {
   register = async (req, res, next) => {
     const { email, name, verifiedCode } = req.user;
-    // console.log(req.body);
-    // console.log(req.user);
-
-    // console.log(email, name, verifiedCode);
-    // console.log(verifiedCode);
     await service.register({ email, name, verifiedCode });
     try {
       return res.success201({ message: "Registered" });
@@ -65,7 +60,6 @@ class SessionsController {
 
   me = async (req, res, next) => {
     try {
-      console.log(req.body);
       return res.success200({
         response: { _id: req.user._id, role: req.user.role },
       });
@@ -77,10 +71,8 @@ class SessionsController {
   verifyAccount = async (req, res, next) => {
     try {
       const { email, verifiedCode } = req.body;
-      console.log(email, verifiedCode);
       const user = await service.readByEmail(email);
       if (user.verifiedCode === verifiedCode) {
-        console.log(verifiedCode);
         await service.update(user._id, { verified: true });
         return res.json({
           statusCode: 200,

@@ -1,5 +1,5 @@
 import propsOrders from "../../middlewares/propsOrders.js";
-import passCallBack from "../../middlewares/passCallBack.js";
+// import passCallBack from "../../middlewares/passCallBack.js";
 import CustomRouter from "../CustomRouter.js";
 import {
   create,
@@ -13,7 +13,7 @@ import {
 export default class OrdersRouter extends CustomRouter {
   init() {
     //CREATE A ORDER WITH POST//
-    this.create("/", ["USER"], passCallBack("jwt"), propsOrders, create);
+    this.create("/", ["USER"], propsOrders, create);
 
     //GET THE ALL ORDERS FROM ONE USER BY ID//
     this.read("/:uid", ["USER"], read);

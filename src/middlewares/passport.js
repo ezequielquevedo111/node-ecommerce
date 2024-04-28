@@ -16,17 +16,13 @@ passport.use(
     { passReqToCallback: true, usernameField: "email" },
     async (req, email, password, done) => {
       try {
-        // console.log(req.body.email);
         const one = await repository.readByEmail(email);
-        // console.log(one);
         if (one) {
           return done(null, false, CustomError.new(errors.userExist));
         } else {
           let user = await repository.create(req.body);
           return done(null, user);
         }
-        // const data = req.body;
-        // data.password = password;
       } catch (error) {
         return done(error);
       }
@@ -41,18 +37,14 @@ passport.use(
     async (req, email, password, done) => {
       try {
         const user = await repository.readByEmail(email);
-        // console.log(user);
-        // console.log(password, user.password);
         //AGREGAR CONDICIONAL SI NO ENCUENTRA USER
         //YA QUE TIRA ERROR 500 SI NO ENCUENTRA LA PASSWORD
         //INDICANDO QUE NO PUEDE LEER PROPIEDADES DE NULL
         const verify = verifyHash(password, user.password);
         if (user?.verified && verify) {
           const token = createToken({ _id: user._id, role: user.role });
-          // console.log(token);
           req.token = token;
           req.user = user;
-          // console.log(user);
           return done(null, user);
         } else {
           return done(null, false, CustomError.new(errors.badAuthPassport));

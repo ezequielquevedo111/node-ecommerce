@@ -1,7 +1,8 @@
+import winston from "../../src/utils/logger/winston.utils";
+
 fetch("/api/sessions/")
   .then((res) => res.json())
   .then((res) => {
-    //console.log(res);
     if (res.statusCode === 200) {
       document
         .querySelector(".navbar-nav")
@@ -17,13 +18,12 @@ fetch("/api/sessions/")
           };
           let response = await fetch("/api/sessions/signout", opts);
           response = await response.json();
-          console.log(response);
           if (response.statusCode === 200) {
             alert(response.message);
             location.replace("/");
           }
         } catch (error) {
-          console.log(error);
+          winston.WARN(error);
         }
       });
     } else {

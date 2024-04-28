@@ -54,24 +54,6 @@ class OrdersManager {
     }
   }
 
-  //METODO PARA LEER TODO//
-  // async read() {
-  //   try {
-  //     if (OrdersManager.#orders.length === 0) {
-  //       throw new Error("No existing orders.");
-  //     }
-  //     const data = await fs.promises.readFile(this.path, {
-  //       encoding: settings,
-  //     });
-  //     const orders = JSON.parse(data);
-  //     return orders;
-  //   } catch (error) {
-  //     console.log(error.message);
-  //     error.statusCode = 404;
-  //     throw error;
-  //   }
-  // }
-
   async read(obj) {
     try {
       const { filter, orderAndPaginate } = obj;
@@ -144,26 +126,10 @@ class OrdersManager {
     }
   }
 
-  // OBTENGO EL PRODUCTO QUE LUEGO LE DESCONTARÉ EL STOCK //
-  // static async getProductById(pid) {
-  //   try {
-  //     const data = await products.readOne(pid);
-  //     console.log(data);
-
-  //     const oneProduct = data.find((product) => product._id === pid);
-  //     return oneProduct;
-  //   } catch (error) {
-  //     console.log(error.message);
-  //     error.statusCode = 404;
-  //     throw error;
-  //   }
-  // }
-
   //ACTUALIZO QUANTITY O STATE DE ORDEN DEPENDIENDO DEL VALOR INGRESADO//
   async update(oid, quantity, state) {
     try {
       const oneOrder = OrdersManager.#orders.find((order) => order._id === oid);
-      // console.log(oneOrder);
       if (!oneOrder) {
         throw new Error("No existing order found with the entered order ID.");
       }
@@ -177,14 +143,11 @@ class OrdersManager {
         !isOrderFinalized
       ) {
         oneOrder.quantity = quantity;
-        // console.log("Quantity updated successfully");
       }
 
       // ACTUALIZA EL STATE DEPENDIENDO DEL VALOR INGRESADO//
       if (state !== undefined && typeof state === "number") {
-        //Cambiar esta
         oneOrder.state = state;
-        // console.log("Order state updated successfully");
 
         // AJUSTO EL STOCK DEL PRODUCTO //
         if (state === 3) {
@@ -195,7 +158,6 @@ class OrdersManager {
             if (product.stock >= oneOrder.quantity) {
               product.stock -= oneOrder.quantity;
               await products.update(oneOrder.productId, product);
-              // console.log("Product stock updated successfully");
             } else {
               throw new Error("Not enough stock available for this order.");
             }
@@ -204,8 +166,6 @@ class OrdersManager {
           }
         }
       }
-
-      // console.log(oneOrder);
 
       // VALIDAMOS SI LA ORDEN ESTÁ FINALIZADA //
       if (isOrderFinalized) {
@@ -221,7 +181,6 @@ class OrdersManager {
 
       return oneOrder;
     } catch (error) {
-      // console.log(error.message);
       error.statusCode = 404;
       throw error;
     }

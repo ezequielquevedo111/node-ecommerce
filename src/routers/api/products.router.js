@@ -1,5 +1,5 @@
 import CustomRouter from "../CustomRouter.js";
-import passCallBack from "../../middlewares/passCallBack.js";
+// import passCallBack from "../../middlewares/passCallBack.js";
 import {
   create,
   read,
@@ -11,7 +11,7 @@ import {
 export default class ProductsRouter extends CustomRouter {
   init() {
     //CREATE PRODUCT WITH POST//
-    this.create("/", ["ADMIN", "PREM"], passCallBack("jwt"), create);
+    this.create("/", ["ADMIN", "PREM"], create);
 
     //GET ALL PRODUCTS//
     this.read("/", ["PUBLIC"], read);

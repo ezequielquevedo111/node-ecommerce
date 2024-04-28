@@ -7,7 +7,6 @@ selector.addEventListener("click", async (event) => {
       email: document.querySelector("#email").value,
       password: document.querySelector("#password").value,
     };
-    console.log(data);
     const opts = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -20,8 +19,6 @@ selector.addEventListener("click", async (event) => {
       location.replace("/");
     }
     res.statusCode === 401 && alert(res.message);
-
-    console.log(res);
   } catch (error) {
     alert(error.message);
     // Swal.fire({

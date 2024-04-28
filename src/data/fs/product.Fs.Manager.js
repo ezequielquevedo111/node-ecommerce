@@ -145,14 +145,5 @@ class ProductManager {
 }
 
 const products = new ProductManager("./src/data/fs/files/products.Fs.json");
-// products
-//   .readOne("04ee4d5740ef75b864851b4b")
-//   .then((res) => console.log(res))
-//   .catch((error) => console.error(error));
-
-// products
-//   .update("3afec3f6f6eb5f60d21412a7", { title: "Redragon Yama" })
-//   .then((res) => console.log(res))
-//   .catch((error) => console.error(error));
 
 export default products;

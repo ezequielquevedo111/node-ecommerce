@@ -68,7 +68,6 @@ class OrdersController {
   destroy = async (req, res, next) => {
     try {
       const { oid } = req.params;
-      console.log(req.params);
       const oneOrder = await this.service.destroy(oid);
       if (oneOrder) {
         return res.success200(oneOrder);
