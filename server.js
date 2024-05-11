@@ -1,9 +1,6 @@
-// import "dotenv/config.js";
 import env from "./src/utils/envt.utils.js";
-// import dbConnection from "./src/utils/db.js";
 import express from "express";
 import { createServer } from "http";
-// import router from "./src/routers/index.router.js";
 import argsUtils from "./src/utils/args.utils.js";
 import IndexRouter from "./src/routers/index.router.js";
 import { engine } from "express-handlebars";
@@ -14,21 +11,23 @@ import morgan from "morgan";
 import cookieParser from "cookie-parser";
 import expressSession from "express-session";
 import cors from "cors";
-// import sessionFileStore  from "session-file-store";
 import MongoStore from "connect-mongo";
 import compression from "express-compression";
 import winston from "./src/middlewares/winston.js";
 import logger from "./src/utils/logger/winston.utils.js";
+import swaggerOptions from "./src/utils/swaggerConfig.js";
+import swaggerJSDoc from "swagger-jsdoc";
+import { serve, setup } from "swagger-ui-express";
 
 // Creación server //
 const server = express();
 const httpServer = createServer(server);
+const specs = swaggerJSDoc(swaggerOptions);
 
 const PORT = process.env.PORT || 8080;
 
 const ready = () => {
   logger.INFO("server ready on PORT: " + PORT);
-  // dbConnection();
 };
 
 // server.listen(PORT, ready);
@@ -87,6 +86,7 @@ server.use(
   })
 );
 
+server.use("/api/docs", serve, setup(specs));
 server.use(express.json());
 server.use(express.urlencoded({ extended: true }));
 server.use(express.static("public"));

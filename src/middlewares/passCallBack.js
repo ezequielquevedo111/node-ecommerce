@@ -1,5 +1,5 @@
 import passport from "passport";
-import winston from "../utils/logger/winston.utils";
+import winston from "../utils/logger/winston.utils.js";
 
 export default (strategy) => {
   return async (req, res, next) => {

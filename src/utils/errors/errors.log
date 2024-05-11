@@ -8,3 +8,23 @@
 [31mERROR[39m: Cannot read properties of undefined (reading '_id')
 [31mERROR[39m: Cannot read properties of undefined (reading '_id')
 [31mERROR[39m: Cannot read properties of undefined (reading '_id')
+[31mERROR[39m: jwt malformed
+[31mERROR[39m: jwt malformed
+[31mERROR[39m: jwt malformed
+[31mERROR[39m: jwt malformed
+[31mERROR[39m: jwt malformed
+[31mERROR[39m: jwt malformed
+[31mERROR[39m: jwt malformed
+[31mERROR[39m: jwt malformed
+[31mERROR[39m: jwt malformed
+[31mERROR[39m: jwt malformed
+[31mERROR[39m: [object Object]
+[31mERROR[39m: [object Object]
+[33mWARN[39m: User already exists!
+[31mERROR[39m: [object Object]
+[31mERROR[39m: [object Object]
+[31mERROR[39m: [object Object]
+[31mERROR[39m: [object Object]
+[31mERROR[39m: [object Object]
+[31mERROR[39m: [object Object]
+[31mERROR[39m: products validation failed: photo: Path `photo` is required.

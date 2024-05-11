@@ -5,6 +5,7 @@ import errors from "../utils/errors/errors.js";
 class SessionsController {
   register = async (req, res, next) => {
     const { email, name, verifiedCode } = req.user;
+    console.log(req.user);
     await service.register({ email, name, verifiedCode });
     try {
       return res.success201({ message: "Registered" });

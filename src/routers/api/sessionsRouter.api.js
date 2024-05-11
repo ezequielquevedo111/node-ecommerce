@@ -1,7 +1,7 @@
 // import { Router } from "express";
 import has8char from "../../middlewares/has8char.js";
 import passport from "./../../middlewares/passport.js";
-// import passCallBack from "../../middlewares/passCallBack.js";
+import passCallBack from "../../middlewares/passCallBack.js";
 import CustomRouter from "../CustomRouter.js";
 import {
   register,
@@ -22,13 +22,13 @@ export default class SessionsRouter extends CustomRouter {
     this.create(
       "/register",
       ["PUBLIC"],
-      // passCallBack("register"),
+      passCallBack("register"),
       has8char,
       register
     );
 
     //login
-    this.create("/login", ["PUBLIC"], login);
+    this.create("/login", ["PUBLIC"], passCallBack("login"), login);
 
     //signout
 
