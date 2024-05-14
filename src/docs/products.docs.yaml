@@ -1,0 +1,22 @@
+components:
+  schemas:
+    create:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Name of the product
+        photo:
+          type: string
+          description: Photo of the product
+        price:
+          type: number
+          description: Price of the product
+        stock:
+          type: number
+          description: Stock of the product
+      example:
+        title: Monitor ASUS TUF
+        photo: https://http2.mlstatic.com/D_NQ_NP_736190-MLU72574002250_112023-O.webp
+        price: 200000
+        stock: 5000

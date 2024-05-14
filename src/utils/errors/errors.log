@@ -28,3 +28,6 @@
 [31mERROR[39m: [object Object]
 [31mERROR[39m: [object Object]
 [31mERROR[39m: products validation failed: photo: Path `photo` is required.
+[33mWARN[39m: ¡Not found documents!
+[31mERROR[39m: [object Object]
+[31mERROR[39m: products validation failed: photo: Path `photo` is required.
