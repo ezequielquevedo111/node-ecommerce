@@ -1,5 +1,5 @@
 import crypto from "crypto";
-import winston from "../../utils/logger/winston.utils";
+import winston from "../../utils/logger/winston.utils.js";
 
 class OrdersManager {
   static #orders = [];
