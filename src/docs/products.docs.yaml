@@ -1,6 +1,6 @@
 components:
   schemas:
-    create:
+    Product:
       type: object
       properties:
         title:
@@ -20,3 +20,195 @@ components:
         photo: https://http2.mlstatic.com/D_NQ_NP_736190-MLU72574002250_112023-O.webp
         price: 200000
         stock: 5000
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: token
+  responses:
+    res201:
+      type: object
+      properties:
+        statusCode:
+          type: number
+          description: 201
+        response:
+          type: object
+          properties:
+            title:
+              type: string
+            photo:
+              type: string
+            price:
+              type: number
+            stock:
+              type: number
+            _id:
+              type: string
+            createdAt:
+              type: string
+            updatedAt:
+              type: string
+            __v:
+              type: number
+          description: data of the created product
+        example:
+          statusCode: 201
+          response:
+            title: MONITOR GAMING,
+            photo: https://http2.mlstatic.com/D_NQ_NP_736190-MLU72574002250_112023-O.webp
+            price: 5000020
+            stock: 6
+            _id: 91880aafb4aade4c6aac3176
+            createdAt: 2024-05-15T23:37:12.859Z
+            updatedAt: 2024-05-15T23:37:12.859Z
+            __v: 0
+    res401:
+      type: object
+      properties:
+        statusCode:
+          type: number
+          description: 401
+        message:
+          type: string
+          description: Bad auth your not authorized
+        example:
+          statusCode: 401
+          message: Bad auth
+    res500:
+      type: object
+      properties:
+        statusCode:
+          type: number
+          description: 500
+        message:
+          type: string
+          description: Properties are required
+        example:
+          statusCode: 500
+          message: products validation failed title Path title is required.
+paths:
+  /api/products/:
+    get:
+      summary: Read products
+      tags:
+        - Products
+      responses:
+        '200':
+          description: Reading all products
+          content:
+            description: Array of products named as docs
+        '404':
+          description: Not found documents
+          
+    post:
+      summary: Create a product
+      tags:
+        - Products
+      security:
+        - cookieAuth: []
+
+      requestBody:
+        required: true
+        description: data of the product
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+      responses:
+        '201':
+          description: Product created
+          content:
+            application/json:
+              schema:
+                $ref: '#components/responses/res201'
+        '401':
+          description: You dont have the permissions to create a product
+          content:
+            application/json:
+              schema:
+                $ref: '#components/responses/res401'
+        '500':
+          description: You must fill in the mandatory properties such as title
+          content:
+            application/json:
+              schema:
+                $ref: '#components/responses/res500'
+  /api/products/{pid}:
+    get:
+      summary: Read one product
+      tags:
+        - Product
+      parameters:
+      - name: pid
+        in: path
+        required: true
+        description: Product id
+      responses:
+        '200':
+          description: Reading one product
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '404':
+          description: Document not found
+    put:
+      summary: Update a product.
+      tags:
+        - Product
+      parameters:
+        - name: pid
+          in: path
+          schema:
+            type: string
+            required: true
+            description: Product id
+      requestBody:
+        required: true
+        content:
+          description: Properties like title or stock
+      responses:
+        '200':
+          description: Product updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+              description: Bad control character in string literal in JSON at position 23
+    delete:
+      summary: Delete a product
+      tags:
+        - Product
+      parameters:
+        - name: pid
+          in: path
+          schema:
+            type: string
+          required: true
+          description: Product id
+      responses:
+        '200':
+          description: Product deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+                description: Show the product deleted
+        '404':
+          description: Not found documents
+          content: 
+            application/json:
+              schema:
+                description: Show the id and not found documents
+        '500':
+          description: Error
+          content:
+            application/json:
+              schema:
+              description: Cast to ObjectId failed for value

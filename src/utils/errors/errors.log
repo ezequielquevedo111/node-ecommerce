@@ -31,3 +31,16 @@
 [33mWARN[39m: ¡Not found documents!
 [31mERROR[39m: [object Object]
 [31mERROR[39m: products validation failed: photo: Path `photo` is required.
+[31mERROR[39m: [object Object]
+[31mERROR[39m: [object Object]
+[31mERROR[39m: [object Object]
+[31mERROR[39m: products validation failed: title: Path `title` is required.
+[33mWARN[39m: ¡Not found documents!
+[31mERROR[39m: [object Object]
+[33mWARN[39m: Bad control character in string literal in JSON at position 23 (line 2 column 21)
+[31mERROR[39m: [object Object]
+[31mERROR[39m: [object Object]
+[31mERROR[39m: [object Object]
+[31mERROR[39m: Cast to ObjectId failed for value "661dc06b29159a6349fecbbfssssss" (type string) at path "_id" for model "products"
+[33mWARN[39m: ¡Not found documents!
+[31mERROR[39m: Cast to ObjectId failed for value "661dc06b29159a6349fecbbfssss" (type string) at path "_id" for model "products"

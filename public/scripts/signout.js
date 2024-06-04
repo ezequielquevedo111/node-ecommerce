@@ -1,4 +1,4 @@
-import winston from "../../src/utils/logger/winston.utils";
+import winston from "../../src/utils/logger/winston.utils.js";
 
 fetch("/api/sessions/")
   .then((res) => res.json())
